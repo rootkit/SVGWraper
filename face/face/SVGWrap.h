@@ -29,8 +29,8 @@ private:
     // SVG归一化时的系数(平移和缩放)
     Point translate;
     double scaleSVG;
-    // 归一化SVG后，贝塞尔曲线上四个极点
-    Point left, right, top, bottom;
+    // 归一化SVG后，贝塞尔曲线上四个极点下标
+    int left, right, top, bottom;
 public:
     SVGWrap(vector<Point> &src, vector<Point> &dest, vector<Point> &svg);
     //void wrap_svg();

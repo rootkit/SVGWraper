@@ -91,7 +91,7 @@ Mat scale_mat_to_dots(Mat mat, vector<Point> &points) {
     } else {
         resize(mat, scaleMat, Size(mat.cols*height / mat.rows, mat.rows*height / mat.rows));
     }
-
+    
     return scaleMat;
 }
 void draw_src_triangular(Mat &testMat, vector<Point> &testPoints, Morphing &morphing) {

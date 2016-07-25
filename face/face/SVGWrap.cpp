@@ -10,8 +10,6 @@
 
 SVGWrap::SVGWrap(vector<Point> &src, vector<Point> &dest, vector<Point> &svg)
 :srcPoints(src), destPoints(dest), srcSvgPoints(svg), morph(src, dest) {
-    // 归一化人脸数据点
-    DataProc::normalize_face_data(srcPoints, destPoints);
     this->bezier = BezierUtil::get_bezier(srcSvgPoints);
     // 归一化贝塞尔曲线点
     normalize_bezier();
@@ -25,7 +23,7 @@ SVGWrap::SVGWrap(vector<Point> &src, vector<Point> &dest, vector<Point> &svg)
     imwrite("bezierBeforeMorph2.jpg", temp);
     waitKey();
     
-    morph.morph_bezier(srcSvgPoints);
+    morph.morph_bezier(bezier);
     
     temp = draw_src_tri_on_svg();
     imshow("bezier", temp);
@@ -42,19 +40,19 @@ void SVGWrap::normalize_bezier() {
     for (int i = 0; i < bezier.size(); i++) {
         if (minX > bezier[i].x) {
             minX = bezier[i].x;
-            left = bezier[i];
+            left = i;
         }
         if (minY > bezier[i].y) {
             minY = bezier[i].y;
-            top = bezier[i];
+            top = i;
         }
         if (maxX < bezier[i].x) {
             maxX = bezier[i].x;
-            right = bezier[i];
+            right = i;
         }
         if (maxY < bezier[i].y) {
             maxY = bezier[i].y;
-            bottom = bezier[i];
+            bottom = i;
         }
     }
     
@@ -76,9 +74,12 @@ void SVGWrap::normalize_bezier() {
     }
     
     // 平移
+    //Point srcBottom((srcPoints[81].x+srcPoints[78].x)/2, (srcPoints[79].y+srcPoints[78].y)/2);
     Point srcBottom(srcPoints[6].x, srcPoints[6].y);
-    this->translate.x = srcBottom.x - bottom.x;
-    this->translate.y = srcBottom.y - bottom.y;
+    this->translate.x = srcBottom.x - bezier[bottom].x;
+    this->translate.y = srcBottom.y - bezier[bottom].y;
+    cout << "srcBottom===>" << srcBottom << endl;
+    cout << "bezier bottom====>" << bottom << endl;
     for (int i = 0; i < bezier.size(); i++) {
         bezier[i].x += translate.x;
         bezier[i].y += translate.y;
@@ -108,7 +109,7 @@ Mat SVGWrap::scale_mat_to_dots(Mat mat, vector<Point> &points) {
 
 
 Mat SVGWrap::draw_src_tri_on_svg() {
-    Mat temp(bottom.y+100, right.x+100, CV_8UC1, Scalar::all(0));
+    Mat temp(bezier[bottom].y+100, bezier[right].x+100, CV_8UC1, Scalar::all(0));
     for (int i = 0; i < bezier.size(); i++) {
         DrawUtil::draw_point(temp, bezier[i].x, bezier[i].y, 1);
     }
@@ -121,7 +122,7 @@ Mat SVGWrap::draw_src_tri_on_svg() {
 
 
 Mat SVGWrap::draw_dest_tri_on_svg() {
-    Mat temp(bottom.y+100, right.x+100, CV_8UC1, Scalar::all(0));
+    Mat temp(bezier[bottom].y+100, bezier[right].x+100, CV_8UC1, Scalar::all(0));
     for (int i = 0; i < bezier.size(); i++) {
         DrawUtil::draw_point(temp, bezier[i].x, bezier[i].y, 1);
     }

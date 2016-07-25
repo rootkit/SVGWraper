@@ -11,6 +11,8 @@
 #include "FiltUtil.h"
 
 int main(int argc, const char * argv[]) {
+    
+    cout << "hello\n";
     // 用户输入数据
     int targetDataIndex = 14;
     string targetFile = "14.png";
@@ -28,6 +30,12 @@ int main(int argc, const char * argv[]) {
     vector<Point> targetPoints = dataPoints[targetDataIndex];
     vector<Point> testPoints = dataPoints[testDataIndex];
     vector<Point> testSvg = dataSVGs[testDataIndex];
+    
+    // 归一化人脸数据点
+    DataProc::normalize_face_data(testPoints, targetPoints);
+    
+    cout << "test size==>" << testPoints.size() << endl;
+    cout << "target size===>" << targetPoints.size() << endl;
     
     SVGWrap svgWrap(testPoints, targetPoints, testSvg);
 }
