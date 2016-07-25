@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>71931C7C-3D8A-4036-BD08-D9A72096E470</string>
+	<key>IDESourceControlProjectName</key>
+	<string>face</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>642858EAB9AB487BF672F4EC3FE7F5944762907B</key>
+		<string>github.com:Jermmy/SVGWraper.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>face.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>642858EAB9AB487BF672F4EC3FE7F5944762907B</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:Jermmy/SVGWraper.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>642858EAB9AB487BF672F4EC3FE7F5944762907B</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>642858EAB9AB487BF672F4EC3FE7F5944762907B</string>
+			<key>IDESourceControlWCCName</key>
+			<string>SVGWraper</string>
+		</dict>
+	</array>
+</dict>
+</plist>

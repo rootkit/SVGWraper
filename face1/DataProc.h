@@ -16,6 +16,6 @@ using namespace cv;
 
 class DataProc {
 public:
-    static void normalize_data(vector<Point> &testPoints, vector<Point> &targetPoints);
+    static void normalize_face_data(vector<Point> &srcPoints, vector<Point> &targetPoints);
 };
 #endif /* defined(__face1__DataProc__) */

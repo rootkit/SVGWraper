@@ -99,7 +99,7 @@ Mat Morphing::scale_mat(Mat &mat, vector<Point> &points) {
     return scaleMat;
 }
 
-void Morphing::start_morphing(Mat &mat, vector<Point> &srcPoints, vector<Point> &destPoints) {
+void Morphing::morphing_img(Mat &mat, vector<Point> &srcPoints, vector<Point> &destPoints) {
     assert(srcPoints.size() == 82 && destPoints.size() == 82);
     Mat faceMat(destPoints[80].x+100, destPoints[80].y+100, mat.type(), Scalar::all(0));
     

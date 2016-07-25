@@ -41,7 +41,7 @@ int main(int argc, const char * argv[]) {
     vector<Point> testPoints = dataPoints[testDataIndex];
     vector<Point> testSvg = dataSVGs[testDataIndex];
     
-    DataProc::normalize_data(testPoints, targetPoints);
+    DataProc::normalize_face_data(testPoints, targetPoints);
     
     Morphing morphing(testPoints, targetPoints);
     
@@ -49,7 +49,7 @@ int main(int argc, const char * argv[]) {
     draw_dest_triangular(targetMat, targetPoints, morphing);
     
     // 测试人脸图形变效果
-    morphing.start_morphing(testMat, testPoints, targetPoints);
+    morphing.morphing_img(testMat, testPoints, targetPoints);
     
     // 由testSvg得到贝塞尔曲线的点
     double scaleSVG;

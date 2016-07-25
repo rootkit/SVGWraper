@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		707B09191D4667A800133573 /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B09181D4667A800133573 /* test.cpp */; };
 		70A26F131D459EA9000D0880 /* AffineTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70A26F111D459EA9000D0880 /* AffineTransform.cpp */; };
 		70A26F161D459EBF000D0880 /* Triangular.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70A26F141D459EBF000D0880 /* Triangular.cpp */; };
 		70A26F191D459ECE000D0880 /* Morphing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70A26F171D459ECE000D0880 /* Morphing.cpp */; };
 		70A26F1C1D459EE5000D0880 /* BezierUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70A26F1A1D459EE5000D0880 /* BezierUtil.cpp */; };
 		70A2708B1D45A680000D0880 /* DrawUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70A270891D45A680000D0880 /* DrawUtil.cpp */; };
 		70A2708E1D45EA0C000D0880 /* FiltUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70A2708C1D45EA0C000D0880 /* FiltUtil.cpp */; };
-		70A2708F1D45ECF0000D0880 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70A26F0A1D459DD1000D0880 /* main.cpp */; };
 		70A270921D45EF7D000D0880 /* DataProc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70A270901D45EF7D000D0880 /* DataProc.cpp */; };
 		70A270951D46553D000D0880 /* SVGWrap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70A270931D46553D000D0880 /* SVGWrap.cpp */; };
 /* End PBXBuildFile section */
@@ -31,6 +31,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		707B09181D4667A800133573 /* test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test.cpp; sourceTree = "<group>"; };
 		70A26F071D459DD1000D0880 /* face1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = face1; sourceTree = BUILT_PRODUCTS_DIR; };
 		70A26F0A1D459DD1000D0880 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		70A26F111D459EA9000D0880 /* AffineTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AffineTransform.cpp; sourceTree = "<group>"; };
@@ -425,6 +426,7 @@
 				70A270911D45EF7D000D0880 /* DataProc.h */,
 				70A270931D46553D000D0880 /* SVGWrap.cpp */,
 				70A270941D46553D000D0880 /* SVGWrap.h */,
+				707B09181D4667A800133573 /* test.cpp */,
 			);
 			path = face1;
 			sourceTree = "<group>";
@@ -1112,9 +1114,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70A2708F1D45ECF0000D0880 /* main.cpp in Sources */,
 				70A270951D46553D000D0880 /* SVGWrap.cpp in Sources */,
 				70A26F191D459ECE000D0880 /* Morphing.cpp in Sources */,
+				707B09191D4667A800133573 /* test.cpp in Sources */,
 				70A2708E1D45EA0C000D0880 /* FiltUtil.cpp in Sources */,
 				70A270921D45EF7D000D0880 /* DataProc.cpp in Sources */,
 				70A26F161D459EBF000D0880 /* Triangular.cpp in Sources */,
@@ -1256,6 +1258,7 @@
 				70A26F101D459DD1000D0880 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

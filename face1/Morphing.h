@@ -21,7 +21,7 @@ public:
     bool findDestTri(Point p, Triangular &t);
     vector<Triangular> srcTris;
     vector<Triangular> destTris;
-    void start_morphing(Mat &mat, vector<Point> &srcPoints, vector<Point> &destPoints);
+    void morphing_img(Mat &mat, vector<Point> &srcPoints, vector<Point> &destPoints);
     void morph_bezier(vector<Point> &bezier);
 private:
     static int POINT_INDEX[31][3];

@@ -9,7 +9,7 @@
 #include "DataProc.h"
 
 
-void DataProc::normalize_data(vector<Point> &testPoints, vector<Point> &targetPoints) {
+void DataProc::normalize_face_data(vector<Point> &testPoints, vector<Point> &targetPoints) {
     Mat face(1500, 1500, CV_8UC3);
     
     // get the width and height of the target face
