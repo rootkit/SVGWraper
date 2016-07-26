@@ -24,6 +24,8 @@ public:
     static vector<Point> regain_new_points(vector<Point>& points);
     // 根据贝塞尔曲线控制点得到贝塞尔曲线上的三等分点，主要用于之后曲线形变以及重推控制点
     static vector<Point> get_bezier(vector<Point> &svg);
+    // 绘制贝塞尔曲线，支持二次和三次
+    static void draw_bezier(Mat &img, vector<Point> &bezier);
 private:
     static void get_control_points(Point &p1, Point &thirdOne, Point &thirdTwo,
                                    Point &p4, Point &p2, Point &p3);

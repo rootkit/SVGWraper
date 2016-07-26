@@ -10,8 +10,7 @@
 
 
 void DataProc::normalize_face_data(vector<Point> &testPoints, vector<Point> &targetPoints) {
-    Mat face(1500, 1500, CV_8UC3);
-    
+
     // get the width and height of the target face
     int maxX = -100000, minX = 100000,
     maxY = targetPoints[6].y, minY = targetPoints[77].y;
@@ -30,8 +29,6 @@ void DataProc::normalize_face_data(vector<Point> &testPoints, vector<Point> &tar
     targetPoints.push_back(Point(minX, maxY));
     targetPoints.push_back(Point(maxX, maxY));
     targetPoints.push_back(Point(maxX, minY));
-    
-    //draw_face(face, targetDots, 1, 1);
     
     // get the width and height of the test face
     maxY = testPoints[6].y, minY = testPoints[77].y;
@@ -54,22 +51,17 @@ void DataProc::normalize_face_data(vector<Point> &testPoints, vector<Point> &tar
     testPoints.push_back(Point(maxX, maxY));
     testPoints.push_back(Point(maxX, minY));
     
-    //    draw_face(face, testDots, 1, 2);
-    
     // scale the testDots to the same size of targetDots
     // either on width or on height
-        double scaleW = targetW / testW;
-        double scaleH = targetH / testH;
+    double scaleW = targetW / testW;
+    double scaleH = targetH / testH;
     
-//        cout << "targetW===>" << targetW << "  targetH===>" << targetH << endl;
-//        cout << "testW===>" << testW << "  testH===>" << testH << endl;
+    double minScale = scaleH <= scaleW ? scaleH : scaleW;
     
-        double minScale = scaleH <= scaleW ? scaleH : scaleW;
-    
-        for (int i = 0; i < testPoints.size(); i++) {
-            testPoints[i].x *= minScale;
-            testPoints[i].y *= minScale;
-        }
+    for (int i = 0; i < testPoints.size(); i++) {
+        testPoints[i].x *= minScale;
+        testPoints[i].y *= minScale;
+    }
     
     // align the center of testDots to center of targetDots
     Point targetCenter((targetPoints[78].x+targetPoints[81].x)/2,
@@ -82,7 +74,4 @@ void DataProc::normalize_face_data(vector<Point> &testPoints, vector<Point> &tar
         testPoints[i].y += translateV.y;
     }
     
-//    draw_face(face, testDots, 1, 2);
-//    draw_face(face, targetPoints, 1, 0);
-//    imwrite("testDots.jpg", face);
 }

@@ -16,7 +16,9 @@ using namespace std;
 
 class Morphing {
 public:
+    Morphing();
     Morphing(vector<Point> &srcPoints, vector<Point> &destPoints);
+    void init(vector<Point> &srcPoints, vector<Point> &destPoints);
     bool findSrcTri(Point p, Triangular &t);
     bool findDestTri(Point p, Triangular &t);
     vector<Triangular> srcTris;
@@ -26,6 +28,7 @@ public:
 private:
     static int POINT_INDEX[31][3];
     Mat scale_mat(Mat &mat, vector<Point> &points);
+    bool isInit;
 };
 
 #endif /* defined(__face1__Morphing__) */

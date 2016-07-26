@@ -99,3 +99,17 @@ vector<Point> BezierUtil::get_bezier(vector<Point> &svg) {
     
     return bezier;
 }
+
+void BezierUtil::draw_bezier(Mat &img, vector<Point> &ctrl) {
+    if ((ctrl.size()-1) % 2 == 0) {
+        for (int i = 0; i < ctrl.size()-1; i+=2) {
+            draw_quad_bezier(img, ctrl[i], ctrl[i+1], ctrl[i+2]);
+        }
+    } else if ((ctrl.size() - 1) % 3 == 0) {
+        for (int i = 0; i < ctrl.size()-1; i+=3) {
+            draw_cube_bezier(img, ctrl[i], ctrl[i+1], ctrl[i+2], ctrl[i+3]);
+        }
+    } else {
+        assert(false && "support only quadratic and cube bezier");
+    }
+}

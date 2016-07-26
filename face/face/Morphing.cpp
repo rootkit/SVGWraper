@@ -28,6 +28,15 @@ int Morphing::POINT_INDEX[31][3] = {
     {78, 14, 81}
 };
 
+Morphing::Morphing() {
+    this->isInit = false;
+}
+
+
+Morphing::Morphing(vector<Point> &srcPoints, vector<Point> &destPoints) {
+    init(srcPoints, destPoints);
+}
+
 
 /**
  * The total size of points should be 82.
@@ -36,7 +45,7 @@ int Morphing::POINT_INDEX[31][3] = {
  * the order should be tl, bl, br, tr.
  * What's more, the position of points are better to be normalized
  */
-Morphing::Morphing(vector<Point> &srcPoints, vector<Point> &destPoints) {
+void Morphing::init(vector<Point> &srcPoints, vector<Point> &destPoints) {
     assert(srcPoints.size() == 82 && destPoints.size() == 82);
     for (int i = 0; i < 31; i++) {
         vector<Point> src;
@@ -44,7 +53,7 @@ Morphing::Morphing(vector<Point> &srcPoints, vector<Point> &destPoints) {
         src.push_back(srcPoints[POINT_INDEX[i][1]]);
         src.push_back(srcPoints[POINT_INDEX[i][2]]);
         Triangular srcTri(src);
-
+        
         vector<Point> dest;
         dest.push_back(destPoints[POINT_INDEX[i][0]]);
         dest.push_back(destPoints[POINT_INDEX[i][1]]);
@@ -57,9 +66,11 @@ Morphing::Morphing(vector<Point> &srcPoints, vector<Point> &destPoints) {
         this->srcTris.push_back(srcTri);
         this->destTris.push_back(destTri);
     }
+    this->isInit = true;
 }
 
 bool Morphing::findSrcTri(Point p, Triangular &t) {
+    assert(isInit == true && "Morphing should init first");
     for (auto tri : this->srcTris) {
         if (tri.is_in_triangular(p)) {
             t = tri;
@@ -70,6 +81,7 @@ bool Morphing::findSrcTri(Point p, Triangular &t) {
 }
 
 bool Morphing::findDestTri(Point p, Triangular &t) {
+    assert(isInit == true && "Morphing should init first");
     for (auto tri : this->destTris) {
         if (tri.is_in_triangular(p)) {
             t = tri;
@@ -100,6 +112,7 @@ Mat Morphing::scale_mat(Mat &mat, vector<Point> &points) {
 }
 
 Mat Morphing::morphing_img(Mat &mat, vector<Point> &srcPoints, vector<Point> &destPoints) {
+    assert(isInit == true && "Morphing should init first");
     assert(srcPoints.size() == 82 && destPoints.size() == 82);
     //Mat faceMat(destPoints[80].y+100, destPoints[80].x+100, mat.type(), Scalar::all(0));
     Mat faceMat(srcPoints[80].y+100, srcPoints[80].x+100, mat.type(), Scalar::all(0));
@@ -137,10 +150,13 @@ Mat Morphing::morphing_img(Mat &mat, vector<Point> &srcPoints, vector<Point> &de
 }
 
 void Morphing::morph_bezier(vector<Point> &bezier) {
+    assert(isInit == true && "Morphing should init first");
     for (int i = 0; i < bezier.size(); i++) {
         Triangular t;
         if (findSrcTri(bezier[i], t)) {
             bezier[i] = t.affine.transform(bezier[i]);
+        } else {
+            cout << "not in tri: " << bezier[i] << endl;
         }
     }
     
