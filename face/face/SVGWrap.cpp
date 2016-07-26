@@ -13,26 +13,7 @@ SVGWrap::SVGWrap(vector<Point> &src, vector<Point> &dest, vector<Point> &svg)
     this->bezier = BezierUtil::get_bezier(srcSvgPoints);
     // 归一化贝塞尔曲线点
     normalize_bezier();
-    // 测试归一化效果
-    Mat temp = draw_src_tri_on_svg();
-    imshow("bezier", temp);
-    imwrite("bezierBeforeMorph1.jpg", temp);
-    waitKey();
-    temp = draw_dest_tri_on_svg();
-    imshow("bezier", temp);
-    imwrite("bezierBeforeMorph2.jpg", temp);
-    waitKey();
-    
-    morph.morph_bezier(bezier);
-    
-    temp = draw_src_tri_on_svg();
-    imshow("bezier", temp);
-    imwrite("bezierAfterMorph1.jpg", temp);
-    waitKey();
-    temp = draw_dest_tri_on_svg();
-    imshow("bezier", temp);
-    imwrite("bezierAfterMorph2.jpg", temp);
-    waitKey();
+    wrap_bezier();
 }
 
 void SVGWrap::normalize_bezier() {
@@ -87,6 +68,29 @@ void SVGWrap::normalize_bezier() {
 }
 
 
+void SVGWrap::wrap_bezier() {
+    // 测试归一化效果
+    Mat temp = draw_src_tri_on_svg();
+    imshow("bezier", temp);
+    imwrite("bezierBeforeMorph1.jpg", temp);
+    waitKey();
+//    temp = draw_dest_tri_on_svg();
+//    imshow("bezier", temp);
+//    imwrite("bezierBeforeMorph2.jpg", temp);
+//    waitKey();
+    
+    morph.morph_bezier(bezier);
+    
+//    temp = draw_src_tri_on_svg();
+//    imshow("bezier", temp);
+//    imwrite("bezierAfterMorph1.jpg", temp);
+//    waitKey();
+    temp = draw_dest_tri_on_svg();
+    imshow("bezier", temp);
+    imwrite("bezierAfterMorph2.jpg", temp);
+    waitKey();
+}
+
 Mat SVGWrap::scale_mat_to_dots(Mat mat, vector<Point> &points) {
     assert(points.size() == 82);
     double width = points[81].x - points[78].x;
@@ -139,10 +143,6 @@ Mat SVGWrap::draw_src_triangular(const Mat &img) {
     for (auto t : morph.srcTris) {
         DrawUtil::draw_triangular(scaleMat, t, translateV);
     }
-    namedWindow("triangular");
-    imshow("triangular", scaleMat);
-    waitKey();
-    imwrite("triangular_src.jpg", scaleMat);
     return scaleMat;
 }
 
@@ -152,13 +152,11 @@ Mat SVGWrap::draw_dest_triangular(const Mat &img) {
     for (auto t : morph.destTris) {
         DrawUtil::draw_triangular(scaleMat, t, translateV);
     }
-    namedWindow("triangular");
-    imshow("triangular", scaleMat);
-    waitKey();
-    imwrite("triangular_target.jpg", scaleMat);
     return scaleMat;
 }
 
-
+Mat SVGWrap::morphing_img(Mat &mat, vector<Point> &srcPoints, vector<Point> &destPoints) {
+    return this->morph.morphing_img(mat, srcPoints, destPoints);
+}
 
 

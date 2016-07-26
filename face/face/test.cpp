@@ -12,15 +12,14 @@
 
 int main(int argc, const char * argv[]) {
     
-    cout << "hello\n";
     // 用户输入数据
-    int targetDataIndex = 14;
-    string targetFile = "14.png";
+    int targetDataIndex = 17;
+    string targetFile = to_string(targetDataIndex) + ".png";
     //Mat targetMat = imread(targetFile, IMREAD_GRAYSCALE);
     Mat targetMat = imread(targetFile, IMREAD_UNCHANGED);
     // 数据库匹配数据
     int testDataIndex = 1;
-    string testFile = "1.png";
+    string testFile = to_string(testDataIndex) + ".png";
     Mat testMat = imread(testFile, IMREAD_UNCHANGED);
     // 读取数据库的asm数据
     vector<vector<Point> > dataPoints = FileUtil::read_all_asm_points("all-asmpoints.txt");
@@ -34,8 +33,24 @@ int main(int argc, const char * argv[]) {
     // 归一化人脸数据点
     DataProc::normalize_face_data(testPoints, targetPoints);
     
-    cout << "test size==>" << testPoints.size() << endl;
-    cout << "target size===>" << targetPoints.size() << endl;
-    
     SVGWrap svgWrap(testPoints, targetPoints, testSvg);
+    Mat temp = svgWrap.draw_src_triangular(testMat);
+    namedWindow("tri");
+    imshow("tri", temp);
+    imwrite("srcTri.jpg", temp);
+    waitKey();
+    temp = svgWrap.draw_dest_triangular(targetMat);
+    imshow("tri", temp);
+    imwrite("destTri.jpg", temp);
+    waitKey();
+    
+    Mat morphingMat = svgWrap.morphing_img(testMat, testPoints, targetPoints);
+    namedWindow("morphing");
+    imshow("morphing", morphingMat);
+    imwrite("morphingMat.jpg", morphingMat);
+    waitKey();
+    
+    string dir = to_string(testDataIndex) + "-" + to_string(targetDataIndex);
+    string cmd = "mkdir " + dir;
+    system(cmd.c_str());
 }

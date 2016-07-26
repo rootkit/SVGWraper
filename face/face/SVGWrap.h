@@ -33,13 +33,15 @@ private:
     int left, right, top, bottom;
 public:
     SVGWrap(vector<Point> &src, vector<Point> &dest, vector<Point> &svg);
-    //void wrap_svg();
+    void wrap_bezier();
     Mat draw_src_triangular(const Mat &img);
     Mat draw_dest_triangular(const Mat &img);
     Mat scale_mat_to_dots(Mat mat, vector<Point> &points);
     void normalize_bezier();
     Mat draw_src_tri_on_svg();
     Mat draw_dest_tri_on_svg();
+    
+    Mat morphing_img(Mat &mat, vector<Point> &srcPoints, vector<Point> &destPoints);
 };
 
 #endif /* defined(__face1__SVGWrap__) */

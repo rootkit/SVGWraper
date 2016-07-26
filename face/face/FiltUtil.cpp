@@ -38,7 +38,7 @@ vector<vector<Point> > FileUtil::read_svg_points(string file) {
     stringstream ss;
     while (fin >> index) {
         char c = fin.get();
-        cout << c;
+        //cout << c;
         getline(fin, tmp);
         vector<Point> svg;
         int x, y;

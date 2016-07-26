@@ -58,18 +58,18 @@ void DataProc::normalize_face_data(vector<Point> &testPoints, vector<Point> &tar
     
     // scale the testDots to the same size of targetDots
     // either on width or on height
-    //    double scaleW = targetW / testW;
-    //    double scaleH = targetH / testH;
-    //
-    //    cout << "targetW===>" << targetW << "  targetH===>" << targetH << endl;
-    //    cout << "testW===>" << testW << "  testH===>" << testH << endl;
-    //
-    //    double minScale = scaleH <= scaleW ? scaleH : scaleW;
-    //
-    //    for (int i = 0; i < testDots.size(); i++) {
-    //        testDots[i].x *= minScale;
-    //        testDots[i].y *= minScale;
-    //    }
+        double scaleW = targetW / testW;
+        double scaleH = targetH / testH;
+    
+//        cout << "targetW===>" << targetW << "  targetH===>" << targetH << endl;
+//        cout << "testW===>" << testW << "  testH===>" << testH << endl;
+    
+        double minScale = scaleH <= scaleW ? scaleH : scaleW;
+    
+        for (int i = 0; i < testPoints.size(); i++) {
+            testPoints[i].x *= minScale;
+            testPoints[i].y *= minScale;
+        }
     
     // align the center of testDots to center of targetDots
     Point targetCenter((targetPoints[78].x+targetPoints[81].x)/2,

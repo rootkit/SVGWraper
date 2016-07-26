@@ -99,16 +99,18 @@ Mat Morphing::scale_mat(Mat &mat, vector<Point> &points) {
     return scaleMat;
 }
 
-void Morphing::morphing_img(Mat &mat, vector<Point> &srcPoints, vector<Point> &destPoints) {
+Mat Morphing::morphing_img(Mat &mat, vector<Point> &srcPoints, vector<Point> &destPoints) {
     assert(srcPoints.size() == 82 && destPoints.size() == 82);
-    Mat faceMat(destPoints[80].x+100, destPoints[80].y+100, mat.type(), Scalar::all(0));
+    //Mat faceMat(destPoints[80].y+100, destPoints[80].x+100, mat.type(), Scalar::all(0));
+    Mat faceMat(srcPoints[80].y+100, srcPoints[80].x+100, mat.type(), Scalar::all(0));
+    //Mat faceMat(4000, 4000, mat.type(), Scalar::all(0));
     
     Mat scaleMat = scale_mat(mat, srcPoints);
 
     // 将头像调整到与srcPoints一致的位置
     scaleMat.copyTo(faceMat(Rect(srcPoints[78].x, srcPoints[78].y, scaleMat.cols, scaleMat.rows)));
     
-//    for (auto t : this->srcTris) {
+//    for (auto t : this->destTris) {
 //        DrawUtil::draw_triangular(faceMat, t, Point(0, 0));
 //    }
     
@@ -118,7 +120,8 @@ void Morphing::morphing_img(Mat &mat, vector<Point> &srcPoints, vector<Point> &d
 //    imwrite("scale.jpg", faceMat);
 //    waitKey();
     
-    Mat morphingMat(destPoints[80].x+100, destPoints[80].y+100, faceMat.type(), Scalar::all(0));
+    Mat morphingMat(destPoints[80].y+100, destPoints[80].x+100, faceMat.type(), Scalar::all(0));
+    //Mat morphingMat(3000, 3000, faceMat.type(), Scalar::all(0));
     for (int row = destPoints[78].y; row <= destPoints[79].y; row++) {
         for (int col = destPoints[78].x; col <= destPoints[81].x; col++) {
             Triangular t;
@@ -129,11 +132,7 @@ void Morphing::morphing_img(Mat &mat, vector<Point> &srcPoints, vector<Point> &d
             }
         }
     }
-    
-    namedWindow("morphing");
-    imshow("morphing", morphingMat);
-    imwrite("morphingMat.jpg", morphingMat);
-    waitKey();
+    return morphingMat;
     
 }
 
