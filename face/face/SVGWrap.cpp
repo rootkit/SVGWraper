@@ -12,7 +12,7 @@ SVGWrap::SVGWrap(vector<Point> &src, vector<Point> &dest, vector<Point> &svg)
 :srcPoints(src), destPoints(dest), srcSvgPoints(svg), deltaX(10), deltaY(10) {
     
     // 归一化脸部数据
-    normalize_face_data(srcPoints, destPoints);
+    normalize_face_data();
     this->morph.init(srcPoints, destPoints);
     
     this->bezier = BezierUtil::get_bezier(srcSvgPoints);
@@ -21,7 +21,7 @@ SVGWrap::SVGWrap(vector<Point> &src, vector<Point> &dest, vector<Point> &svg)
     wrap_bezier();
 }
 
-void SVGWrap::normalize_face_data(vector<Point> &srcPoints, vector<Point> &destPoints) {
+void SVGWrap::normalize_face_data() {
     assert(srcPoints.size() == 78 && destPoints.size() == 78);
     
     // get the width and height of the target face
@@ -42,6 +42,23 @@ void SVGWrap::normalize_face_data(vector<Point> &srcPoints, vector<Point> &destP
     destPoints.push_back(Point(minX-deltaX, maxY));
     destPoints.push_back(Point(maxX+deltaX, maxY));
     destPoints.push_back(Point(maxX+deltaX, minY-deltaY));
+    
+    
+    // 若输入样本的宽高太小，要适当放缩
+    double destScale = 0;
+    if (destHeight < 200 || destWidth < 200) {
+        if (destHeight < destWidth) {
+            destScale = 300 / destHeight;
+        } else {
+            destScale = 300 / destWidth;
+        }
+        destWidth *= destScale;
+        destHeight *= destScale;
+        for (int i = 0; i < destPoints.size(); i++) {
+            destPoints[i].x *= destScale;
+            destPoints[i].y *= destScale;
+        }
+    }
     
     // get the width and height of the test face
     maxY = srcPoints[6].y, minY = srcPoints[77].y;
@@ -135,6 +152,15 @@ void SVGWrap::normalize_bezier() {
         bezier[i].x += translate.x;
         bezier[i].y += translate.y;
     }
+    
+    // 测试用
+    this->tempSvg = this->srcSvgPoints;
+    for (int i = 0; i < tempSvg.size(); i++) {
+        tempSvg[i].x *= scaleSVG;
+        tempSvg[i].y *= scaleSVG;
+        tempSvg[i].x += translate.x;
+        tempSvg[i].y += translate.y;
+    }
 }
 
 
@@ -221,15 +247,15 @@ Mat SVGWrap::morphing_img(Mat &mat, vector<Point> &srcPoints, vector<Point> &des
 vector<Point> SVGWrap::regain_svg_ctrl_points() {
     vector<Point> adjustBezier(bezier);
     
-    // recalculate ctrl points
-    for (int i = 0; i < adjustBezier.size(); i++) {
-        adjustBezier[i].x -= translate.x;
-        adjustBezier[i].y -= translate.y;
-    }
-    for (int i = 0; i < adjustBezier.size(); i++) {
-        adjustBezier[i].x /= scaleSVG;
-        adjustBezier[i].y /= scaleSVG;
-    }
+    // recalculate ctrl points before normalization
+//    for (int i = 0; i < adjustBezier.size(); i++) {
+//        adjustBezier[i].x -= translate.x;
+//        adjustBezier[i].y -= translate.y;
+//    }
+//    for (int i = 0; i < adjustBezier.size(); i++) {
+//        adjustBezier[i].x /= scaleSVG;
+//        adjustBezier[i].y /= scaleSVG;
+//    }
     
     return BezierUtil::regain_new_points(adjustBezier);
 }

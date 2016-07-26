@@ -21,9 +21,9 @@ class DrawUtil {
 public:
     static bool is_valid_in(Mat &img, int x, int y);
     static void draw_point(Mat &img, int x, int y, int r);
-    static void draw_point(Mat &img, int x, int y, int r, int channel);
+    static void draw_point(Mat &img, int x, int y, int r, Scalar color);
     static void draw_points(Mat &img, vector<Point> &points, int r);
-    static void draw_points(Mat &img, vector<Point> &points, int r, int channel);
+    static void draw_points(Mat &img, vector<Point> &points, int r, Scalar color);
     static void draw_triangular(Mat &img, Triangular &t, Point translate);
 };
 

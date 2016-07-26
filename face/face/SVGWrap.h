@@ -18,7 +18,7 @@
 using namespace cv;
 
 class SVGWrap {
-private:
+public:
     vector<Point> srcPoints;
     vector<Point> destPoints;
     vector<Point> srcSvgPoints;
@@ -35,7 +35,7 @@ private:
     // 人脸尺寸
     double srcWidth, srcHeight, destWidth, destHeight;
 private:
-    void normalize_face_data(vector<Point> &srcPoints, vector<Point> &targetPoints);
+    void normalize_face_data();
     void normalize_bezier();
 public:
     SVGWrap(vector<Point> &src, vector<Point> &dest, vector<Point> &svg);
@@ -48,6 +48,9 @@ public:
     vector<Point> regain_svg_ctrl_points();
     
     Mat morphing_img(Mat &mat, vector<Point> &srcPoints, vector<Point> &destPoints);
+    
+    // 原svg图缩放后的坐标，测试用
+    vector<Point> tempSvg;
 };
 
 #endif /* defined(__face1__SVGWrap__) */

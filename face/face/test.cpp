@@ -13,7 +13,7 @@
 int main(int argc, const char * argv[]) {
     
     // 用户输入数据
-    int targetDataIndex = 24;
+    int targetDataIndex = 5;
     string targetFile = to_string(targetDataIndex) + ".png";
     //Mat targetMat = imread(targetFile, IMREAD_GRAYSCALE);
     Mat targetMat = imread(targetFile, IMREAD_UNCHANGED);
@@ -44,15 +44,19 @@ int main(int argc, const char * argv[]) {
     vector<Point> ctrl = svgWrap.regain_svg_ctrl_points();
     
     // 绘制原测试数据的贝塞尔曲线
-    Mat m(3000, 3000, CV_8UC1, Scalar::all(0));
-    BezierUtil::draw_bezier(m, testSvg);
-    namedWindow("bezier");
-    imshow("bezier", m);
-    imwrite(("bezier"+to_string(testDataIndex)+".jpg").c_str(), m);
-    waitKey();
-    m = Scalar(0, 0, 0);
+    Mat m(1000, 1000, CV_8UC3, Scalar::all(0));
+//    BezierUtil::draw_bezier(m, testSvg);
+//    namedWindow("bezier");
+//    imshow("bezier", m);
+//    imwrite(("bezier"+to_string(testDataIndex)+".jpg").c_str(), m);
+//    waitKey();
+//    m = Scalar(0, 0, 0);
     
-    BezierUtil::draw_bezier(m, ctrl);
+    BezierUtil::draw_bezier(m, ctrl, Scalar(255, 255, 255));
+    //BezierUtil::draw_bezier(m, svgWrap.tempSvg, Scalar(0, 255, 0));
+    for (auto p : svgWrap.destPoints) {
+        DrawUtil::draw_point(m, p.x, p.y, 2, Scalar(0, 0, 255));
+    }
     namedWindow("bezier");
     imshow("bezier", m);
     imwrite(("bezierFor"+to_string(targetDataIndex)+".jpg").c_str(), m);
@@ -60,11 +64,11 @@ int main(int argc, const char * argv[]) {
     
         string dir = to_string(testDataIndex) + "-" + to_string(targetDataIndex);
     
-    ofstream fout((dir+".txt").c_str());
-    for (int i = 0; i < ctrl.size(); i++) {
-        fout << ctrl[i].x << "," << ctrl[i].y << " ";
-    }
-    fout << endl;
+//    ofstream fout((dir+".txt").c_str());
+//    for (int i = 0; i < ctrl.size(); i++) {
+//        fout << ctrl[i].x << "," << ctrl[i].y << " ";
+//    }
+//    fout << endl;
 //    Mat morphingMat = svgWrap.morphing_img(testMat, testPoints, targetPoints);
 //    namedWindow("morphing");
 //    imshow("morphing", morphingMat);

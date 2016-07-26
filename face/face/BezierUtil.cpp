@@ -18,12 +18,30 @@ void BezierUtil::draw_quad_bezier(Mat &img, Point p0, Point p1, Point p2) {
     }
 }
 
+void BezierUtil::draw_quad_bezier(Mat &img, Point p0, Point p1, Point p2, Scalar color) {
+    int x, y;
+    for (float t = 0; t <= 1; t += 0.001) {
+        x = (int)((1-t)*(1-t)*p0.x + 2*t*(1-t)*p1.x + t*t*p2.x);
+        y = (int)((1-t)*(1-t)*p0.y + 2*t*(1-t)*p1.y + t*t*p2.y);
+        DrawUtil::draw_point(img, x, y, 1, color);
+    }
+}
+
 void BezierUtil::draw_cube_bezier(Mat &img, Point p0, Point p1, Point p2, Point p3) {
     int x, y;
     for (float t = 0; t <= 1; t += 0.001) {
         x = (int)((1-t)*(1-t)*(1-t)*p0.x + 3*t*(1-t)*(1-t)*p1.x + 3*t*t*(1-t)*p2.x + t*t*t*p3.x);
         y = (int)((1-t)*(1-t)*(1-t)*p0.y + 3*t*(1-t)*(1-t)*p1.y + 3*t*t*(1-t)*p2.y + t*t*t*p3.y);
         DrawUtil::draw_point(img, x, y, 1);
+    }
+}
+
+void BezierUtil::draw_cube_bezier(Mat &img, Point p0, Point p1, Point p2, Point p3, Scalar color) {
+    int x, y;
+    for (float t = 0; t <= 1; t += 0.001) {
+        x = (int)((1-t)*(1-t)*(1-t)*p0.x + 3*t*(1-t)*(1-t)*p1.x + 3*t*t*(1-t)*p2.x + t*t*t*p3.x);
+        y = (int)((1-t)*(1-t)*(1-t)*p0.y + 3*t*(1-t)*(1-t)*p1.y + 3*t*t*(1-t)*p2.y + t*t*t*p3.y);
+        DrawUtil::draw_point(img, x, y, 1, color);
     }
 }
 
@@ -108,6 +126,20 @@ void BezierUtil::draw_bezier(Mat &img, vector<Point> &ctrl) {
     } else if ((ctrl.size() - 1) % 3 == 0) {
         for (int i = 0; i < ctrl.size()-1; i+=3) {
             draw_cube_bezier(img, ctrl[i], ctrl[i+1], ctrl[i+2], ctrl[i+3]);
+        }
+    } else {
+        assert(false && "support only quadratic and cube bezier");
+    }
+}
+
+void BezierUtil::draw_bezier(Mat &img, vector<Point> &ctrl, Scalar color) {
+    if ((ctrl.size()-1) % 2 == 0) {
+        for (int i = 0; i < ctrl.size()-1; i+=2) {
+            draw_quad_bezier(img, ctrl[i], ctrl[i+1], ctrl[i+2], color);
+        }
+    } else if ((ctrl.size() - 1) % 3 == 0) {
+        for (int i = 0; i < ctrl.size()-1; i+=3) {
+            draw_cube_bezier(img, ctrl[i], ctrl[i+1], ctrl[i+2], ctrl[i+3], color);
         }
     } else {
         assert(false && "support only quadratic and cube bezier");
