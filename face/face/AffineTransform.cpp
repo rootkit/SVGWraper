@@ -53,12 +53,37 @@ void AffineTransform::init_transform(const vector<Point> &src, const vector<Poin
     this->a00 = X(0);
     this->a01 = X(1);
     this->a02 = X(2);
+
+//    printf("native A  %d, %d, 1, %d, %d, 1, %d, %d, 1\n",
+//           src[0].x, src[0].y, src[1].x, src[1].y, src[2].x, src[2].y);
+//    printf("native B  %d, %d, %d\n", dest[0].x, dest[1].x, dest[2].x);
     
     B << dest[0].y, dest[1].y, dest[2].y;
     X = A.lu().solve(B);
     this->a03 = X(0);
     this->a04 = X(1);
     this->a05 = X(2);
+//    printf("native B  %d, %d, %d\n", dest[0].y, dest[1].y, dest[2].y);
+//    cout << "native:  " << a00 << ", " << a01 << ", " << a02 << ", "
+//         << a03 << ", " << a04 << ", " << a05 << endl;
+//    Point2f srcTri[3], destTri[3];
+//    srcTri[0] = Point2f(src[0].x, src[0].y);
+//    srcTri[1] = Point2f(src[1].x, src[1].y);
+//    srcTri[2] = Point2f(src[2].x, src[2].y);
+//    
+//    destTri[0] = Point2f(dest[0].x, dest[0].y);
+//    destTri[1] = Point2f(dest[1].x, dest[1].y);
+//    destTri[2] = Point2f(dest[2].x, dest[2].y);
+    
+    //Mat warp(2, 3, CV_32FC1);
+//    Mat warp = getAffineTransform(srcTri, destTri);
+//    cout << "warp" << endl << warp << endl;
+//    this->a00 = warp.at<float>(0, 0);
+//    this->a01 = warp.at<float>(0, 1);
+//    this->a02 = warp.at<float>(0, 2);
+//    this->a03 = warp.at<float>(1, 0);
+//    this->a04 = warp.at<float>(1, 1);
+//    this->a05 = warp.at<float>(1, 2);
 }
 
 Point AffineTransform::transform(Point p) {

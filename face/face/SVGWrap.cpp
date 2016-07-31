@@ -16,9 +16,12 @@ SVGWrap::SVGWrap(vector<Point> &src, vector<Point> &dest, vector<Point> &svg)
     this->morph.init(srcPoints, destPoints);
     
     this->bezier = BezierUtil::get_bezier(srcSvgPoints);
+    
     // 归一化贝塞尔曲线点
     normalize_bezier();
     wrap_bezier();
+    
+
 }
 
 void SVGWrap::normalize_face_data() {
@@ -81,14 +84,24 @@ void SVGWrap::normalize_face_data() {
     srcPoints.push_back(Point(maxX+deltaX, maxY));
     srcPoints.push_back(Point(maxX+deltaX, minY-deltaY));
     
+    // 在已经补充完边界点的人脸上做样条插值
+    //interpolate_face();
+    
     // scale the testDots to the same size of targetDots
     // either on width or on height
     double scaleW = destWidth / srcWidth;
     double scaleH = destHeight / srcHeight;
     
+    cout << "destWidth: " << destWidth << endl;
+    cout << "destHeight: " << destHeight << endl;
+    cout << "srcWidth: " << srcWidth << endl;
+    cout << "srcHeight: " << srcHeight << endl;
+    
     double minScale = scaleH <= scaleW ? scaleH : scaleW;
     srcHeight *= minScale;
     srcWidth *= minScale;
+    
+    cout << "minScale: " << minScale << endl;
     
     for (int i = 0; i < srcPoints.size(); i++) {
         srcPoints[i].x *= minScale;
@@ -105,6 +118,42 @@ void SVGWrap::normalize_face_data() {
         srcPoints[i].x += translateV.x;
         srcPoints[i].y += translateV.y;
     }
+    
+}
+
+void SVGWrap::interpolate_face() {
+    vector<double> x, y;
+    for (int i = 0; i < 16; i++) {
+        x.push_back(srcPoints[i].x);
+        y.push_back(srcPoints[i].y);
+    }
+    this->srcSpline.init(x, y);
+    int* points = srcSpline.splineInterpolate();
+    for (int i = 0; i < 16; i++) {
+        srcPoints.push_back(Point(points[i*2], points[i*2+1]));
+    }
+    srcPoints.push_back(Point(srcPoints[78].x, srcPoints[1].y));
+    srcPoints.push_back(Point(srcPoints[78].x, srcPoints[3].y));
+    srcPoints.push_back(Point(srcPoints[81].x, srcPoints[11].y));
+    srcPoints.push_back(Point(srcPoints[81].x, srcPoints[9].y));
+    delete [] points;
+    x.clear();
+    y.clear();
+    
+    for (int i = 0; i < 16; i++) {
+        x.push_back(destPoints[i].x);
+        y.push_back(destPoints[i].y);
+    }
+    this->destSpline.init(x, y);
+    points = destSpline.splineInterpolate();
+    for (int i = 0; i < 16; i++) {
+        destPoints.push_back(Point(points[i*2], points[i*2+1]));
+    }
+    destPoints.push_back(Point(destPoints[78].x, destPoints[1].y));
+    destPoints.push_back(Point(destPoints[78].x, destPoints[3].y));
+    destPoints.push_back(Point(destPoints[81].x, destPoints[11].y));
+    destPoints.push_back(Point(destPoints[81].x, destPoints[9].y));
+    delete [] points;
 }
 
 void SVGWrap::normalize_bezier() {
@@ -128,15 +177,27 @@ void SVGWrap::normalize_bezier() {
         }
     }
     
+    //
+    //svg scaleW:  0.893491
+//    svg scaleH:  0.753998
     // 缩放，注意srcPoints的四个边的顶点并代表人脸的真正大小
     double bezierHeight = maxY - minY;
     double bezierWidth = maxX - minX;
     double scaleW = srcWidth / bezierWidth;
-    double scaleH = srcHeight / bezierHeight;
+    // 原asm点包括头发上的点，可能偏高
+    double scaleH = srcHeight*0.98 / (bezierHeight);
+    cout << "svg scaleW:  " << scaleW << endl;
+    cout << "svg scaleH:  " << scaleH << endl;
+//    if (scaleW <= scaleH) {
+//        scaleSVG = scaleW;
+//    } else {
+//        scaleSVG = scaleH;
+//    }
+    
     if (scaleW <= scaleH) {
-        scaleSVG = scaleW;
-    } else {
         scaleSVG = scaleH;
+    } else {
+        scaleSVG = scaleW;
     }
     for (int i = 0; i < bezier.size(); i++) {
         bezier[i].x *= scaleSVG;
@@ -247,17 +308,43 @@ Mat SVGWrap::morphing_img(Mat &mat, vector<Point> &srcPoints, vector<Point> &des
 vector<Point> SVGWrap::regain_svg_ctrl_points() {
     vector<Point> adjustBezier(bezier);
     
+    // 测试需要，先去掉还原(归一化)操作
     // recalculate ctrl points before normalization
-//    for (int i = 0; i < adjustBezier.size(); i++) {
-//        adjustBezier[i].x -= translate.x;
-//        adjustBezier[i].y -= translate.y;
-//    }
-//    for (int i = 0; i < adjustBezier.size(); i++) {
-//        adjustBezier[i].x /= scaleSVG;
-//        adjustBezier[i].y /= scaleSVG;
-//    }
+    for (int i = 0; i < adjustBezier.size(); i++) {
+        adjustBezier[i].x -= translate.x;
+        adjustBezier[i].y -= translate.y;
+    }
+    for (int i = 0; i < adjustBezier.size(); i++) {
+        adjustBezier[i].x /= scaleSVG;
+        adjustBezier[i].y /= scaleSVG;
+    }
     
     return BezierUtil::regain_new_points(adjustBezier);
+}
+
+vector<Point> SVGWrap::get_relative_path_points(vector<Point> svgCtrlPoints) {
+    vector<Point> points;
+    points.push_back(svgCtrlPoints[0]);
+    for (int i = 1; i < svgCtrlPoints.size()-1; i+=3) {
+        Point p0 = svgCtrlPoints[i-1];
+        Point p1 = svgCtrlPoints[i];
+        Point p2 = svgCtrlPoints[i+1];
+        Point p3 = svgCtrlPoints[i+2];
+        points.push_back(Point(p1.x-p0.x, p1.y-p0.y));
+        points.push_back(Point(p2.x-p0.x, p2.y-p0.y));
+        points.push_back(Point(p3.x-p0.x, p3.y-p0.y));
+    }
+    return points;
+}
+
+string SVGWrap::get_relative_path(vector<Point> points) {
+    string s = "M";
+    s += to_string(points[0].x) + " " + to_string(points[0].y) + "c";
+    for (int i = 1; i < points.size(); i++) {
+        s += to_string(points[i].x) + "," + to_string(points[i].y) + " ";
+    }
+    s += "z";
+    return s;
 }
 
 

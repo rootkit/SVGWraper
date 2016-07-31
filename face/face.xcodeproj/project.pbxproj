@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		704A1FE01D4AE07000E954FB /* MySpline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 704A1FDE1D4AE07000E954FB /* MySpline.cpp */; };
+		704A1FE21D4AEFF000E954FB /* spline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 704A1FE11D4AEFF000E954FB /* spline.cpp */; };
 		707B0AA91D466DAD00133573 /* AffineTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B092D1D466DAC00133573 /* AffineTransform.cpp */; };
 		707B0AAA1D466DAD00133573 /* BezierUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B092F1D466DAC00133573 /* BezierUtil.cpp */; };
 		707B0AAB1D466DAD00133573 /* DataProc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B09311D466DAC00133573 /* DataProc.cpp */; };
@@ -31,6 +33,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		704A1FDD1D4ADFDC00E954FB /* spline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spline.h; sourceTree = "<group>"; };
+		704A1FDE1D4AE07000E954FB /* MySpline.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MySpline.cpp; sourceTree = "<group>"; };
+		704A1FDF1D4AE07000E954FB /* MySpline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySpline.h; sourceTree = "<group>"; };
+		704A1FE11D4AEFF000E954FB /* spline.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spline.cpp; sourceTree = "<group>"; };
+		704A1FE31D4B321E00E954FB /* dataBase.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dataBase.txt; sourceTree = "<group>"; };
 		707B09231D466D0D00133573 /* face */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = face; sourceTree = BUILT_PRODUCTS_DIR; };
 		707B09261D466D0D00133573 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		707B092D1D466DAC00133573 /* AffineTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AffineTransform.cpp; sourceTree = "<group>"; };
@@ -407,6 +414,8 @@
 		707B09251D466D0D00133573 /* face */ = {
 			isa = PBXGroup;
 			children = (
+				704A1FE31D4B321E00E954FB /* dataBase.txt */,
+				704A1FDD1D4ADFDC00E954FB /* spline.h */,
 				707B092D1D466DAC00133573 /* AffineTransform.cpp */,
 				707B092E1D466DAC00133573 /* AffineTransform.h */,
 				707B092F1D466DAC00133573 /* BezierUtil.cpp */,
@@ -427,6 +436,9 @@
 				707B0AA71D466DAD00133573 /* Triangular.cpp */,
 				707B0AA81D466DAD00133573 /* Triangular.h */,
 				707B09261D466D0D00133573 /* main.cpp */,
+				704A1FDE1D4AE07000E954FB /* MySpline.cpp */,
+				704A1FDF1D4AE07000E954FB /* MySpline.h */,
+				704A1FE11D4AEFF000E954FB /* spline.cpp */,
 			);
 			path = face;
 			sourceTree = "<group>";
@@ -1114,7 +1126,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				704A1FE01D4AE07000E954FB /* MySpline.cpp in Sources */,
 				707B0AAE1D466DAD00133573 /* Morphing.cpp in Sources */,
+				704A1FE21D4AEFF000E954FB /* spline.cpp in Sources */,
 				707B0AAC1D466DAD00133573 /* DrawUtil.cpp in Sources */,
 				707B0AB11D466DAD00133573 /* test.cpp in Sources */,
 				707B0AAA1D466DAD00133573 /* BezierUtil.cpp in Sources */,
@@ -1258,6 +1272,7 @@
 				707B092C1D466D0D00133573 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -19,7 +19,7 @@ void DrawUtil::draw_point(Mat &img, int x, int y, int r) {
     for (int i = x-r; i <= x+r; i++) {
         for (int j = y-r; j <= y+r; j++) {
             if (is_valid_in(img, i, j)) {
-                circle(img, Point(x, y), 1, Scalar(255, 255, 255));
+                circle(img, Point(x, y), r, Scalar(255, 255, 255));
                 //img.at<uchar>(j, i) = 0xff;
             }
         }

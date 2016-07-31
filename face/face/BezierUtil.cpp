@@ -118,6 +118,34 @@ vector<Point> BezierUtil::get_bezier(vector<Point> &svg) {
     return bezier;
 }
 
+/** 根据贝塞尔曲线控制点得到贝塞尔曲线上的三等分点以及完整的贝塞尔曲线点
+ * bezier1: 三等分点构成的贝塞尔曲线，用于形变后还原控制点
+ * bezier2: 完整的贝塞尔曲线，主要用于测量贝塞尔曲线的边界点
+ */
+void BezierUtil::get_bezier(vector<Point> &svg, vector<Point> &bezier1, vector<Point> &bezier2) {
+    bezier1 = get_bezier(svg);
+    
+    int x, y;
+    Point p1, p2, p3, p4;  // 贝塞尔曲线端点和控制点
+    for (int i = 0; i < svg.size()-1; i+=3) {
+        if (i == 0) {
+            p1 = svg[0];
+            bezier2.push_back(p1);
+        } else {
+            p1 = p4;
+        }
+        p2 = svg[i+1];
+        p3 = svg[i+2];
+        p4 = svg[i+3];
+        for (float t = 0.1; t <= 1; t += 0.1) {
+            x = (int)((1-t)*(1-t)*(1-t)*p1.x + 3*t*(1-t)*(1-t)*p2.x + 3*t*t*(1-t)*p3.x + t*t*t*p4.x);
+            y = (int)((1-t)*(1-t)*(1-t)*p1.y + 3*t*(1-t)*(1-t)*p2.y + 3*t*t*(1-t)*p3.y + t*t*t*p4.y);
+            bezier2.push_back(Point(x, y));
+        }
+    }
+    
+}
+
 void BezierUtil::draw_bezier(Mat &img, vector<Point> &ctrl) {
     if ((ctrl.size()-1) % 2 == 0) {
         for (int i = 0; i < ctrl.size()-1; i+=2) {
