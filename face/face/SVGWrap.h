@@ -59,9 +59,7 @@ public:
     string get_relative_path(vector<Point> points);
     
     Mat morphing_img(Mat &mat, vector<Point> &srcPoints, vector<Point> &destPoints);
-    
-//    // 归一化后的srcPoints，测试用
-//    vector<Point> tempSrcPoints;
+
     // 归一化后的svg points，测试用
     vector<Point> tempSvg;
 };

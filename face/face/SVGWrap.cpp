@@ -15,7 +15,8 @@ SVGWrap::SVGWrap(vector<Point> &src, vector<Point> &dest, vector<Point> &svg)
     normalize_face_data();
     this->morph.init(srcPoints, destPoints);
     
-    this->bezier = BezierUtil::get_bezier(srcSvgPoints);
+    //this->bezier = BezierUtil::get_bezier(srcSvgPoints);
+    BezierUtil::get_bezier(srcSvgPoints, bezier, completedBezier);
     
     // 归一化贝塞尔曲线点
     normalize_bezier();
@@ -41,9 +42,13 @@ void SVGWrap::normalize_face_data() {
     destWidth = maxX - minX;
     destHeight = maxY - minY;
     
+    // 通过目标图像的宽高调整扩大三角剖分的尺寸
+    deltaX = (double)maxX * 0.1;
+    deltaY = (double)maxY * 0.1;
+    
     destPoints.push_back(Point(minX-deltaX, minY-deltaY));
-    destPoints.push_back(Point(minX-deltaX, maxY));
-    destPoints.push_back(Point(maxX+deltaX, maxY));
+    destPoints.push_back(Point(minX-deltaX, maxY+deltaY));
+    destPoints.push_back(Point(maxX+deltaX, maxY+deltaY));
     destPoints.push_back(Point(maxX+deltaX, minY-deltaY));
     
     
@@ -80,12 +85,12 @@ void SVGWrap::normalize_face_data() {
     srcHeight = maxY - minY;
     
     srcPoints.push_back(Point(minX-deltaX, minY-deltaY));
-    srcPoints.push_back(Point(minX-deltaX, maxY));
-    srcPoints.push_back(Point(maxX+deltaX, maxY));
+    srcPoints.push_back(Point(minX-deltaX, maxY+deltaY));
+    srcPoints.push_back(Point(maxX+deltaX, maxY+deltaY));
     srcPoints.push_back(Point(maxX+deltaX, minY-deltaY));
     
     // 在已经补充完边界点的人脸上做样条插值
-    //interpolate_face();
+    interpolate_face();
     
     // scale the testDots to the same size of targetDots
     // either on width or on height
@@ -132,10 +137,13 @@ void SVGWrap::interpolate_face() {
     for (int i = 0; i < 16; i++) {
         srcPoints.push_back(Point(points[i*2], points[i*2+1]));
     }
-    srcPoints.push_back(Point(srcPoints[78].x, srcPoints[1].y));
-    srcPoints.push_back(Point(srcPoints[78].x, srcPoints[3].y));
-    srcPoints.push_back(Point(srcPoints[81].x, srcPoints[11].y));
-    srcPoints.push_back(Point(srcPoints[81].x, srcPoints[9].y));
+    srcPoints.push_back(Point(srcPoints[78].x, srcPoints[1].y));   // 第98个点
+    srcPoints.push_back(Point(srcPoints[78].x, srcPoints[3].y));   // 第99个点
+    srcPoints.push_back(Point(srcPoints[81].x, srcPoints[11].y));  // 第100个点
+    srcPoints.push_back(Point(srcPoints[81].x, srcPoints[9].y));   // 第101个点
+    srcPoints.push_back(Point(srcPoints[5].x, srcPoints[79].y));   // 第102个点
+    srcPoints.push_back(Point(srcPoints[6].x, srcPoints[79].y));   // 第103个点
+    srcPoints.push_back(Point(srcPoints[7].x, srcPoints[79].y));   // 第104个点
     delete [] points;
     x.clear();
     y.clear();
@@ -149,37 +157,37 @@ void SVGWrap::interpolate_face() {
     for (int i = 0; i < 16; i++) {
         destPoints.push_back(Point(points[i*2], points[i*2+1]));
     }
-    destPoints.push_back(Point(destPoints[78].x, destPoints[1].y));
-    destPoints.push_back(Point(destPoints[78].x, destPoints[3].y));
-    destPoints.push_back(Point(destPoints[81].x, destPoints[11].y));
-    destPoints.push_back(Point(destPoints[81].x, destPoints[9].y));
+    destPoints.push_back(Point(destPoints[78].x, destPoints[1].y));  // 第98个点
+    destPoints.push_back(Point(destPoints[78].x, destPoints[3].y));  // 第99个点
+    destPoints.push_back(Point(destPoints[81].x, destPoints[11].y)); // 第100个点
+    destPoints.push_back(Point(destPoints[81].x, destPoints[9].y));  // 第101个点
+    destPoints.push_back(Point(destPoints[5].x, destPoints[79].y));   // 第102个点
+    destPoints.push_back(Point(destPoints[6].x, destPoints[79].y));   // 第103个点
+    destPoints.push_back(Point(destPoints[7].x, destPoints[79].y));   // 第104个点
     delete [] points;
 }
 
 void SVGWrap::normalize_bezier() {
     int minX = 10000, minY = 10000, maxX = -10000, maxY = -10000;
-    for (int i = 0; i < bezier.size(); i++) {
-        if (minX > bezier[i].x) {
-            minX = bezier[i].x;
+    for (int i = 0; i < completedBezier.size(); i++) {
+        if (minX > completedBezier[i].x) {
+            minX = completedBezier[i].x;
             left = i;
         }
-        if (minY > bezier[i].y) {
-            minY = bezier[i].y;
+        if (minY > completedBezier[i].y) {
+            minY = completedBezier[i].y;
             top = i;
         }
-        if (maxX < bezier[i].x) {
-            maxX = bezier[i].x;
+        if (maxX < completedBezier[i].x) {
+            maxX = completedBezier[i].x;
             right = i;
         }
-        if (maxY < bezier[i].y) {
-            maxY = bezier[i].y;
+        if (maxY < completedBezier[i].y) {
+            maxY = completedBezier[i].y;
             bottom = i;
         }
     }
     
-    //
-    //svg scaleW:  0.893491
-//    svg scaleH:  0.753998
     // 缩放，注意srcPoints的四个边的顶点并代表人脸的真正大小
     double bezierHeight = maxY - minY;
     double bezierWidth = maxX - minX;
@@ -204,14 +212,34 @@ void SVGWrap::normalize_bezier() {
         bezier[i].y *= scaleSVG;
     }
     
-    // 平移，对齐下巴最低点
-    //Point srcBottom((srcPoints[81].x+srcPoints[78].x)/2, (srcPoints[79].y+srcPoints[78].y)/2);
+    for (int i = 0; i < completedBezier.size(); i++) {
+        completedBezier[i].x *= scaleSVG;
+        completedBezier[i].y *= scaleSVG;
+    }
+    
+    
+    // 平移，对齐下巴最低点。改进版本：下巴最低点不再默认是第六个asm点，而是先判断第5和第7个是否比第六个底
+    //Point srcBottom(srcPoints[6].x, srcPoints[6].y);
     Point srcBottom(srcPoints[6].x, srcPoints[6].y);
-    this->translate.x = srcBottom.x - bezier[bottom].x;
-    this->translate.y = srcBottom.y - bezier[bottom].y;
+    // 第五个点比第六个点低的情况
+    if (srcPoints[6].y <= srcPoints[5].y) {
+        srcBottom.x = (srcPoints[6].x + srcPoints[5].x) / (double)2;
+        srcBottom.y = (srcPoints[6].y + srcPoints[5].y) / (double)2;
+    }
+    // 第七个点是最低点的情况
+    if (srcPoints[7].y > srcPoints[6].y && srcPoints[7].y > srcPoints[5].y) {
+        srcBottom.x = (srcPoints[6].x + srcPoints[7].x) / (double)2;
+        srcBottom.y = (srcPoints[6].y + srcPoints[7].y) / (double)2;
+    }
+    cout << "srcBottom: " << "(" << srcBottom.x << "," << srcBottom.y << ")" << endl;
+    // svg的最低点由completedBezier确定
+    this->translate.x = srcBottom.x - completedBezier[bottom].x;
+    this->translate.y = srcBottom.y - completedBezier[bottom].y;
     for (int i = 0; i < bezier.size(); i++) {
         bezier[i].x += translate.x;
         bezier[i].y += translate.y;
+        completedBezier[i].x += translate.x;
+        completedBezier[i].y += translate.y;
     }
     
     // 测试用
@@ -259,7 +287,7 @@ Mat SVGWrap::scale_mat_to_dots(Mat mat, double width, double height) {
 
 
 Mat SVGWrap::draw_src_tri_on_svg() {
-    Mat temp(bezier[bottom].y+100, bezier[right].x+100, CV_8UC1, Scalar::all(0));
+    Mat temp(completedBezier[bottom].y+100, completedBezier[right].x+100, CV_8UC1, Scalar::all(0));
     for (int i = 0; i < bezier.size(); i++) {
         DrawUtil::draw_point(temp, bezier[i].x, bezier[i].y, 10);
     }
@@ -272,7 +300,7 @@ Mat SVGWrap::draw_src_tri_on_svg() {
 
 
 Mat SVGWrap::draw_dest_tri_on_svg() {
-    Mat temp(bezier[bottom].y+100, bezier[right].x+100, CV_8UC1, Scalar::all(0));
+    Mat temp(completedBezier[bottom].y+100, completedBezier[right].x+100, CV_8UC1, Scalar::all(0));
     for (int i = 0; i < bezier.size(); i++) {
         DrawUtil::draw_point(temp, bezier[i].x, bezier[i].y, 10);
     }
