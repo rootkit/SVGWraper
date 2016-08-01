@@ -9,7 +9,7 @@
 #include "SVGWrap.h"
 
 SVGWrap::SVGWrap(vector<Point> &src, vector<Point> &dest, vector<Point> &svg)
-:srcPoints(src), destPoints(dest), srcSvgPoints(svg), deltaX(10), deltaY(10) {
+:srcPoints(src), destPoints(dest), srcSvgPoints(svg), deltaX(30), deltaY(30) {
     
     // 归一化脸部数据
     normalize_face_data();
@@ -228,16 +228,16 @@ void SVGWrap::normalize_bezier() {
 void SVGWrap::wrap_bezier() {
     // 测试归一化效果
     Mat temp = draw_src_tri_on_svg();
-    imshow("bezier", temp);
+    //imshow("bezier", temp);
     imwrite("bezierBeforeMorph1.jpg", temp);
-    waitKey();
+    //waitKey();
     
     morph.morph_bezier(bezier);
     
     temp = draw_dest_tri_on_svg();
-    imshow("bezier", temp);
+    //imshow("bezier", temp);
     imwrite("bezierAfterMorph2.jpg", temp);
-    waitKey();
+    //waitKey();
 }
 
 Mat SVGWrap::scale_mat_to_dots(Mat mat, double width, double height) {
@@ -261,7 +261,7 @@ Mat SVGWrap::scale_mat_to_dots(Mat mat, double width, double height) {
 Mat SVGWrap::draw_src_tri_on_svg() {
     Mat temp(bezier[bottom].y+100, bezier[right].x+100, CV_8UC1, Scalar::all(0));
     for (int i = 0; i < bezier.size(); i++) {
-        DrawUtil::draw_point(temp, bezier[i].x, bezier[i].y, 1);
+        DrawUtil::draw_point(temp, bezier[i].x, bezier[i].y, 10);
     }
 
     for (auto t : morph.srcTris) {
@@ -274,7 +274,7 @@ Mat SVGWrap::draw_src_tri_on_svg() {
 Mat SVGWrap::draw_dest_tri_on_svg() {
     Mat temp(bezier[bottom].y+100, bezier[right].x+100, CV_8UC1, Scalar::all(0));
     for (int i = 0; i < bezier.size(); i++) {
-        DrawUtil::draw_point(temp, bezier[i].x, bezier[i].y, 1);
+        DrawUtil::draw_point(temp, bezier[i].x, bezier[i].y, 10);
     }
     
     for (auto t : morph.destTris) {
@@ -310,14 +310,14 @@ vector<Point> SVGWrap::regain_svg_ctrl_points() {
     
     // 测试需要，先去掉还原(归一化)操作
     // recalculate ctrl points before normalization
-    for (int i = 0; i < adjustBezier.size(); i++) {
-        adjustBezier[i].x -= translate.x;
-        adjustBezier[i].y -= translate.y;
-    }
-    for (int i = 0; i < adjustBezier.size(); i++) {
-        adjustBezier[i].x /= scaleSVG;
-        adjustBezier[i].y /= scaleSVG;
-    }
+//    for (int i = 0; i < adjustBezier.size(); i++) {
+//        adjustBezier[i].x -= translate.x;
+//        adjustBezier[i].y -= translate.y;
+//    }
+//    for (int i = 0; i < adjustBezier.size(); i++) {
+//        adjustBezier[i].x /= scaleSVG;
+//        adjustBezier[i].y /= scaleSVG;
+//    }
     
     return BezierUtil::regain_new_points(adjustBezier);
 }
