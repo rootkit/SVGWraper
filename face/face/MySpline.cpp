@@ -23,10 +23,61 @@ MySpline::MySpline(vector<double> &x, vector<double> &y) {
 
 void MySpline::init(vector<double> &x, vector<double> &y) {
     assert(x.size() == y.size());
-    
+    this->splines.clear();
+    this->x.clear();
+    this->y.clear();
     this->isInit = true;
     this->x = x;
     this->y = y;
+    for (int c = 0; c < 4; c++) {
+        list<double> tempX;
+        list<double> tempY;
+        for (int i = POINT_INDEX[c]; i <= POINT_INDEX[c+1]; i++) {
+            if (c == 0) {               // y轴为标准计算样条曲线
+                tempX.push_back(y[i]);
+                tempY.push_back(x[i]);
+            } else if (c == 3) {        // y轴为标准计算样条曲线
+                tempX.push_front(y[i]);
+                tempY.push_front(x[i]);
+            } else if (c == 1 || c == 2) {   // x轴为标准计算样条曲线
+                tempX.push_back(x[i]);
+                tempY.push_back(y[i]);
+            }
+        }
+        vector<double> X(tempX.begin(), tempX.end());
+        vector<double> Y(tempY.begin(), tempY.end());
+        spline s;
+        s.set_points(X, Y);
+        splines.push_back(s);
+    }
+    vector<double> X, Y;
+    X.push_back(x[0]);
+    Y.push_back(y[0]);
+    for (int i = 15; i >= 12; i--) {
+        X.push_back(x[i]);
+        Y.push_back(y[i]);
+    }
+    spline s;
+    s.set_points(X, Y);
+    splines.push_back(s);
+}
+
+/**
+ * x, y分别是人脸16对点的x坐标和y坐标
+ */
+MySpline::MySpline(double *x, double *y, int size) {
+    this->init(x, y, size);
+}
+
+void MySpline::init(double *x, double *y, int size) {
+    this->splines.clear();
+    this->x.clear();
+    this->y.clear();
+    this->isInit = true;
+    for (int i = 0; i < size; i++) {
+        this->x.push_back(x[i]);
+        this->y.push_back(y[i]);
+    }
     for (int c = 0; c < 4; c++) {
         list<double> tempX;
         list<double> tempY;

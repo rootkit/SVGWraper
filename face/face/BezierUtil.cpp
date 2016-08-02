@@ -137,7 +137,7 @@ void BezierUtil::get_bezier(vector<Point> &svg, vector<Point> &bezier1, vector<P
         p2 = svg[i+1];
         p3 = svg[i+2];
         p4 = svg[i+3];
-        for (float t = 0.1; t <= 1; t += 0.1) {
+        for (float t = 0.01; t <= 1; t += 0.1) {
             x = (int)((1-t)*(1-t)*(1-t)*p1.x + 3*t*(1-t)*(1-t)*p2.x + 3*t*t*(1-t)*p3.x + t*t*t*p4.x);
             y = (int)((1-t)*(1-t)*(1-t)*p1.y + 3*t*(1-t)*(1-t)*p2.y + 3*t*t*(1-t)*p3.y + t*t*t*p4.y);
             bezier2.push_back(Point(x, y));

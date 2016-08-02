@@ -30,6 +30,8 @@ private:
 public:
     MySpline() {this->isInit = false;};
     MySpline(vector<double> &x, vector<double> &y);
+    MySpline(double *x, double *y, int size);
+    void init(double *x, double *y, int size);
     void init(vector<double> &x, vector<double> &y);
     int* splineInterpolate();
     void draw_asm_points(Mat &mat);

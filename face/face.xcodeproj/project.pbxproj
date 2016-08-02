@@ -14,10 +14,10 @@
 		707B0AAB1D466DAD00133573 /* DataProc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B09311D466DAC00133573 /* DataProc.cpp */; };
 		707B0AAC1D466DAD00133573 /* DrawUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B09331D466DAC00133573 /* DrawUtil.cpp */; };
 		707B0AAD1D466DAD00133573 /* FiltUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B0A9F1D466DAD00133573 /* FiltUtil.cpp */; };
-		707B0AAE1D466DAD00133573 /* Morphing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B0AA11D466DAD00133573 /* Morphing.cpp */; };
 		707B0AAF1D466DAD00133573 /* SVGWrap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B0AA31D466DAD00133573 /* SVGWrap.cpp */; };
 		707B0AB11D466DAD00133573 /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B0AA61D466DAD00133573 /* test.cpp */; };
 		707B0AB21D466DAD00133573 /* Triangular.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B0AA71D466DAD00133573 /* Triangular.cpp */; };
+		70AF1E991D4F71C000AF6057 /* Morphing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B0AA11D466DAD00133573 /* Morphing.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1126,8 +1126,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70AF1E991D4F71C000AF6057 /* Morphing.cpp in Sources */,
 				704A1FE01D4AE07000E954FB /* MySpline.cpp in Sources */,
-				707B0AAE1D466DAD00133573 /* Morphing.cpp in Sources */,
 				704A1FE21D4AEFF000E954FB /* spline.cpp in Sources */,
 				707B0AAC1D466DAD00133573 /* DrawUtil.cpp in Sources */,
 				707B0AB11D466DAD00133573 /* test.cpp in Sources */,

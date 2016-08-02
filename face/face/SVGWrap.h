@@ -33,8 +33,10 @@ public:
     double scaleSVG;
     // 归一化SVG后，贝塞尔曲线上四个极点下标
     int left, right, top, bottom;
-    // 扩大原人脸三角剖分边界
-    double deltaX, deltaY;
+    // 扩大目标头像人脸三角剖分边界
+    double destDeltaX, destDeltaY;
+    // 扩大原数据库头像人脸三角剖分边界
+    double srcDeltaX, srcDeltaY;
     // 人脸尺寸
     double srcWidth, srcHeight, destWidth, destHeight;
     // 人脸插值类
