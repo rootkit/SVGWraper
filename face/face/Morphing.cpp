@@ -9,7 +9,7 @@
 #include "Morphing.h"
 #include "DrawUtil.h"
 
-const int Morphing::TRI_NUM = 95;
+const int Morphing::TRI_NUM = 87;
 //const int Morphing::TRI_NUM = 51;
 //const int Morphing::TRI_NUM = 31;
 const int Morphing::POINT_NUM = 107;
@@ -78,25 +78,28 @@ int Morphing::POINT_INDEX[TRI_NUM][3] = {
     {98,82, 1}, {100,93,11 }, {98,1, 83}, {100,11,92},
     {98,83, 2}, {100,92,10 }, {98,2, 99}, {100,10,101},
     {99,2, 84}, {101,10,91 }, {99,84,3 }, {101,91,9},
-    {99,3, 85}, {101,9, 90 }, {99, 85, 79 }, {101,90,80},
     
-    {79,85,102}, {80,90,104}, {85,4,102}, {90,8,104},
+    
+    {99,3, 4}, {101,9, 8 }, {99, 4, 79 }, {101,8,80},
+    {79,4,102}, {80,8,104},
+    
+    
     {4,102,86}, {8, 89, 104}, {86,5,102}, {89,7,104},
     {5, 87,102}, {7,104,88},  {102,87,103},{104,88,103},
     {87, 6,103}, {88,6,103},
-    
     {96,14,52}, {95,14,52},
     {96,15,52}, {95, 13, 52}, {97,15,38}, {13,94,39},
     {15,38,52}, {13, 39, 52}, {38,58,52}, {39,54,52},
-    {97,18,38}, {94, 25, 39}, {97, 0,18},
-    
-    {94,12,25},
-    {18, 0,82}, {25, 12, 93}, {18,82,38}, {25,39,93},
+    {97,0,38}, {12, 94, 39}, {82, 0,38}, {93,12,39},
     {38,82, 1}, {39, 93, 11}, {1, 38,58}, {39,11,54},
     {1, 58,83}, {11, 54, 92}, {58,83, 2}, {54,92,10},
     {58, 2,84}, {54, 10, 91}, {58,84, 3}, {54,91, 9},
-    {58, 3,59}, {54, 91,  9}, {58, 3,59}, {54, 9,65},
-    {59, 3,85}, {65,  9, 90}, {59,85, 4}, {65,90, 8},
+    
+    {4, 3,59}, {54, 91,  9},
+    
+    {58, 3,59}, {54, 9,65},
+    {59, 3,85}, {65,  9, 8},
+    
     {59, 4,86}, {65,  8, 89}, {86, 5,59}, {65,7,89},
     {59, 5,87}, {65,88, 7},
     {59,87, 6}, {65, 88,  6}, {59,52,59}, {54,52,65},
@@ -120,7 +123,7 @@ Morphing::Morphing(vector<Point> &srcPoints, vector<Point> &destPoints) {
  * The first 78 points are asm points.
  * The last 4 points are four vertexes of boundary and
  * the order should be tl, bl, br, tr.
- * What's more, the position of points are better to be normalized
+ * What's more, the position of points are better to be normalized.
  */
 void Morphing::init(vector<Point> &srcPoints, vector<Point> &destPoints) {
     assert(srcPoints.size() == POINT_NUM && destPoints.size() == POINT_NUM);

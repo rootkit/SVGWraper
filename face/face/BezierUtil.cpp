@@ -137,7 +137,7 @@ void BezierUtil::get_bezier(vector<Point> &svg, vector<Point> &bezier1, vector<P
         p2 = svg[i+1];
         p3 = svg[i+2];
         p4 = svg[i+3];
-        for (float t = 0.01; t <= 1; t += 0.1) {
+        for (float t = 0.1; t <= 1; t += 0.1) {
             x = (int)((1-t)*(1-t)*(1-t)*p1.x + 3*t*(1-t)*(1-t)*p2.x + 3*t*t*(1-t)*p3.x + t*t*t*p4.x);
             y = (int)((1-t)*(1-t)*(1-t)*p1.y + 3*t*(1-t)*(1-t)*p2.y + 3*t*t*(1-t)*p3.y + t*t*t*p4.y);
             bezier2.push_back(Point(x, y));
@@ -147,11 +147,13 @@ void BezierUtil::get_bezier(vector<Point> &svg, vector<Point> &bezier1, vector<P
 }
 
 void BezierUtil::draw_bezier(Mat &img, vector<Point> &ctrl) {
-    if ((ctrl.size()-1) % 2 == 0) {
-        for (int i = 0; i < ctrl.size()-1; i+=2) {
-            draw_quad_bezier(img, ctrl[i], ctrl[i+1], ctrl[i+2]);
-        }
-    } else if ((ctrl.size() - 1) % 3 == 0) {
+//    if ((ctrl.size()-1) % 2 == 0) {
+//        for (int i = 0; i < ctrl.size()-1; i+=2) {
+//            draw_quad_bezier(img, ctrl[i], ctrl[i+1], ctrl[i+2]);
+//        }
+//    } else
+    
+        if ((ctrl.size() - 1) % 3 == 0) {
         for (int i = 0; i < ctrl.size()-1; i+=3) {
             draw_cube_bezier(img, ctrl[i], ctrl[i+1], ctrl[i+2], ctrl[i+3]);
         }

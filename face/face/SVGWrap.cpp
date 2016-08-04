@@ -57,22 +57,21 @@ void SVGWrap::normalize_face_data() {
     destPoints.push_back(Point(maxX+destDeltaX, maxY+destDeltaY));
     destPoints.push_back(Point(maxX+destDeltaX, minY-destDeltaY));
     
-    
     // 若输入样本的宽高太小，要适当放缩
-    double destScale = 0;
-    if (destHeight < 200 || destWidth < 200) {
-        if (destHeight < destWidth) {
-            destScale = 300 / destHeight;
-        } else {
-            destScale = 300 / destWidth;
-        }
-        destWidth *= destScale;
-        destHeight *= destScale;
-        for (int i = 0; i < destPoints.size(); i++) {
-            destPoints[i].x *= destScale;
-            destPoints[i].y *= destScale;
-        }
-    }
+//    double destScale = 0;
+//    if (destHeight < 200 || destWidth < 200) {
+//        if (destHeight < destWidth) {
+//            destScale = 300 / destHeight;
+//        } else {
+//            destScale = 300 / destWidth;
+//        }
+//        destWidth *= destScale;
+//        destHeight *= destScale;
+//        for (int i = 0; i < destPoints.size(); i++) {
+//            destPoints[i].x *= destScale;
+//            destPoints[i].y *= destScale;
+//        }
+//    }
     
     // get the width and height of the test face
     maxY = srcPoints[6].y, minY = srcPoints[77].y;
@@ -99,6 +98,11 @@ void SVGWrap::normalize_face_data() {
     srcPoints.push_back(Point(maxX+srcDeltaX, maxY+srcDeltaY));
     srcPoints.push_back(Point(maxX+srcDeltaX, minY-srcDeltaY));
     
+    cout << "destWidth: " << destWidth << endl;
+    cout << "destHeight: " << destHeight << endl;
+    cout << "srcWidth: " << srcWidth << endl;
+    cout << "srcHeight: " << srcHeight << endl;
+    
     // 在已经补充完边界点的人脸上做样条插值
     interpolate_face();
     
@@ -106,11 +110,6 @@ void SVGWrap::normalize_face_data() {
     // either on width or on height
     double scaleW = destWidth / srcWidth;
     double scaleH = destHeight / srcHeight;
-    
-    cout << "destWidth: " << destWidth << endl;
-    cout << "destHeight: " << destHeight << endl;
-    cout << "srcWidth: " << srcWidth << endl;
-    cout << "srcHeight: " << srcHeight << endl;
     
     double minScale = scaleH <= scaleW ? scaleH : scaleW;
     srcHeight *= minScale;
@@ -227,13 +226,14 @@ void SVGWrap::normalize_bezier() {
 //        scaleSVG = scaleH;
 //    }
     
-    if (scaleW <= scaleH) {
-        scaleSVG = scaleH;
-    } else {
-        scaleSVG = scaleW;
-    }
+//    if (scaleW <= scaleH) {
+//        scaleSVG = scaleH;
+//    } else {
+//        scaleSVG = scaleW;
+//    }
     // 直接取宽度缩放比
     scaleSVG = srcWidth / bezierWidth;
+    cout << "svg scaleSVG: " << scaleSVG << endl;
     for (int i = 0; i < bezier.size(); i++) {
         bezier[i].x *= scaleSVG;
         bezier[i].y *= scaleSVG;
@@ -258,7 +258,7 @@ void SVGWrap::normalize_bezier() {
         srcBottom.x = (srcPoints[6].x + srcPoints[7].x) / (double)2;
         srcBottom.y = (srcPoints[6].y + srcPoints[7].y) / (double)2;
     }
-    cout << "srcBottom: " << "(" << srcBottom.x << "," << srcBottom.y << ")" << endl;
+    
     // svg的最低点由completedBezier确定
     this->translate.x = srcBottom.x - completedBezier[bottom].x;
     this->translate.y = srcBottom.y - completedBezier[bottom].y;
@@ -277,6 +277,7 @@ void SVGWrap::normalize_bezier() {
         tempSvg[i].x += translate.x;
         tempSvg[i].y += translate.y;
     }
+    //tempSvg = BezierUtil::get_bezier(tempSvg);
 }
 
 
@@ -316,7 +317,7 @@ Mat SVGWrap::scale_mat_to_dots(Mat mat, double width, double height) {
 Mat SVGWrap::draw_src_tri_on_svg() {
     Mat temp(srcPoints[80].y+100, srcPoints[80].x+100, CV_8UC1, Scalar::all(0));
     for (int i = 0; i < bezier.size(); i++) {
-        DrawUtil::draw_point(temp, bezier[i].x, bezier[i].y, 10);
+        DrawUtil::draw_point(temp, bezier[i].x, bezier[i].y, 5);
     }
 
     for (auto t : morph.srcTris) {
@@ -329,7 +330,7 @@ Mat SVGWrap::draw_src_tri_on_svg() {
 Mat SVGWrap::draw_dest_tri_on_svg() {
     Mat temp(destPoints[80].y+100, destPoints[80].x+100, CV_8UC1, Scalar::all(0));
     for (int i = 0; i < bezier.size(); i++) {
-        DrawUtil::draw_point(temp, bezier[i].x, bezier[i].y, 10);
+        DrawUtil::draw_point(temp, bezier[i].x, bezier[i].y, 5);
     }
     
     for (auto t : morph.destTris) {

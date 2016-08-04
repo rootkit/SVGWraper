@@ -19,7 +19,7 @@ int main(int argc, const char * argv[]) {
     //Mat targetMat = imread(targetFile, IMREAD_GRAYSCALE);
     //Mat targetMat = imread(targetFile, IMREAD_UNCHANGED);
     // 数据库匹配数据
-    int testDataIndex = 3;
+    int testDataIndex = 8;
 
     string testFile = to_string(testDataIndex) + ".png";
     //Mat testMat = imread(testFile, IMREAD_UNCHANGED);
@@ -29,17 +29,22 @@ int main(int argc, const char * argv[]) {
     vector<vector<Point> > dataSVGs = FileUtil::read_svg_points("allFaceSvgPoint.txt");
     
     //string dir = to_string(testDataIndex) + "-" + to_string(targetDataIndex);
-    string dir = "只考虑宽度缩放,加大贝塞尔曲线采样";
+    string dir = "测试数据" + to_string(testDataIndex);
     string cmd = "mkdir " + dir;
     system(cmd.c_str());
-    for (testDataIndex = 1; testDataIndex < 29; testDataIndex++) {
+    for (targetDataIndex = 0; targetDataIndex < 36; targetDataIndex++) {
         
-        cout << "=============" << testDataIndex << "=============" << endl;
+        if (targetDataIndex == 29) {
+            continue;
+        }
+        
+        cout << "=============" << targetDataIndex << "=============" << endl;
         
         vector<Point> targetPoints = dataPoints[targetDataIndex];
-        //vector<Point> targetPoints = FileUtil::read_test_data("data.txt");
+        //vector<Point> targetPoints = FileUtil::read_test_data("inputdata3.txt");
         vector<Point> testPoints = dataPoints[testDataIndex];
         vector<Point> testSvg = dataSVGs[testDataIndex];
+    
         
         SVGWrap svgWrap(testPoints, targetPoints, testSvg);
         //    Mat temp = svgWrap.draw_src_triangular(testMat);
@@ -60,23 +65,20 @@ int main(int argc, const char * argv[]) {
         
         BezierUtil::draw_bezier(m, ctrl, Scalar(255, 255, 255));
         for (auto p : svgWrap.destPoints) {
-            DrawUtil::draw_point(m, p.x, p.y, 20, Scalar(0, 255, 255));
+            DrawUtil::draw_point(m, p.x, p.y, 10, Scalar(0, 255, 255));
         }
         namedWindow("bezier");
-        //imshow("bezier", m);
-        imwrite((dir + "/bezier" + to_string(testDataIndex) + "To"+to_string(targetDataIndex)+".jpg").c_str(), m);
-        //waitKey();
+        imwrite((dir + "/" + "bezier" + to_string(testDataIndex) + "To"+to_string(targetDataIndex)+".jpg").c_str(), m);
+        //imwrite(("bezier" + to_string(testDataIndex) + "To"+to_string(targetDataIndex)+".jpg").c_str(), m);
         
         // 绘制原测试数据的贝塞尔曲线
         m = Scalar(0, 0, 0);
-        //cout << "tempSvg:  " << svgWrap.tempSvg.size();
         BezierUtil::draw_bezier(m, svgWrap.tempSvg);
         for (auto p : svgWrap.srcPoints) {
-            DrawUtil::draw_point(m, p.x, p.y, 20, Scalar(0, 255, 255));
+            DrawUtil::draw_point(m, p.x, p.y, 10, Scalar(0, 255, 255));
         }
         namedWindow("bezier");
-        //imshow("bezier", m);
-        imwrite((dir+"/bezier"+to_string(testDataIndex)+".jpg").c_str(), m);
-        //waitKey();
+        imwrite((dir + "/" +"bezier"+to_string(testDataIndex)+".jpg").c_str(), m);
+        //imwrite(("bezier"+to_string(testDataIndex)+".jpg").c_str(), m);
     }
 }
