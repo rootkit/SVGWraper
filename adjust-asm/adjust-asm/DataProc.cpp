@@ -183,4 +183,15 @@ void DataProc::alignSvgToAsm(const vector<Point> &face, vector<Point> &bezier,
     }
 }
 
+void DataProc::recoverSvg(vector<Point> &bezier, double &scale, Point &translate) {
+    for (int i = 0; i < bezier.size(); i++) {
+        bezier[i].x -= translate.x;
+        bezier[i].y -= translate.y;
+    }
+    for (int i = 0; i < bezier.size(); i++) {
+        bezier[i].x /= scale;
+        bezier[i].y /= scale;
+    }
+}
+
 

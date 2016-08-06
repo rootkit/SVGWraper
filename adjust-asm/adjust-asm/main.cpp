@@ -8,6 +8,7 @@
 
 #include <vector>
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 #include <opencv2/opencv.hpp>
@@ -39,9 +40,23 @@ int main(int argc, const char * argv[]) {
     DrawUtil::draw_points(image, face, 6);
     imwrite("asm.jpg", image);
     
+    // 调整asm点
     MouseCapture mc(image, face);
     mc.adjustPoints();
     
+    face = mc.getAdjustedPoints();
+    ofstream fout("data.txt");
+    for (int i = 0; i < bezier.size(); i++) {
+        fout << face[i].x << " " << face[i].y << " ";
+    }
+    fout.close();
+    
+    image.release();
+    image.create(bezier[bottom].y+500, bezier[right].x+500, CV_8UC3);
+    image = Scalar::all(0);
+    BezierUtil::draw_bezier(image, bezier);
+    DrawUtil::draw_points(image, face, 6);
+    imwrite("adjust-asm.jpg", image);
     
     
     return 0;
