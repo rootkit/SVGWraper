@@ -32,7 +32,7 @@ int main(int argc, const char * argv[]) {
     string dir = "测试数据" + to_string(testDataIndex);
     string cmd = "mkdir " + dir;
     system(cmd.c_str());
-    for (targetDataIndex = 0; targetDataIndex < 36; targetDataIndex++) {
+    for (targetDataIndex = 5; targetDataIndex < 6; targetDataIndex++) {
         
         if (targetDataIndex == 29) {
             continue;

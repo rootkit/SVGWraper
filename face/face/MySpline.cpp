@@ -172,17 +172,3 @@ void MySpline::draw_face_contour(Mat &mat) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-

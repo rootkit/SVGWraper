@@ -58,20 +58,20 @@ void SVGWrap::normalize_face_data() {
     destPoints.push_back(Point(maxX+destDeltaX, minY-destDeltaY));
     
     // 若输入样本的宽高太小，要适当放缩
-//    double destScale = 0;
-//    if (destHeight < 200 || destWidth < 200) {
-//        if (destHeight < destWidth) {
-//            destScale = 300 / destHeight;
-//        } else {
-//            destScale = 300 / destWidth;
-//        }
-//        destWidth *= destScale;
-//        destHeight *= destScale;
-//        for (int i = 0; i < destPoints.size(); i++) {
-//            destPoints[i].x *= destScale;
-//            destPoints[i].y *= destScale;
-//        }
-//    }
+    double destScale = 0;
+    if (destHeight < 200 || destWidth < 200) {
+        if (destHeight < destWidth) {
+            destScale = 300 / destHeight;
+        } else {
+            destScale = 300 / destWidth;
+        }
+        destWidth *= destScale;
+        destHeight *= destScale;
+        for (int i = 0; i < destPoints.size(); i++) {
+            destPoints[i].x *= destScale;
+            destPoints[i].y *= destScale;
+        }
+    }
     
     // get the width and height of the test face
     maxY = srcPoints[6].y, minY = srcPoints[77].y;
@@ -104,7 +104,8 @@ void SVGWrap::normalize_face_data() {
     cout << "srcHeight: " << srcHeight << endl;
     
     // 在已经补充完边界点的人脸上做样条插值
-    interpolate_face();
+    // 暂时去掉人脸插值，加大三角剖分边界点的长宽
+    //interpolate_face();
     
     // scale the testDots to the same size of targetDots
     // either on width or on height
@@ -265,6 +266,9 @@ void SVGWrap::normalize_bezier() {
     for (int i = 0; i < bezier.size(); i++) {
         bezier[i].x += translate.x;
         bezier[i].y += translate.y;
+    }
+    
+    for (int i = 0; i < completedBezier.size(); i++) {
         completedBezier[i].x += translate.x;
         completedBezier[i].y += translate.y;
     }
@@ -319,6 +323,12 @@ Mat SVGWrap::draw_src_tri_on_svg() {
     for (int i = 0; i < bezier.size(); i++) {
         DrawUtil::draw_point(temp, bezier[i].x, bezier[i].y, 5);
     }
+    
+//    for (int i = 0; i < 16; i++) {
+//        DrawUtil::draw_point(temp, srcPoints[i].x, srcPoints[i].y, 20);
+//    }
+    
+    //DrawUtil::draw_point(temp, srcPoints[95].x, srcPoints[95].y, 20);
 
     for (auto t : morph.srcTris) {
         DrawUtil::draw_triangular(temp, t, Point(0,0));
@@ -332,6 +342,11 @@ Mat SVGWrap::draw_dest_tri_on_svg() {
     for (int i = 0; i < bezier.size(); i++) {
         DrawUtil::draw_point(temp, bezier[i].x, bezier[i].y, 5);
     }
+    
+//    for (int i = 0; i < 16; i++) {
+//        DrawUtil::draw_point(temp, destPoints[i].x, destPoints[i].y, 20);
+//    }
+        //DrawUtil::draw_point(temp, destPoints[95].x, destPoints[95].y, 20);
     
     for (auto t : morph.destTris) {
         DrawUtil::draw_triangular(temp, t, Point(0,0));
