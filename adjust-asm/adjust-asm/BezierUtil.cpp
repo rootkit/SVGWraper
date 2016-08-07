@@ -17,7 +17,8 @@ void BezierUtil::draw_cube_bezier(Mat &img, Point p0, Point p1, Point p2, Point 
     }
 }
 
-void BezierUtil::draw_cube_bezier(Mat &img, Point p0, Point p1, Point p2, Point p3, Scalar color) {
+void BezierUtil::draw_cube_bezier(Mat &img, Point p0, Point p1, Point p2,
+                                  Point p3, Scalar color) {
     int x, y;
     for (float t = 0; t <= 1; t += 0.001) {
         x = (int)((1-t)*(1-t)*(1-t)*p0.x + 3*t*(1-t)*(1-t)*p1.x + 3*t*t*(1-t)*p2.x + t*t*t*p3.x);

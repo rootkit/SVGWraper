@@ -19,17 +19,14 @@ vector<vector<Point> > FileUtil::read_all_asm_points(string file) {
         //getline(fin, temp);
         for (int j = 0; j < 77; j++) {
             fin >> x >> y;
-            //cout << "x: " << x << "  y: " << y << endl;
             points.push_back(Point((int)x, (int)y));
         }
         
         //预设头顶的坐标
-        int headPointY = (int) (points[14].y - (points[6].y - points[14].y) * 0.25);
-        int headPointX = points[14].x;
-        points.push_back(Point(headPointX, headPointY));
+//        int headPointY = (int) (points[14].y - (points[6].y - points[14].y) * 0.25);
+//        int headPointX = points[14].x;
+//        points.push_back(Point(headPointX, headPointY));
         
-        //char c;
-        //fin >> c;
         data.push_back(points);
         points.clear();
     }
@@ -45,7 +42,6 @@ vector<vector<Point> > FileUtil::read_svg_points(string file) {
     stringstream ss;
     while (fin >> index) {
         char c = fin.get();
-        //cout << c;
         getline(fin, tmp);
         vector<Point> svg;
         int x, y;
@@ -85,3 +81,16 @@ vector<Point> FileUtil::read_test_data(string file) {
     fin.close();
     return ret;
 }
+
+vector<Point> FileUtil::read_asm_point(string file) {
+    ifstream fin(file);
+    vector<Point> face;
+    int x, y;
+    for (int i = 0; i < 77; i++) {
+        fin >> x >> y;
+        face.push_back(Point(x, y));
+    }
+    fin.close();
+    return face;
+}
+

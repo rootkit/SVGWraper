@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		701B66971D55D3300052CA1C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 701B66961D55D3300052CA1C /* main.cpp */; };
 		701B66A51D55D9FC0052CA1C /* DataProc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 701B669F1D55D9FC0052CA1C /* DataProc.cpp */; };
 		701B66A71D55D9FC0052CA1C /* FiltUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 701B66A31D55D9FC0052CA1C /* FiltUtil.cpp */; };
 		701B66B21D55F0F80052CA1C /* BezierUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 701B66AE1D55F0F80052CA1C /* BezierUtil.cpp */; };
 		701B66B31D55F0F80052CA1C /* DrawUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 701B66B01D55F0F80052CA1C /* DrawUtil.cpp */; };
 		701B66B61D55F1FE0052CA1C /* MouseCapture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 701B66B41D55F1FE0052CA1C /* MouseCapture.cpp */; };
+		701B66B91D5640C20052CA1C /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 701B66B81D5640C20052CA1C /* test.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,6 +42,7 @@
 		701B66B41D55F1FE0052CA1C /* MouseCapture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MouseCapture.cpp; sourceTree = "<group>"; };
 		701B66B51D55F1FE0052CA1C /* MouseCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MouseCapture.h; sourceTree = "<group>"; };
 		701B66B71D55FE870052CA1C /* allFaceSvgPoint.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = allFaceSvgPoint.txt; sourceTree = "<group>"; };
+		701B66B81D5640C20052CA1C /* test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +88,7 @@
 				701B66961D55D3300052CA1C /* main.cpp */,
 				701B66B41D55F1FE0052CA1C /* MouseCapture.cpp */,
 				701B66B51D55F1FE0052CA1C /* MouseCapture.h */,
+				701B66B81D5640C20052CA1C /* test.cpp */,
 			);
 			path = "adjust-asm";
 			sourceTree = "<group>";
@@ -148,10 +150,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				701B66B31D55F0F80052CA1C /* DrawUtil.cpp in Sources */,
-				701B66971D55D3300052CA1C /* main.cpp in Sources */,
 				701B66A71D55D9FC0052CA1C /* FiltUtil.cpp in Sources */,
 				701B66B21D55F0F80052CA1C /* BezierUtil.cpp in Sources */,
 				701B66B61D55F1FE0052CA1C /* MouseCapture.cpp in Sources */,
+				701B66B91D5640C20052CA1C /* test.cpp in Sources */,
 				701B66A51D55D9FC0052CA1C /* DataProc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

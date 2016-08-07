@@ -10,14 +10,14 @@
 		704A1FE01D4AE07000E954FB /* MySpline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 704A1FDE1D4AE07000E954FB /* MySpline.cpp */; };
 		704A1FE21D4AEFF000E954FB /* spline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 704A1FE11D4AEFF000E954FB /* spline.cpp */; };
 		707B0AA91D466DAD00133573 /* AffineTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B092D1D466DAC00133573 /* AffineTransform.cpp */; };
-		707B0AAA1D466DAD00133573 /* BezierUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B092F1D466DAC00133573 /* BezierUtil.cpp */; };
-		707B0AAB1D466DAD00133573 /* DataProc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B09311D466DAC00133573 /* DataProc.cpp */; };
 		707B0AAC1D466DAD00133573 /* DrawUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B09331D466DAC00133573 /* DrawUtil.cpp */; };
 		707B0AAD1D466DAD00133573 /* FiltUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B0A9F1D466DAD00133573 /* FiltUtil.cpp */; };
 		707B0AAF1D466DAD00133573 /* SVGWrap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B0AA31D466DAD00133573 /* SVGWrap.cpp */; };
 		707B0AB21D466DAD00133573 /* Triangular.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B0AA71D466DAD00133573 /* Triangular.cpp */; };
 		70AF1E991D4F71C000AF6057 /* Morphing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B0AA11D466DAD00133573 /* Morphing.cpp */; };
-		70CB584E1D5434640010F42E /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B0AA61D466DAD00133573 /* test.cpp */; };
+		70C18DEA1D56C3850011B627 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B09261D466D0D00133573 /* main.cpp */; };
+		70C18DF01D56C5980011B627 /* BezierUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70C18DEE1D56C5980011B627 /* BezierUtil.cpp */; };
+		70C18DF31D56C5E80011B627 /* DataProc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70C18DF11D56C5E80011B627 /* DataProc.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,10 +42,6 @@
 		707B09261D466D0D00133573 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		707B092D1D466DAC00133573 /* AffineTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AffineTransform.cpp; sourceTree = "<group>"; };
 		707B092E1D466DAC00133573 /* AffineTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AffineTransform.h; sourceTree = "<group>"; };
-		707B092F1D466DAC00133573 /* BezierUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BezierUtil.cpp; sourceTree = "<group>"; };
-		707B09301D466DAC00133573 /* BezierUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BezierUtil.h; sourceTree = "<group>"; };
-		707B09311D466DAC00133573 /* DataProc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataProc.cpp; sourceTree = "<group>"; };
-		707B09321D466DAC00133573 /* DataProc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataProc.h; sourceTree = "<group>"; };
 		707B09331D466DAC00133573 /* DrawUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawUtil.cpp; sourceTree = "<group>"; };
 		707B09341D466DAC00133573 /* DrawUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawUtil.h; sourceTree = "<group>"; };
 		707B09361D466DAC00133573 /* Array */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Array; sourceTree = "<group>"; };
@@ -378,10 +374,16 @@
 		707B0AA21D466DAD00133573 /* Morphing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Morphing.h; sourceTree = "<group>"; };
 		707B0AA31D466DAD00133573 /* SVGWrap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SVGWrap.cpp; sourceTree = "<group>"; };
 		707B0AA41D466DAD00133573 /* SVGWrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGWrap.h; sourceTree = "<group>"; };
-		707B0AA51D466DAD00133573 /* test_affine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test_affine.cpp; sourceTree = "<group>"; };
 		707B0AA61D466DAD00133573 /* test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test.cpp; sourceTree = "<group>"; };
 		707B0AA71D466DAD00133573 /* Triangular.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Triangular.cpp; sourceTree = "<group>"; };
 		707B0AA81D466DAD00133573 /* Triangular.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Triangular.h; sourceTree = "<group>"; };
+		70C18DEB1D56C3B40011B627 /* data.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = data.txt; sourceTree = "<group>"; };
+		70C18DEC1D56C4180011B627 /* dataBase(old).txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "dataBase(old).txt"; sourceTree = "<group>"; };
+		70C18DED1D56C4C50011B627 /* allFaceSvgPoint.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = allFaceSvgPoint.txt; sourceTree = "<group>"; };
+		70C18DEE1D56C5980011B627 /* BezierUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BezierUtil.cpp; sourceTree = "<group>"; };
+		70C18DEF1D56C5980011B627 /* BezierUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BezierUtil.h; sourceTree = "<group>"; };
+		70C18DF11D56C5E80011B627 /* DataProc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataProc.cpp; sourceTree = "<group>"; };
+		70C18DF21D56C5E80011B627 /* DataProc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataProc.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -414,14 +416,17 @@
 		707B09251D466D0D00133573 /* face */ = {
 			isa = PBXGroup;
 			children = (
+				70C18DF11D56C5E80011B627 /* DataProc.cpp */,
+				70C18DF21D56C5E80011B627 /* DataProc.h */,
+				70C18DEE1D56C5980011B627 /* BezierUtil.cpp */,
+				70C18DEF1D56C5980011B627 /* BezierUtil.h */,
+				70C18DED1D56C4C50011B627 /* allFaceSvgPoint.txt */,
+				70C18DEC1D56C4180011B627 /* dataBase(old).txt */,
+				70C18DEB1D56C3B40011B627 /* data.txt */,
 				704A1FE31D4B321E00E954FB /* dataBase.txt */,
 				704A1FDD1D4ADFDC00E954FB /* spline.h */,
 				707B092D1D466DAC00133573 /* AffineTransform.cpp */,
 				707B092E1D466DAC00133573 /* AffineTransform.h */,
-				707B092F1D466DAC00133573 /* BezierUtil.cpp */,
-				707B09301D466DAC00133573 /* BezierUtil.h */,
-				707B09311D466DAC00133573 /* DataProc.cpp */,
-				707B09321D466DAC00133573 /* DataProc.h */,
 				707B09331D466DAC00133573 /* DrawUtil.cpp */,
 				707B09341D466DAC00133573 /* DrawUtil.h */,
 				707B09351D466DAC00133573 /* Eigen */,
@@ -431,7 +436,6 @@
 				707B0AA21D466DAD00133573 /* Morphing.h */,
 				707B0AA31D466DAD00133573 /* SVGWrap.cpp */,
 				707B0AA41D466DAD00133573 /* SVGWrap.h */,
-				707B0AA51D466DAD00133573 /* test_affine.cpp */,
 				707B0AA61D466DAD00133573 /* test.cpp */,
 				707B0AA71D466DAD00133573 /* Triangular.cpp */,
 				707B0AA81D466DAD00133573 /* Triangular.h */,
@@ -1126,16 +1130,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70CB584E1D5434640010F42E /* test.cpp in Sources */,
+				70C18DEA1D56C3850011B627 /* main.cpp in Sources */,
 				70AF1E991D4F71C000AF6057 /* Morphing.cpp in Sources */,
 				704A1FE01D4AE07000E954FB /* MySpline.cpp in Sources */,
 				704A1FE21D4AEFF000E954FB /* spline.cpp in Sources */,
+				70C18DF31D56C5E80011B627 /* DataProc.cpp in Sources */,
 				707B0AAC1D466DAD00133573 /* DrawUtil.cpp in Sources */,
-				707B0AAA1D466DAD00133573 /* BezierUtil.cpp in Sources */,
 				707B0AA91D466DAD00133573 /* AffineTransform.cpp in Sources */,
 				707B0AAD1D466DAD00133573 /* FiltUtil.cpp in Sources */,
 				707B0AAF1D466DAD00133573 /* SVGWrap.cpp in Sources */,
-				707B0AAB1D466DAD00133573 /* DataProc.cpp in Sources */,
+				70C18DF01D56C5980011B627 /* BezierUtil.cpp in Sources */,
 				707B0AB21D466DAD00133573 /* Triangular.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

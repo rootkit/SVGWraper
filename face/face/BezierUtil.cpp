@@ -8,25 +8,6 @@
 
 #include "BezierUtil.h"
 
-
-void BezierUtil::draw_quad_bezier(Mat &img, Point p0, Point p1, Point p2) {
-    int x, y;
-    for (float t = 0; t <= 1; t += 0.001) {
-        x = (int)((1-t)*(1-t)*p0.x + 2*t*(1-t)*p1.x + t*t*p2.x);
-        y = (int)((1-t)*(1-t)*p0.y + 2*t*(1-t)*p1.y + t*t*p2.y);
-        DrawUtil::draw_point(img, x, y, 1);
-    }
-}
-
-void BezierUtil::draw_quad_bezier(Mat &img, Point p0, Point p1, Point p2, Scalar color) {
-    int x, y;
-    for (float t = 0; t <= 1; t += 0.001) {
-        x = (int)((1-t)*(1-t)*p0.x + 2*t*(1-t)*p1.x + t*t*p2.x);
-        y = (int)((1-t)*(1-t)*p0.y + 2*t*(1-t)*p1.y + t*t*p2.y);
-        DrawUtil::draw_point(img, x, y, 1, color);
-    }
-}
-
 void BezierUtil::draw_cube_bezier(Mat &img, Point p0, Point p1, Point p2, Point p3) {
     int x, y;
     for (float t = 0; t <= 1; t += 0.001) {
@@ -36,7 +17,8 @@ void BezierUtil::draw_cube_bezier(Mat &img, Point p0, Point p1, Point p2, Point 
     }
 }
 
-void BezierUtil::draw_cube_bezier(Mat &img, Point p0, Point p1, Point p2, Point p3, Scalar color) {
+void BezierUtil::draw_cube_bezier(Mat &img, Point p0, Point p1, Point p2,
+                                  Point p3, Scalar color) {
     int x, y;
     for (float t = 0; t <= 1; t += 0.001) {
         x = (int)((1-t)*(1-t)*(1-t)*p0.x + 3*t*(1-t)*(1-t)*p1.x + 3*t*t*(1-t)*p2.x + t*t*t*p3.x);
@@ -86,7 +68,7 @@ vector<Point> BezierUtil::regain_new_points(vector<Point>& points) {
 }
 
 // 根据贝塞尔曲线控制点得到贝塞尔曲线上的三等分点，主要用于之后曲线形变以及重推控制点
-vector<Point> BezierUtil::get_bezier(vector<Point> &svg) {
+vector<Point> BezierUtil::get_bezier_1(vector<Point> &svg) {
     assert((svg.size()-1)%3==0);
     
     vector<Point> bezier;
@@ -118,19 +100,17 @@ vector<Point> BezierUtil::get_bezier(vector<Point> &svg) {
     return bezier;
 }
 
-/** 根据贝塞尔曲线控制点得到贝塞尔曲线上的三等分点以及完整的贝塞尔曲线点
- * bezier1: 三等分点构成的贝塞尔曲线，用于形变后还原控制点
- * bezier2: 完整的贝塞尔曲线，主要用于测量贝塞尔曲线的边界点
- */
-void BezierUtil::get_bezier(vector<Point> &svg, vector<Point> &bezier1, vector<Point> &bezier2) {
-    bezier1 = get_bezier(svg);
+    // 根据贝塞尔曲线控制点得到贝塞尔曲线上的点，主要用于确定贝塞尔曲线的范围大小，点越密越精确
+vector<Point> BezierUtil::get_bezier_2(vector<Point> &svg) {
+    assert((svg.size()-1)%3==0);
     
+    vector<Point> bezier;
     int x, y;
     Point p1, p2, p3, p4;  // 贝塞尔曲线端点和控制点
     for (int i = 0; i < svg.size()-1; i+=3) {
         if (i == 0) {
             p1 = svg[0];
-            bezier2.push_back(p1);
+            bezier.push_back(p1);
         } else {
             p1 = p4;
         }
@@ -140,20 +120,23 @@ void BezierUtil::get_bezier(vector<Point> &svg, vector<Point> &bezier1, vector<P
         for (float t = 0.1; t <= 1; t += 0.1) {
             x = (int)((1-t)*(1-t)*(1-t)*p1.x + 3*t*(1-t)*(1-t)*p2.x + 3*t*t*(1-t)*p3.x + t*t*t*p4.x);
             y = (int)((1-t)*(1-t)*(1-t)*p1.y + 3*t*(1-t)*(1-t)*p2.y + 3*t*t*(1-t)*p3.y + t*t*t*p4.y);
-            bezier2.push_back(Point(x, y));
+            bezier.push_back(Point(x, y));
         }
     }
-    
+    return bezier;
+}
+
+/** 根据贝塞尔曲线控制点得到贝塞尔曲线上的三等分点以及完整的贝塞尔曲线点
+ * bezier1: 三等分点构成的贝塞尔曲线，用于形变后还原控制点
+ * bezier2: 完整的贝塞尔曲线，主要用于测量贝塞尔曲线的边界点
+ */
+void BezierUtil::get_bezier(vector<Point> &svg, vector<Point> &bezier1, vector<Point> &bezier2) {
+    bezier1 = get_bezier_1(svg);
+    bezier2 = get_bezier_2(svg);
 }
 
 void BezierUtil::draw_bezier(Mat &img, vector<Point> &ctrl) {
-//    if ((ctrl.size()-1) % 2 == 0) {
-//        for (int i = 0; i < ctrl.size()-1; i+=2) {
-//            draw_quad_bezier(img, ctrl[i], ctrl[i+1], ctrl[i+2]);
-//        }
-//    } else
-    
-        if ((ctrl.size() - 1) % 3 == 0) {
+    if ((ctrl.size() - 1) % 3 == 0) {
         for (int i = 0; i < ctrl.size()-1; i+=3) {
             draw_cube_bezier(img, ctrl[i], ctrl[i+1], ctrl[i+2], ctrl[i+3]);
         }
@@ -163,11 +146,7 @@ void BezierUtil::draw_bezier(Mat &img, vector<Point> &ctrl) {
 }
 
 void BezierUtil::draw_bezier(Mat &img, vector<Point> &ctrl, Scalar color) {
-    if ((ctrl.size()-1) % 2 == 0) {
-        for (int i = 0; i < ctrl.size()-1; i+=2) {
-            draw_quad_bezier(img, ctrl[i], ctrl[i+1], ctrl[i+2], color);
-        }
-    } else if ((ctrl.size() - 1) % 3 == 0) {
+    if ((ctrl.size() - 1) % 3 == 0) {
         for (int i = 0; i < ctrl.size()-1; i+=3) {
             draw_cube_bezier(img, ctrl[i], ctrl[i+1], ctrl[i+2], ctrl[i+3], color);
         }
@@ -175,3 +154,32 @@ void BezierUtil::draw_bezier(Mat &img, vector<Point> &ctrl, Scalar color) {
         assert(false && "support only quadratic and cube bezier");
     }
 }
+
+
+
+void BezierUtil::get_bezier_border(vector<Point> &bezier, int &left, int &right,
+                                   int &top, int &bottom) {
+    int minX = 10000, minY = 10000, maxX = -10000, maxY = -10000;
+    for (int i = 0; i < bezier.size(); i++) {
+        if (minX > bezier[i].x) {
+            minX = bezier[i].x;
+            left = i;
+        }
+        if (minY > bezier[i].y) {
+            minY = bezier[i].y;
+            top = i;
+        }
+        if (maxX < bezier[i].x) {
+            maxX = bezier[i].x;
+            right = i;
+        }
+        if (maxY < bezier[i].y) {
+            maxY = bezier[i].y;
+            bottom = i;
+        }
+    }
+}
+
+
+
+

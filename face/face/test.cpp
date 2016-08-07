@@ -41,21 +41,11 @@ int main(int argc, const char * argv[]) {
         cout << "=============" << targetDataIndex << "=============" << endl;
         
         vector<Point> targetPoints = dataPoints[targetDataIndex];
-        //vector<Point> targetPoints = FileUtil::read_test_data("inputdata3.txt");
         vector<Point> testPoints = dataPoints[testDataIndex];
         vector<Point> testSvg = dataSVGs[testDataIndex];
     
         
         SVGWrap svgWrap(testPoints, targetPoints, testSvg);
-        //    Mat temp = svgWrap.draw_src_triangular(testMat);
-        //    namedWindow("bezier");
-        //    imshow("bezier", temp);
-        //    imwrite("srcTri.jpg", temp);
-        //    waitKey();
-        //    temp = svgWrap.draw_dest_triangular(targetMat);
-        //    imshow("bezier", temp);
-        //    imwrite("destTri.jpg", temp);
-        //    waitKey();
         
         // 形变后的svg控制点
         vector<Point> ctrl = svgWrap.regain_svg_ctrl_points();
@@ -69,7 +59,6 @@ int main(int argc, const char * argv[]) {
         }
         namedWindow("bezier");
         imwrite((dir + "/" + "bezier" + to_string(testDataIndex) + "To"+to_string(targetDataIndex)+".jpg").c_str(), m);
-        //imwrite(("bezier" + to_string(testDataIndex) + "To"+to_string(targetDataIndex)+".jpg").c_str(), m);
         
         // 绘制原测试数据的贝塞尔曲线
         m = Scalar(0, 0, 0);
@@ -79,6 +68,5 @@ int main(int argc, const char * argv[]) {
         }
         namedWindow("bezier");
         imwrite((dir + "/" +"bezier"+to_string(testDataIndex)+".jpg").c_str(), m);
-        //imwrite(("bezier"+to_string(testDataIndex)+".jpg").c_str(), m);
     }
 }

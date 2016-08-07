@@ -25,6 +25,8 @@ public:
     static vector<vector<Point> > read_svg_points(string file);
     
     static vector<Point> read_test_data(string file);
+    
+    static vector<Point> read_asm_point(string file);
 };
 
 #endif /* defined(__face1__FiltUtil__) */

@@ -9,7 +9,7 @@
 #include "DataProc.h"
 
 
-void DataProc::normalize_face_data(vector<Point> &testPoints, vector<Point> &targetPoints) {
+void DataProc::normalizeFaceData(vector<Point> &testPoints, vector<Point> &targetPoints) {
 
     // get the width and height of the target face
     int maxX = -100000, minX = 100000,
@@ -75,3 +75,134 @@ void DataProc::normalize_face_data(vector<Point> &testPoints, vector<Point> &tar
     }
     
 }
+
+void DataProc::alignAsmToSvg(vector<Point> &face, const vector<Point> &bezier,
+                             double &scale, Point &translate) {
+    assert(face.size() == 77);
+    int maxX = -100000, minX = 100000, maxY = face[6].y, minY = face[14].y;
+    for (int i = 0; i < 13; i++) {
+        if (minX > face[i].x) {
+            minX = face[i].x;
+        }
+        if (maxX < face[i].x) {
+            maxX = face[i].x;
+        }
+    }
+    double faceWidth = maxX - minX, faceHeight = maxY - minY;
+    
+    minX = 10000, minY = 10000, maxX = -10000, maxY = -10000;
+    // 贝塞尔曲线最低点，对齐用
+    int bottom = 0;
+    for (int i = 0; i < bezier.size(); i++) {
+        if (minX > bezier[i].x) {
+            minX = bezier[i].x;
+        }
+        if (minY > bezier[i].y) {
+            minY = bezier[i].y;
+        }
+        if (maxX < bezier[i].x) {
+            maxX = bezier[i].x;
+        }
+        if (maxY < bezier[i].y) {
+            maxY = bezier[i].y;
+            bottom = i;
+        }
+    }
+    double svgWidth = maxX - minX, svgHeight = maxY - minY;
+    
+    double scaleW = svgWidth / faceWidth, scaleH = svgHeight / faceHeight;
+    cout << "scaleW: " << scaleW << "   scaleH: " << scaleH << endl;
+    //scale = scaleH > scaleW ? scaleH : scaleW;
+    scale = scaleW;
+    
+    for (int i = 0; i < face.size(); i++) {
+        face[i].x *= scale;
+        face[i].y *= scale;
+    }
+    
+    translate = bezier[bottom] - face[6];
+    
+    for (int i = 0; i < face.size(); i++) {
+        face[i].x += translate.x;
+        face[i].y += translate.y;
+    }
+    
+}
+
+
+
+void DataProc::alignSvgToAsm(const vector<Point> &face, vector<Point> &bezier,
+                             double &scale, Point &translate) {
+    assert(face.size() == 77);
+    int maxX = -100000, minX = 100000, maxY = face[6].y, minY = face[14].y;
+    for (int i = 0; i < 13; i++) {
+        if (minX > face[i].x) {
+            minX = face[i].x;
+        }
+        if (maxX < face[i].x) {
+            maxX = face[i].x;
+        }
+    }
+    double faceWidth = maxX - minX, faceHeight = maxY - minY;
+    
+    minX = 10000, minY = 10000, maxX = -10000, maxY = -10000;
+    // 贝塞尔曲线最低点，对齐用
+    int bottom = 0;
+    for (int i = 0; i < bezier.size(); i++) {
+        if (minX > bezier[i].x) {
+            minX = bezier[i].x;
+        }
+        if (minY > bezier[i].y) {
+            minY = bezier[i].y;
+        }
+        if (maxX < bezier[i].x) {
+            maxX = bezier[i].x;
+        }
+        if (maxY < bezier[i].y) {
+            maxY = bezier[i].y;
+            bottom = i;
+        }
+    }
+    double bezierWidth = maxX - minX, bezierHeight = maxY - minY;
+    
+    double scaleW = faceWidth / bezierWidth, scaleH = faceHeight / bezierHeight;
+    cout << "scaleW: " << scaleW << "   scaleH: " << scaleH << endl;
+    //scale = scaleH > scaleW ? scaleH : scaleW;
+    scale = scaleW;
+    
+    for (int i = 0; i < bezier.size(); i++) {
+        bezier[i].x *= scale;
+        bezier[i].y *= scale;
+    }
+    
+    translate = face[6] - bezier[bottom];
+    
+    for (int i = 0; i < bezier.size(); i++) {
+        bezier[i].x += translate.x;
+        bezier[i].y += translate.y;
+    }
+}
+
+void DataProc::recoverSvg(vector<Point> &bezier, double &scale, Point &translate) {
+    for (int i = 0; i < bezier.size(); i++) {
+        bezier[i].x -= translate.x;
+        bezier[i].y -= translate.y;
+    }
+    for (int i = 0; i < bezier.size(); i++) {
+        bezier[i].x /= scale;
+        bezier[i].y /= scale;
+    }
+}
+
+
+void DataProc::alignPoints(vector<Point> &points, Point translate) {
+    for (int i = 0; i < points.size(); i++) {
+        points[i].x += translate.x;
+        points[i].y += translate.y;
+    }
+}
+
+
+
+
+

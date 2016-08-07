@@ -14,6 +14,7 @@
 #include "DrawUtil.h"
 #include "BezierUtil.h"
 #include "MySpline.h"
+#include "DataProc.h"
 
 #include <opencv2/opencv.hpp>
 using namespace cv;
@@ -45,6 +46,8 @@ public:
 private:
     void interpolate_face();
     void normalize_face_data();
+    void normalize_dest_face();
+    void normalize_src_face();
     void normalize_bezier();
 public:
     SVGWrap(vector<Point> &src, vector<Point> &dest, vector<Point> &svg);

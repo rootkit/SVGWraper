@@ -61,3 +61,14 @@ vector<vector<Point> > FileUtil::read_svg_points(string file) {
     fin.close();
     return svgs;
 }
+
+vector<Point> FileUtil::read_asm_points(string file) {
+    vector<Point> face;
+    ifstream fin(file);
+    int x, y;
+    for (int i = 0; i < 77; i++) {
+        fin >> x >> y;
+        face.push_back(Point(x, y));
+    }
+    return face;
+}
