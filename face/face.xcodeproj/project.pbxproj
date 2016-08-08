@@ -15,9 +15,11 @@
 		707B0AAF1D466DAD00133573 /* SVGWrap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B0AA31D466DAD00133573 /* SVGWrap.cpp */; };
 		707B0AB21D466DAD00133573 /* Triangular.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B0AA71D466DAD00133573 /* Triangular.cpp */; };
 		70AF1E991D4F71C000AF6057 /* Morphing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B0AA11D466DAD00133573 /* Morphing.cpp */; };
-		70C18DEA1D56C3850011B627 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B09261D466D0D00133573 /* main.cpp */; };
 		70C18DF01D56C5980011B627 /* BezierUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70C18DEE1D56C5980011B627 /* BezierUtil.cpp */; };
 		70C18DF31D56C5E80011B627 /* DataProc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70C18DF11D56C5E80011B627 /* DataProc.cpp */; };
+		70C18DF61D577B320011B627 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B09261D466D0D00133573 /* main.cpp */; };
+		70C18DF91D577B450011B627 /* Delaunay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70C18DF71D577B450011B627 /* Delaunay.cpp */; };
+		70C18DFC1D5797830011B627 /* DelTriangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70C18DFA1D5797830011B627 /* DelTriangle.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -384,6 +386,11 @@
 		70C18DEF1D56C5980011B627 /* BezierUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BezierUtil.h; sourceTree = "<group>"; };
 		70C18DF11D56C5E80011B627 /* DataProc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataProc.cpp; sourceTree = "<group>"; };
 		70C18DF21D56C5E80011B627 /* DataProc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataProc.h; sourceTree = "<group>"; };
+		70C18DF41D576ECC0011B627 /* testTriangleCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = testTriangleCenter.cpp; sourceTree = "<group>"; };
+		70C18DF71D577B450011B627 /* Delaunay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Delaunay.cpp; sourceTree = "<group>"; };
+		70C18DF81D577B450011B627 /* Delaunay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Delaunay.h; sourceTree = "<group>"; };
+		70C18DFA1D5797830011B627 /* DelTriangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DelTriangle.cpp; sourceTree = "<group>"; };
+		70C18DFB1D5797830011B627 /* DelTriangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelTriangle.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -443,6 +450,11 @@
 				704A1FDE1D4AE07000E954FB /* MySpline.cpp */,
 				704A1FDF1D4AE07000E954FB /* MySpline.h */,
 				704A1FE11D4AEFF000E954FB /* spline.cpp */,
+				70C18DF41D576ECC0011B627 /* testTriangleCenter.cpp */,
+				70C18DF71D577B450011B627 /* Delaunay.cpp */,
+				70C18DF81D577B450011B627 /* Delaunay.h */,
+				70C18DFA1D5797830011B627 /* DelTriangle.cpp */,
+				70C18DFB1D5797830011B627 /* DelTriangle.h */,
 			);
 			path = face;
 			sourceTree = "<group>";
@@ -1130,7 +1142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70C18DEA1D56C3850011B627 /* main.cpp in Sources */,
+				70C18DF61D577B320011B627 /* main.cpp in Sources */,
 				70AF1E991D4F71C000AF6057 /* Morphing.cpp in Sources */,
 				704A1FE01D4AE07000E954FB /* MySpline.cpp in Sources */,
 				704A1FE21D4AEFF000E954FB /* spline.cpp in Sources */,
@@ -1138,7 +1150,9 @@
 				707B0AAC1D466DAD00133573 /* DrawUtil.cpp in Sources */,
 				707B0AA91D466DAD00133573 /* AffineTransform.cpp in Sources */,
 				707B0AAD1D466DAD00133573 /* FiltUtil.cpp in Sources */,
+				70C18DF91D577B450011B627 /* Delaunay.cpp in Sources */,
 				707B0AAF1D466DAD00133573 /* SVGWrap.cpp in Sources */,
+				70C18DFC1D5797830011B627 /* DelTriangle.cpp in Sources */,
 				70C18DF01D56C5980011B627 /* BezierUtil.cpp in Sources */,
 				707B0AB21D466DAD00133573 /* Triangular.cpp in Sources */,
 			);

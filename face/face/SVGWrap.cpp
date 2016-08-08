@@ -149,12 +149,6 @@ void SVGWrap::normalize_src_face() {
 }
 
 void SVGWrap::interpolate_face() {
-//    vector<double> x, y;
-//    for (int i = 0; i < 16; i++) {
-//        x.push_back(srcPoints[i].x);
-//        y.push_back(srcPoints[i].y);
-//    }
-//    this->srcSpline.init(x, y);
     // 插值脸部轮廓16个点
     double *x = new double[16];
     double *y = new double[16];
@@ -277,7 +271,7 @@ void SVGWrap::wrap_bezier() {
     Mat temp = draw_src_tri_on_svg();
     imwrite("bezierBeforeMorph.jpg", temp);
     
-    //morph.morph_bezier(bezier);
+    morph.morph_bezier(bezier);
     
     temp = draw_dest_tri_on_svg();
     imwrite("bezierAfterMorph.jpg", temp);
