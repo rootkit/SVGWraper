@@ -10,7 +10,7 @@
 #include "DrawUtil.h"
 
 const int Morphing::TRI_NUM = 2;
-const int Morphing::POINT_NUM = 81;
+const int Morphing::POINT_NUM = 82;
 
 
 int Morphing::POINT_INDEX[TRI_NUM][3] = {

@@ -23,9 +23,9 @@ vector<vector<Point> > FileUtil::read_all_asm_points(string file) {
         }
         
         //预设头顶的坐标
-//        int headPointY = (int) (points[14].y - (points[6].y - points[14].y) * 0.25);
-//        int headPointX = points[14].x;
-//        points.push_back(Point(headPointX, headPointY));
+        int headPointY = (int) (points[14].y - (points[6].y - points[14].y) * 0.25);
+        int headPointX = points[14].x;
+        points.push_back(Point(headPointX, headPointY));
         
         data.push_back(points);
         points.clear();
@@ -90,6 +90,12 @@ vector<Point> FileUtil::read_asm_point(string file) {
         fin >> x >> y;
         face.push_back(Point(x, y));
     }
+    
+    //预设头顶的坐标
+    int headPointY = (int) (face[14].y - (face[6].y - face[14].y) * 0.25);
+    int headPointX = face[14].x;
+    face.push_back(Point(headPointX, headPointY));
+    
     fin.close();
     return face;
 }

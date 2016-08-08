@@ -41,7 +41,7 @@ points(points), pointIndexs(pointIndexs) {
             top = i;
         }
     }
-    int width = maxX - minX, height = maxY - minY;
+    int width = (maxX - minX)*10, height = (maxY - minY)*10;
     vertexs.push_back(Point(points[left].x-width, points[top].y-height));
     vertexs.push_back(Point(points[left].x-width, points[bottom].y+height));
     vertexs.push_back(Point(points[right].x+width, points[top].y-height));

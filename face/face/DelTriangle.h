@@ -30,17 +30,30 @@ public:
             this->startIndex = startIndex;
             this->endIndex = endIndex;
         } else {
-            start = e;
-            end = s;
+            this->start = e;
+            this->end = s;
             this->startIndex = endIndex;
             this->endIndex = startIndex;
         }
     }
+    bool cmp(const Point &a, const Point &b) const {
+        if (a.x < b.x) {
+            return true;
+        } else if (a.x == b.x) {
+            if (a.y < b.y) {
+                return true;
+            }
+        }
+        return false;
+    }
+    bool operator<(const Edge &e2) const {
+        if (start == e2.start) {
+            return cmp(end, e2.end);
+        } else {
+            return cmp(start, e2.start);
+        }
+    }
 };
-
-bool cmp(Point &a, Point &b);
-
-bool operator<(Edge &e1, Edge &e2);
 
 class DelTriangle{
 public:

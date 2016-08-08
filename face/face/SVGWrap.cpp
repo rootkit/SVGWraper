@@ -27,7 +27,7 @@ SVGWrap::SVGWrap(vector<Point> &src, vector<Point> &dest, vector<Point> &svg)
 }
 
 void SVGWrap::normalize_face_data() {
-    assert(srcPoints.size() == 77 && destPoints.size() == 77);
+    assert(srcPoints.size() == 78 && destPoints.size() == 78);
     
     normalize_dest_face();
     normalize_src_face();
@@ -35,11 +35,10 @@ void SVGWrap::normalize_face_data() {
 }
 
 void SVGWrap::normalize_dest_face() {
-    assert(destPoints.size() == 77);
     
     // get the width and height of the target face
     int maxX = -100000, minX = 100000,
-    maxY = destPoints[6].y, minY = destPoints[14].y;
+    maxY = destPoints[6].y, minY = destPoints[77].y;
     for (int i = 0; i < 13; i++) {
         if (minX > destPoints[i].x) {
             minX = destPoints[i].x;
@@ -60,9 +59,9 @@ void SVGWrap::normalize_dest_face() {
     destPoints.push_back(Point(maxX+destDeltaX, maxY+destDeltaY));
     destPoints.push_back(Point(maxX+destDeltaX, minY-destDeltaY));
     
-    if (destPoints[77].x < 0 || destPoints[77].y < 0) {
+    if (destPoints[78].x < 0 || destPoints[78].y < 0) {
         Point translate;
-        translate.x = destPoints[77].x < destPoints[77].y ? abs(destPoints[77].x)+100 : abs(destPoints[77].y)+100;
+        translate.x = destPoints[78].x < destPoints[78].y ? abs(destPoints[78].x)+100 : abs(destPoints[78].y)+100;
         translate.y = translate.x;
         DataProc::alignPoints(destPoints, translate);
     }
@@ -85,10 +84,9 @@ void SVGWrap::normalize_dest_face() {
 }
 
 void SVGWrap::normalize_src_face() {
-    assert(srcPoints.size() == 77);
     
     // get the width and height of the test face
-    int maxY = srcPoints[6].y, minY = srcPoints[14].y, maxX = -100000, minX = 100000;
+    int maxY = srcPoints[6].y, minY = srcPoints[77].y, maxX = -100000, minX = 100000;
     for (int i = 0; i < 13; i++) {
         if (minX > srcPoints[i].x) {
             minX = srcPoints[i].x;
@@ -110,9 +108,9 @@ void SVGWrap::normalize_src_face() {
     srcPoints.push_back(Point(maxX+srcDeltaX, maxY+srcDeltaY));
     srcPoints.push_back(Point(maxX+srcDeltaX, minY-srcDeltaY));
     
-    if (srcPoints[77].x < 0 || srcPoints[77].y < 0) {
+    if (srcPoints[78].x < 0 || srcPoints[78].y < 0) {
         Point translate;
-        translate.x = srcPoints[77].x < srcPoints[77].y ? abs(srcPoints[77].x)+100 : abs(srcPoints[77].y)+100;
+        translate.x = srcPoints[78].x < srcPoints[78].y ? abs(srcPoints[78].x)+100 : abs(srcPoints[78].y)+100;
         translate.y = translate.x;
         DataProc::alignPoints(srcPoints, translate);
     }
@@ -139,10 +137,10 @@ void SVGWrap::normalize_src_face() {
     }
     
     // align the center of testDots to center of targetDots
-    Point destCenter((destPoints[77].x+destPoints[80].x)/2,
-                     (destPoints[77].y+destPoints[78].y)/2);
-    Point srcCenter((srcPoints[77].x+srcPoints[80].x)/2,
-                    (srcPoints[77].y+srcPoints[78].y)/2);
+    Point destCenter((destPoints[78].x+destPoints[81].x)/2,
+                     (destPoints[78].y+destPoints[79].y)/2);
+    Point srcCenter((srcPoints[78].x+srcPoints[81].x)/2,
+                    (srcPoints[78].y+srcPoints[79].y)/2);
     Point translateV(destCenter.x-srcCenter.x, destCenter.y-srcCenter.y);
     
     DataProc::alignPoints(srcPoints, translateV);
@@ -222,8 +220,8 @@ void SVGWrap::normalize_bezier() {
     double bezierHeight = maxY - minY;
     double bezierWidth = maxX - minX;
 
-    // 直接取宽度缩放比
-    scaleSVG = srcWidth / bezierWidth;
+    // 直接取高度缩放比
+    scaleSVG = srcHeight / bezierHeight;
     cout << "svg scaleSVG: " << scaleSVG << endl;
     for (int i = 0; i < bezier.size(); i++) {
         bezier[i].x *= scaleSVG;
@@ -296,7 +294,7 @@ Mat SVGWrap::scale_mat_to_dots(Mat mat, double width, double height) {
 
 
 Mat SVGWrap::draw_src_tri_on_svg() {
-    Mat temp(srcPoints[79].y+100, srcPoints[79].x+100, CV_8UC1, Scalar::all(0));
+    Mat temp(srcPoints[80].y+100, srcPoints[80].x+100, CV_8UC1, Scalar::all(0));
     for (int i = 0; i < bezier.size(); i++) {
         DrawUtil::draw_point(temp, bezier[i].x, bezier[i].y, 5);
     }
@@ -309,7 +307,7 @@ Mat SVGWrap::draw_src_tri_on_svg() {
 
 
 Mat SVGWrap::draw_dest_tri_on_svg() {
-    Mat temp(destPoints[79].y+100, destPoints[79].x+100, CV_8UC1, Scalar::all(0));
+    Mat temp(destPoints[80].y+100, destPoints[80].x+100, CV_8UC1, Scalar::all(0));
     for (int i = 0; i < bezier.size(); i++) {
         DrawUtil::draw_point(temp, bezier[i].x, bezier[i].y, 5);
     }

@@ -8,25 +8,6 @@
 
 #include "DelTriangle.h"
 #include <cmath>
-    
-bool cmp(Point &a, Point &b) {
-    if (a.x < b.x) {
-        return true;
-    } else if (a.x == b.x) {
-        if (a.y < b.y) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool operator<(Edge &e1, Edge &e2)  {
-    if (e1.start == e2.start) {
-        return cmp(e1.end, e2.end);
-    } else {
-        return cmp(e1.start, e2.start);
-    }
-}
 
 
 DelTriangle::DelTriangle(vector<Point> &points, vector<int> &indexs) {
