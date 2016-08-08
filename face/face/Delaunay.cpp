@@ -21,6 +21,7 @@ points(points), pointIndexs(pointIndexs), vertexs(vertexs) {
 
 Delaunay::Delaunay(vector<Point> points, vector<int> pointIndexs):
 points(points), pointIndexs(pointIndexs) {
+    
     int maxX = -100000, maxY = -100000, minX = 100000, minY = 100000;
     int left = 0, right = 0, top = 0, bottom = 0;
     for (int i = 0; i < points.size(); i++) {
@@ -41,12 +42,14 @@ points(points), pointIndexs(pointIndexs) {
             top = i;
         }
     }
-    int width = (maxX - minX)*10, height = (maxY - minY)*10;
+    // 超级三角形的宽高
+    int width = (maxX - minX)*100, height = (maxY - minY)*10;
     vertexs.push_back(Point(points[left].x-width, points[top].y-height));
     vertexs.push_back(Point(points[left].x-width, points[bottom].y+height));
     vertexs.push_back(Point(points[right].x+width, points[top].y-height));
     vector<int> tmpIndexs(3, -1);
     tempTris.push_back(DelTriangle(vertexs, tmpIndexs));
+    
 }
 
 bool Delaunay::isLarger(Point &a, Point &b) {
@@ -95,13 +98,8 @@ void Delaunay::insertHeap(vector<Point> &v, vector<int> &indexs, Point &current,
 
 void Delaunay::delaunayTriangulation() {
     heapSort(points, pointIndexs);
-    for (auto p : points) {
-        cout << p << " ";
-    }
-    cout << endl;
     
-    
-    for (int i = 1; i < points.size(); i++) {
+    for (int i = 0; i < points.size(); i++) {
         set<Edge> edges;
         for (auto it = tempTris.begin(); it != tempTris.end(); ) {
             if (it->isOutterRightOfCircle(points[i])) {
@@ -129,6 +127,11 @@ void Delaunay::delaunayTriangulation() {
             tmpIndexs.push_back(pointIndexs[i]);
             tempTris.push_back(DelTriangle(tmpPoints, tmpIndexs));
         }
+//        int t;
+//        cin >> t;
+//        cout << "delTris====>" << delTris.size() << endl;
+//        cout << "tempTris===>" << tempTris.size() << endl;
+//        cout << "edges====>" << edges.size() << endl;
     }
     
     // 将triangles与temp triangles进行合并, 除去与超级三角形有关的三角形
@@ -139,6 +142,19 @@ void Delaunay::delaunayTriangulation() {
             }
         }
         delTris.push_back(tri);
+    }
+    for (auto it = delTris.begin(); it != delTris.end();) {
+        bool flag = true;
+        for (int i = 0; i < it->indexs.size(); i++) {
+            if (it->indexs[i] == -1) {
+                it = delTris.erase(it);
+                flag = false;
+                break;
+            }
+        }
+        if (flag) {
+            ++it;
+        }
     }
     
 }

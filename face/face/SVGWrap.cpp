@@ -100,8 +100,8 @@ void SVGWrap::normalize_src_face() {
     srcHeight = maxY - minY;
     
     // 通过数据库图像的宽高调整扩大三角剖分的尺寸
-    srcDeltaX = (double)maxX;
-    srcDeltaY = (double)maxY;
+    srcDeltaX = (double)srcWidth;
+    srcDeltaY = (double)srcHeight;
     
     srcPoints.push_back(Point(minX-srcDeltaX, minY-srcDeltaY));
     srcPoints.push_back(Point(minX-srcDeltaX, maxY+srcDeltaY));

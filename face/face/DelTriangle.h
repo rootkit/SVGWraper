@@ -23,7 +23,6 @@ public:
     int startIndex, endIndex;
 public:
     Edge(Point s, Point e, int startIndex, int endIndex) {
-        assert(s.x <= e.x);
         if (s.x <= e.x) {
             this->start = s;
             this->end = e;

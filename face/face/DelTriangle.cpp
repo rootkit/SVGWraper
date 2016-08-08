@@ -14,6 +14,7 @@ DelTriangle::DelTriangle(vector<Point> &points, vector<int> &indexs) {
     assert(points.size() == 3 && indexs.size() == 3);
     this->points = points;
     this->indexs = indexs;
+    
     assert(!DelTriangle::isThreePointsOnOneLine(points[0], points[1], points[2]));
     calTriangleCenter();
 }
@@ -61,6 +62,10 @@ void DelTriangle::calTriangleCenter() {
 bool DelTriangle::isThreePointsOnOneLine(const Point& p1,const Point& p2,const Point& p3) {
     if (p2.x == p1.x) {
         if (p2.x == p3.x) {
+            cout << "isThreePointsOnOneLine" << endl;
+            cout << "p1: " << p1 << endl;
+            cout << "p2: " << p2 << endl;
+            cout << "p3: " << p3 << endl;
             return true;
         }
         return false;
@@ -73,8 +78,14 @@ bool DelTriangle::isThreePointsOnOneLine(const Point& p1,const Point& p2,const P
     double k1 = (double)(p2.y-p1.y) / (p2.x-p1.x);
     double k2 = (double)(p3.y-p2.y) / (p3.x-p2.x);
     
-    double DIFF = 0.000001;
+    double DIFF = 0.0000001;
     if (fabs(k1-k2) < DIFF) {
+        
+        cout << "isThreePointsOnOneLine" << endl;
+        cout << "k1: " << k1 << endl;
+        cout << "k2: " << k2 << endl;
+        
+        
         return true;
     }
     return false;

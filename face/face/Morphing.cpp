@@ -8,13 +8,19 @@
 
 #include "Morphing.h"
 #include "DrawUtil.h"
+#include "Delaunay.h"
 
-const int Morphing::TRI_NUM = 2;
+//const int Morphing::TRI_NUM = 2;
 const int Morphing::POINT_NUM = 82;
+const int Morphing::CONTROL_POINT_NUM = 20;
 
 
-int Morphing::POINT_INDEX[TRI_NUM][3] = {
-    {77, 2, 78}, {79, 10, 80}
+//int Morphing::POINT_INDEX[TRI_NUM][3] = {
+//    {77, 2, 78}, {79, 10, 80}
+//};
+
+int Morphing::POINT_INDEX[CONTROL_POINT_NUM] = {
+    0,1,2,3,4,5,6,7,8,9,10,11,12,38,39,52,78,79,80,81
 };
 
 
@@ -37,17 +43,45 @@ Morphing::Morphing(vector<Point> &srcPoints, vector<Point> &destPoints) {
  */
 void Morphing::init(vector<Point> &srcPoints, vector<Point> &destPoints) {
     assert(srcPoints.size() == POINT_NUM && destPoints.size() == POINT_NUM);
-    for (int i = 0; i < Morphing::TRI_NUM; i++) {
+//    for (int i = 0; i < Morphing::TRI_NUM; i++) {
+//        vector<Point> src;
+//        src.push_back(srcPoints[POINT_INDEX[i][0]]);
+//        src.push_back(srcPoints[POINT_INDEX[i][1]]);
+//        src.push_back(srcPoints[POINT_INDEX[i][2]]);
+//        Triangular srcTri(src);
+//        
+//        vector<Point> dest;
+//        dest.push_back(destPoints[POINT_INDEX[i][0]]);
+//        dest.push_back(destPoints[POINT_INDEX[i][1]]);
+//        dest.push_back(destPoints[POINT_INDEX[i][2]]);
+//        Triangular destTri(dest);
+//        
+//        srcTri.set_dest_points(dest);
+//        destTri.set_dest_points(src);
+//        
+//        this->srcTris.push_back(srcTri);
+//        this->destTris.push_back(destTri);
+//    }
+    vector<Point> points;
+    vector<int> pointIndexs;
+    for (int i = 0; i < Morphing::CONTROL_POINT_NUM; i++) {
+        points.push_back(srcPoints[Morphing::POINT_INDEX[i]]);
+        pointIndexs.push_back(Morphing::POINT_INDEX[i]);
+    }
+    
+    Delaunay delaunay(points, pointIndexs);
+    list<DelTriangle> delTris = delaunay.getDelaunayTriangulation();
+    for (auto tri : delTris) {
         vector<Point> src;
-        src.push_back(srcPoints[POINT_INDEX[i][0]]);
-        src.push_back(srcPoints[POINT_INDEX[i][1]]);
-        src.push_back(srcPoints[POINT_INDEX[i][2]]);
+        src.push_back(srcPoints[tri.indexs[0]]);
+        src.push_back(srcPoints[tri.indexs[1]]);
+        src.push_back(srcPoints[tri.indexs[2]]);
         Triangular srcTri(src);
         
         vector<Point> dest;
-        dest.push_back(destPoints[POINT_INDEX[i][0]]);
-        dest.push_back(destPoints[POINT_INDEX[i][1]]);
-        dest.push_back(destPoints[POINT_INDEX[i][2]]);
+        dest.push_back(destPoints[tri.indexs[0]]);
+        dest.push_back(destPoints[tri.indexs[1]]);
+        dest.push_back(destPoints[tri.indexs[2]]);
         Triangular destTri(dest);
         
         srcTri.set_dest_points(dest);
