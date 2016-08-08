@@ -15,31 +15,32 @@
 #include <algorithm>
 using namespace std;
 
-#include <opencv2/opencv.hpp>
-using namespace cv;
-
 #include "DelTriangle.h"
 
 class Delaunay {
 private:
-    // 三角剖分控制点，包括边界控制点，但不包括四个顶点
+    // 三角剖分控制点
     vector<Point> points;
     vector<int> pointIndexs;
-    // 三角剖分边界四个顶点
+    // 超级三角形顶点
     vector<Point> vertexs;
-    vector<int> vertexIndexs;
+
     list<DelTriangle> tempTris;
-    vector<DelTriangle> delTris;
+    list<DelTriangle> delTris;
 private:
     bool isLarger(Point &a, Point &b);
     void delaunayTriangulation();
+    // 对输入的控制点按x坐标排序
     void heapSort(vector<Point> &v, vector<int> &indexs);
     void buildHeap(vector<Point> &v, vector<int> &indexs);
     void insertHeap(vector<Point> &v, vector<int> &indexs, Point &current,
                     int curIndex, int low, int high);
 public:
-    Delaunay(vector<Point> points, vector<Point> vertexs);
-    vector<DelTriangle> getDelaunayTriangulation();
+    // points是控制点，vertexs是超级三角形顶点
+    Delaunay(vector<Point> points, vector<int> pointIndexs, vector<Point> vertexs);
+    // points是控制点，超级三角形的顶点自己计算
+    Delaunay(vector<Point> points, vector<int> pointIndexs);
+    list<DelTriangle> getDelaunayTriangulation();
 };
 
 #endif /* defined(__face__Delaunay__) */

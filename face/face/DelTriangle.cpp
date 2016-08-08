@@ -7,14 +7,45 @@
 //
 
 #include "DelTriangle.h"
+#include <cmath>
+    
+bool cmp(Point &a, Point &b) {
+    if (a.x < b.x) {
+        return true;
+    } else if (a.x == b.x) {
+        if (a.y < b.y) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool operator<(Edge &e1, Edge &e2)  {
+    if (e1.start == e2.start) {
+        return cmp(e1.end, e2.end);
+    } else {
+        return cmp(e1.start, e2.start);
+    }
+}
 
 
-DelTriangle::DelTriangle(vector<Point> points, vector<int> indexs) {
+DelTriangle::DelTriangle(vector<Point> &points, vector<int> &indexs) {
     assert(points.size() == 3 && indexs.size() == 3);
     this->points = points;
     this->indexs = indexs;
     assert(!DelTriangle::isThreePointsOnOneLine(points[0], points[1], points[2]));
     calTriangleCenter();
+}
+
+DelTriangle::DelTriangle(const DelTriangle& other) {
+    *this = other;
+}
+
+void DelTriangle::operator=(const DelTriangle& other) {
+    this->indexs = other.indexs;
+    this->points = other.points;
+    this->center = other.center;
+    this->radius = other.radius;
 }
 
 void DelTriangle::calTriangleCenter() {
@@ -88,5 +119,6 @@ bool DelTriangle::isInTheCircle(Point point) {
 bool DelTriangle::isOutterCircleButNotRight(Point point) {
     return !isOutterRightOfCircle(point) && !isInTheCircle(point);
 }
+
 
 
