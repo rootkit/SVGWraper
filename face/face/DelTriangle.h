@@ -16,13 +16,6 @@ using namespace std;
 
 #include <opencv2/opencv.hpp>
 using namespace cv;
-
-class PointComp {
-public:
-    bool operator() (const Point &a, const Point &b) const {
-        return a.x < b.x || (a.x == b.x && a.y < b.y);
-    }
-};
     
 struct Edge {
 public:

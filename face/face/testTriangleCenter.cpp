@@ -14,6 +14,7 @@ using namespace std;
 #include <opencv2/opencv.hpp>
 using namespace cv;
 
+#include "DelTriangle.h"
 #include "DrawUtil.h"
 
 bool isThreePointsOnOneLine(const Point& p1,const Point& p2,const Point& p3);
@@ -27,6 +28,18 @@ int main() {
         calTriangleCenter(p1, p2, p3, center, radius);
     cout << "center: " << center << endl;
     cout << "radius: " << radius << endl;
+    
+    vector<Point> points;
+    points.push_back(p1);
+    points.push_back(p2);
+    points.push_back(p3);
+    vector<int> index(3,-1);
+    DelTriangle d(points, index);
+    cout << sqrt((p4.x-center.x)*(p4.x-center.x)+(p4.y-center.y)*(p4.y-center.y)) << endl;;
+    cout << "isInTheCircle: " << d.isInTheCircle(p4) << endl;
+    cout << "isOutterRightOfCircle: " << d.isOutterRightOfCircle(p4) << endl;
+    cout << "isOutterCircleButNotRight" << d.isOutterCircleButNotRight(p4) << endl;
+    
     
 //    Mat image(500, 500, CV_8UC1, Scalar::all(0));
 //    DrawUtil::draw_point(image, p1.x, p1.y, 3);

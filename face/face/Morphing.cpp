@@ -11,14 +11,14 @@
 #include "Delaunay.h"
 
 const int Morphing::POINT_NUM = 82;
-const int Morphing::CONTROL_POINT_NUM = 4;
+const int Morphing::CONTROL_POINT_NUM = 22;
 
 //int Morphing::POINT_INDEX[CONTROL_POINT_NUM] = {
 //    0,1,2,3,4,5,6,7,8,9,10,11,12,38,39,52,78,79,80,81
 //};
 
 int Morphing::POINT_INDEX[CONTROL_POINT_NUM] = {
-    0,78,79,80
+    0,1,2,3,4,5,6,7,8,9,10,11,12,38,39,52,54,58, 78,79,80,81
 };
 
 
