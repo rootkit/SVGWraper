@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		703A9B6D1D59D36000CC5A3E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B09261D466D0D00133573 /* main.cpp */; };
 		704A1FE01D4AE07000E954FB /* MySpline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 704A1FDE1D4AE07000E954FB /* MySpline.cpp */; };
 		704A1FE21D4AEFF000E954FB /* spline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 704A1FE11D4AEFF000E954FB /* spline.cpp */; };
 		707B0AA91D466DAD00133573 /* AffineTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B092D1D466DAC00133573 /* AffineTransform.cpp */; };
@@ -17,7 +18,6 @@
 		70AF1E991D4F71C000AF6057 /* Morphing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B0AA11D466DAD00133573 /* Morphing.cpp */; };
 		70C18DF01D56C5980011B627 /* BezierUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70C18DEE1D56C5980011B627 /* BezierUtil.cpp */; };
 		70C18DF31D56C5E80011B627 /* DataProc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70C18DF11D56C5E80011B627 /* DataProc.cpp */; };
-		70C18DF61D577B320011B627 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B09261D466D0D00133573 /* main.cpp */; };
 		70C18DF91D577B450011B627 /* Delaunay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70C18DF71D577B450011B627 /* Delaunay.cpp */; };
 		70C18DFC1D5797830011B627 /* DelTriangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70C18DFA1D5797830011B627 /* DelTriangle.cpp */; };
 /* End PBXBuildFile section */
@@ -35,6 +35,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		703A9B651D5989B600CC5A3E /* testPointSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = testPointSet.cpp; sourceTree = "<group>"; };
 		704A1FDD1D4ADFDC00E954FB /* spline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spline.h; sourceTree = "<group>"; };
 		704A1FDE1D4AE07000E954FB /* MySpline.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MySpline.cpp; sourceTree = "<group>"; };
 		704A1FDF1D4AE07000E954FB /* MySpline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySpline.h; sourceTree = "<group>"; };
@@ -455,6 +456,7 @@
 				70C18DF81D577B450011B627 /* Delaunay.h */,
 				70C18DFA1D5797830011B627 /* DelTriangle.cpp */,
 				70C18DFB1D5797830011B627 /* DelTriangle.h */,
+				703A9B651D5989B600CC5A3E /* testPointSet.cpp */,
 			);
 			path = face;
 			sourceTree = "<group>";
@@ -1142,7 +1144,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70C18DF61D577B320011B627 /* main.cpp in Sources */,
+				703A9B6D1D59D36000CC5A3E /* main.cpp in Sources */,
 				70AF1E991D4F71C000AF6057 /* Morphing.cpp in Sources */,
 				704A1FE01D4AE07000E954FB /* MySpline.cpp in Sources */,
 				704A1FE21D4AEFF000E954FB /* spline.cpp in Sources */,

@@ -8,6 +8,8 @@
 
 #include "Delaunay.h"
 #include <set>
+#include <map>
+
 using namespace std;
 
 
@@ -42,11 +44,15 @@ points(points), pointIndexs(pointIndexs) {
             top = i;
         }
     }
-    // 超级三角形的宽高
-    int width = (maxX - minX)*100, height = (maxY - minY)*10;
-    vertexs.push_back(Point(points[left].x-width, points[top].y-height));
-    vertexs.push_back(Point(points[left].x-width, points[bottom].y+height));
-    vertexs.push_back(Point(points[right].x+width, points[top].y-height));
+
+    int dx = maxX - minX, dy = maxY - minY;
+    int dmax = max(dx, dy);
+    int midX = minX + dx * 0.5;
+    int midY = minY + dy * 0.5;
+
+    vertexs.push_back(Point(midX - 20*dmax, midY-dmax));
+    vertexs.push_back(Point(midX, midY+20*dmax));
+    vertexs.push_back(Point(midX+20*dmax, midY-dmax));
     vector<int> tmpIndexs(3, -1);
     tempTris.push_back(DelTriangle(vertexs, tmpIndexs));
     
@@ -101,17 +107,45 @@ void Delaunay::delaunayTriangulation() {
     
     for (int i = 0; i < points.size(); i++) {
         set<Edge> edges;
+        set<Edge>::iterator edgesIt;
         for (auto it = tempTris.begin(); it != tempTris.end(); ) {
             if (it->isOutterRightOfCircle(points[i])) {
                 delTris.push_back(*it);
                 it = tempTris.erase(it);
             } else if (it->isOutterCircleButNotRight(points[i])) {
+                cout << "isOutterCircleButNotRight" << endl;
+                cout << it->points[0] << " " << it->points[1] << " " << it->points[2] << endl;
                 ++it;
             } else if (it->isInTheCircle(points[i])) {
-                edges.insert(Edge(it->points[0], it->points[1], it->indexs[0], it->indexs[1]));
-                edges.insert(Edge(it->points[1], it->points[2], it->indexs[1], it->indexs[2]));
-                edges.insert(Edge(it->points[2], it->points[0], it->indexs[2], it->indexs[0]));
+                Edge e1(it->points[0], it->points[1], it->indexs[0], it->indexs[1]),
+                e2(it->points[1], it->points[2], it->indexs[1], it->indexs[2]),
+                e3(it->points[2], it->points[0], it->indexs[2], it->indexs[0]);
+//                edges.insert(Edge(it->points[0], it->points[1], it->indexs[0], it->indexs[1]));
+//                edges.insert(Edge(it->points[1], it->points[2], it->indexs[1], it->indexs[2]));
+//                edges.insert(Edge(it->points[2], it->points[0], it->indexs[2], it->indexs[0]));
+                
+                if ((edgesIt = edges.find(e1)) != edges.end()) {
+                    edges.erase(edgesIt);
+                } else {
+                    edges.insert(e1);
+                }
+                if ((edgesIt = edges.find(e2)) != edges.end()) {
+                    edges.erase(edgesIt);
+                } else {
+                    edges.insert(e2);
+                }
+                if ((edgesIt = edges.find(e3)) != edges.end()) {
+                    edges.erase(edgesIt);
+                } else {
+                    edges.insert(e3);
+                }
+                
                 it = tempTris.erase(it);
+                
+                cout << "edges size after delete===>" << edges.size() << endl;
+                for (auto e : edges) {
+                    cout << e.start << "(" << e.startIndex << ")" << ", " << e.end << "(" << e.endIndex << ")" << endl;
+                }
             } else {
                 assert(false && "this case should not happen");
             }
@@ -127,34 +161,42 @@ void Delaunay::delaunayTriangulation() {
             tmpIndexs.push_back(pointIndexs[i]);
             tempTris.push_back(DelTriangle(tmpPoints, tmpIndexs));
         }
-//        int t;
-//        cin >> t;
-//        cout << "delTris====>" << delTris.size() << endl;
-//        cout << "tempTris===>" << tempTris.size() << endl;
-//        cout << "edges====>" << edges.size() << endl;
+        
+        cout << "===== delTri ====" << endl;
+        for (auto tri : delTris) {
+            cout << tri.points[0] << "  " << tri.points[1] << "  " << tri.points[2] << endl;
+        }
+        cout << "===== tmpTri ====" << endl;
+        for (auto tri : tempTris) {
+            cout << tri.points[0] << "  " << tri.points[1] << "  " << tri.points[2] << endl;
+        }
+        
     }
+    
+    cout << "delTri size====>" << delTris.size() << endl;
     
     // 将triangles与temp triangles进行合并, 除去与超级三角形有关的三角形
     for (auto tri : tempTris) {
-        for (int i = 0; i < tri.indexs.size(); i++) {
-            if (tri.indexs[i] == -1) {
-                continue;
-            }
-        }
-        delTris.push_back(tri);
+//        if (tri.indexs[0] == -1 || tri.indexs[1] == -1 || tri.indexs[2] == -1) {
+//            continue;
+//        } else {
+            delTris.push_back(tri);
+        //}
     }
-    for (auto it = delTris.begin(); it != delTris.end();) {
-        bool flag = true;
-        for (int i = 0; i < it->indexs.size(); i++) {
-            if (it->indexs[i] == -1) {
-                it = delTris.erase(it);
-                flag = false;
-                break;
-            }
+//    for (auto it = delTris.begin(); it != delTris.end();) {
+//        if (it->indexs[0] == -1 || it->indexs[1] == -1 || it->indexs[2] == -1) {
+//            it = delTris.erase(it);
+//        } else {
+//            ++it;
+//        }
+//    }
+    
+    cout << "delTris" << endl;
+    for (auto tri : delTris) {
+        for (auto p : tri.points) {
+            cout << p << " ";
         }
-        if (flag) {
-            ++it;
-        }
+        cout << endl;
     }
     
 }

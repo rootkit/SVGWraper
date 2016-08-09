@@ -26,10 +26,8 @@ public:
     Mat morphing_img(Mat &mat, vector<Point> &srcPoints, vector<Point> &destPoints);
     void morph_bezier(vector<Point> &bezier);
 private:
-    //static int POINT_INDEX[2][3];
-    static int POINT_INDEX[20];
+    static int POINT_INDEX[4];
     const static int CONTROL_POINT_NUM;
-    //const static int TRI_NUM;
     const static int POINT_NUM;
     Mat scale_mat(Mat &mat, vector<Point> &points);
     bool isInit;

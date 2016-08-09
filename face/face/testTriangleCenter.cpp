@@ -20,16 +20,23 @@ bool isThreePointsOnOneLine(const Point& p1,const Point& p2,const Point& p3);
 bool calTriangleCenter(Point &p1, Point &p2, Point &p3, Point &center, double &r);
 
 int main() {
-    Point p1(50, 50), p2(100, 100), p3(200, 210);
-    Mat image(500, 500, CV_8UC1, Scalar::all(0));
-    DrawUtil::draw_point(image, p1.x, p1.y, 3);
-    DrawUtil::draw_point(image, p2.x, p2.y, 3);
-    DrawUtil::draw_point(image, p3.x, p3.y, 3);
-    Point center;
-    double radius;
-    calTriangleCenter(p1, p2, p3, center, radius);
-    circle(image, center, radius, Scalar(255, 255, 255));
-    imwrite("circle.jpg", image);
+    Point p1(-28403, -510), p2(489, 224), p3(30277, -510);
+    Point p4(489, 1691);
+        Point center;
+        double radius;
+        calTriangleCenter(p1, p2, p3, center, radius);
+    cout << "center: " << center << endl;
+    cout << "radius: " << radius << endl;
+    
+//    Mat image(500, 500, CV_8UC1, Scalar::all(0));
+//    DrawUtil::draw_point(image, p1.x, p1.y, 3);
+//    DrawUtil::draw_point(image, p2.x, p2.y, 3);
+//    DrawUtil::draw_point(image, p3.x, p3.y, 3);
+//    Point center;
+//    double radius;
+//    calTriangleCenter(p1, p2, p3, center, radius);
+//    circle(image, center, radius, Scalar(255, 255, 255));
+//    imwrite("circle.jpg", image);
 }
 
 bool isThreePointsOnOneLine(const Point& p1,const Point& p2,const Point& p3) {

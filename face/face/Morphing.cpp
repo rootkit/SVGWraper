@@ -10,17 +10,15 @@
 #include "DrawUtil.h"
 #include "Delaunay.h"
 
-//const int Morphing::TRI_NUM = 2;
 const int Morphing::POINT_NUM = 82;
-const int Morphing::CONTROL_POINT_NUM = 20;
+const int Morphing::CONTROL_POINT_NUM = 4;
 
-
-//int Morphing::POINT_INDEX[TRI_NUM][3] = {
-//    {77, 2, 78}, {79, 10, 80}
+//int Morphing::POINT_INDEX[CONTROL_POINT_NUM] = {
+//    0,1,2,3,4,5,6,7,8,9,10,11,12,38,39,52,78,79,80,81
 //};
 
 int Morphing::POINT_INDEX[CONTROL_POINT_NUM] = {
-    0,1,2,3,4,5,6,7,8,9,10,11,12,38,39,52,78,79,80,81
+    0,78,79,80
 };
 
 
@@ -170,7 +168,7 @@ void Morphing::morph_bezier(vector<Point> &bezier) {
         if (findSrcTri(bezier[i], t)) {
             bezier[i] = t.affine.transform(bezier[i]);
         } else {
-            cout << "not in tri: " << bezier[i] << endl;
+            //cout << "not in tri: " << bezier[i] << endl;
         }
     }
     
