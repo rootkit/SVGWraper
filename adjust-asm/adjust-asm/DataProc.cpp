@@ -131,10 +131,10 @@ void DataProc::alignAsmToSvg(vector<Point> &face, const vector<Point> &bezier,
 
 
 
-void DataProc::alignSvgToAsm(const vector<Point> &face, vector<Point> &bezier,
+void DataProc::alignSvgToAsm(vector<Point> &face, vector<Point> &bezier,
                              double &scale, Point &translate) {
-    assert(face.size() == 77);
-    int maxX = -100000, minX = 100000, maxY = face[6].y, minY = face[14].y;
+    assert(face.size() == 78);
+    int maxX = -100000, minX = 100000, maxY = face[6].y, minY = face[77].y;
     for (int i = 0; i < 13; i++) {
         if (minX > face[i].x) {
             minX = face[i].x;
@@ -144,6 +144,13 @@ void DataProc::alignSvgToAsm(const vector<Point> &face, vector<Point> &bezier,
         }
     }
     double faceWidth = maxX - minX, faceHeight = maxY - minY;
+    
+    if (minY < 0 || minX < 0) {
+        Point translate;
+        translate.x = minY < minX ? abs(minY) : abs(minX);
+        translate.y = translate.x;
+        DataProc::alignPoints(face, translate);
+    }
     
     minX = 10000, minY = 10000, maxX = -10000, maxY = -10000;
     // 贝塞尔曲线最低点，对齐用
@@ -168,7 +175,7 @@ void DataProc::alignSvgToAsm(const vector<Point> &face, vector<Point> &bezier,
     double scaleW = faceWidth / bezierWidth, scaleH = faceHeight / bezierHeight;
     cout << "scaleW: " << scaleW << "   scaleH: " << scaleH << endl;
     //scale = scaleH > scaleW ? scaleH : scaleW;
-    scale = scaleW;
+    scale = scaleH;
     
     for (int i = 0; i < bezier.size(); i++) {
         bezier[i].x *= scale;
@@ -191,6 +198,13 @@ void DataProc::recoverSvg(vector<Point> &bezier, double &scale, Point &translate
     for (int i = 0; i < bezier.size(); i++) {
         bezier[i].x /= scale;
         bezier[i].y /= scale;
+    }
+}
+
+void DataProc::alignPoints(vector<Point> &points, Point translate) {
+    for (int i = 0; i < points.size(); i++) {
+        points[i].x += translate.x;
+        points[i].y += translate.y;
     }
 }
 

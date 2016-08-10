@@ -19,10 +19,13 @@ using namespace std;
 #include <opencv2/opencv.hpp>
 using namespace cv;
 
+#include "FaceSpline.h"
+
 class MouseCapture {
 public:
     MouseCapture(Mat &img, vector<Point> points);
     MouseCapture(string file, vector<Point> points);
+    ~MouseCapture();
     void loadImg(Mat &img);
     void loadImg(string file);
     void adjustPoints();
@@ -31,13 +34,16 @@ public:
 private:
     void checkInRange(int x, int y);
     void refreshPoints(int t);
+    void refreshImage(Mat &tempImg);
 private:
+    FaceSpline* faceSpline;
     Mat img;
     string winName;
     vector<Point> points;
     vector<Scalar> colors;
     int marked;
     
+    const static int POINT_NUMS = 16;
     const static Scalar SELECTED_COLOR;
     const static Scalar UNSELECTED_COLOR;
     

@@ -20,7 +20,8 @@ class DataProc {
 public:
     static void normalizeFaceData(vector<Point> &srcPoints, vector<Point> &targetPoints);
     static void alignAsmToSvg(vector<Point> &face, const vector<Point> &bezier, double &scale, Point &translate);
-    static void alignSvgToAsm(const vector<Point> &face, vector<Point> &bezier, double &scale, Point &translate);
+    static void alignSvgToAsm(vector<Point> &face, vector<Point> &bezier, double &scale, Point &translate);
     static void recoverSvg(vector<Point> &bezier, double &scale, Point &translate);
+    static void alignPoints(vector<Point> &points, Point translate);
 };
 #endif /* defined(__face1__DataProc__) */

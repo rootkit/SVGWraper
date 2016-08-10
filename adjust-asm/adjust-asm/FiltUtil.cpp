@@ -23,9 +23,9 @@ vector<vector<Point> > FileUtil::read_all_asm_points(string file) {
         }
         
         //预设头顶的坐标
-//        int headPointY = (int) (points[14].y - (points[6].y - points[14].y) * 0.25);
-//        int headPointX = points[14].x;
-//        points.push_back(Point(headPointX, headPointY));
+        int headPointY = (int) (points[14].y - (points[6].y - points[14].y) * 0.25);
+        int headPointX = points[14].x;
+        points.push_back(Point(headPointX, headPointY));
         
         data.push_back(points);
         points.clear();
