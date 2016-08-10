@@ -12,6 +12,8 @@
 
 using namespace std;
 
+int c = 0;
+int cc = 0;
 
 Delaunay::Delaunay(vector<Point> points, vector<int> pointIndexs, vector<Point> vertexs):
 points(points), pointIndexs(pointIndexs), vertexs(vertexs) {
@@ -101,6 +103,21 @@ void Delaunay::delaunayTriangulation() {
     heapSort(points, pointIndexs);
     
     for (int i = 0; i < points.size(); i++) {
+        
+//        Mat delImage(2000, 2000, CV_8UC3, Scalar::all(0));
+//        Mat tempImage = Mat(2000, 2000, CV_8UC3, Scalar::all(0));
+//        
+//        for (auto tri : delTris) {
+//            if (tri.indexs[0] != -1 && tri.indexs[1] != -1 && tri.indexs[2] != -1) {
+//                circle(delImage, tri.center, tri.radius, Scalar(0, 255, 255));
+//            }
+//        }
+//        for (auto tri : tempTris) {
+//            if (tri.indexs[0] != -1 && tri.indexs[1] != -1 && tri.indexs[2] != -1) {
+//                circle(tempImage, tri.center, tri.radius, Scalar(0, 255, 255));
+//            }
+//        }
+        
         set<Edge> edges;
         set<Edge>::iterator edgesIt;
         for (auto it = tempTris.begin(); it != tempTris.end(); ) {
@@ -113,9 +130,6 @@ void Delaunay::delaunayTriangulation() {
                 Edge e1(it->points[0], it->points[1], it->indexs[0], it->indexs[1]),
                 e2(it->points[1], it->points[2], it->indexs[1], it->indexs[2]),
                 e3(it->points[2], it->points[0], it->indexs[2], it->indexs[0]);
-//                edges.insert(Edge(it->points[0], it->points[1], it->indexs[0], it->indexs[1]));
-//                edges.insert(Edge(it->points[1], it->points[2], it->indexs[1], it->indexs[2]));
-//                edges.insert(Edge(it->points[2], it->points[0], it->indexs[2], it->indexs[0]));
                 
                 if ((edgesIt = edges.find(e1)) != edges.end()) {
                     edges.erase(edgesIt);
@@ -133,17 +147,21 @@ void Delaunay::delaunayTriangulation() {
                     edges.insert(e3);
                 }
                 
+//                for (auto e : edges) {
+//                    cout << e.start << " -- " << e.end << endl;
+//                }
+//                cout << endl;
+                
                 it = tempTris.erase(it);
                 
-//                cout << "edges size after delete===>" << edges.size() << endl;
-//                for (auto e : edges) {
-//                    cout << e.start << "(" << e.startIndex << ")" << ", " << e.end << "(" << e.endIndex << ")" << endl;
-//                }
             } else {
                 assert(false && "this case should not happen");
             }
         }
         for (auto it = edges.begin(); it != edges.end(); it++) {
+            if (DelTriangle::isThreePointsOnOneLine(it->start, it->end, points[i])) {
+                continue;
+            }
             vector<Point> tmpPoints;
             tmpPoints.push_back(it->start);
             tmpPoints.push_back(it->end);
@@ -154,6 +172,29 @@ void Delaunay::delaunayTriangulation() {
             tmpIndexs.push_back(pointIndexs[i]);
             tempTris.push_back(DelTriangle(tmpPoints, tmpIndexs));
         }
+        
+        
+//        for (auto tri : delTris) {
+//            line(delImage, tri.points[0], tri.points[1], Scalar(255, 255, 255));
+//            line(delImage, tri.points[1], tri.points[2], Scalar(255, 255, 255));
+//            line(delImage, tri.points[0], tri.points[2], Scalar(255, 255, 255));
+//        }
+//        for (int j = 0; j <= i; j++) {
+//            circle(delImage, points[j], 10, Scalar(255, 255, 255));
+//        }
+//        imwrite(("del/del" + to_string(c++) + ".jpg").c_str(), delImage);
+//        
+//        for (auto tri : tempTris) {
+//            line(tempImage, tri.points[0], tri.points[1], Scalar(255, 255, 255));
+//            line(tempImage, tri.points[1], tri.points[2], Scalar(255, 255, 255));
+//            line(tempImage, tri.points[0], tri.points[2], Scalar(255, 255, 255));
+//        }
+//        for (int j = 0; j <= i; j++) {
+//            circle(tempImage, points[j], 10, Scalar(255, 255, 255));
+//        }
+//        imwrite(("temp/tmp" + to_string(cc++) + ".jpg").c_str(), tempImage);
+//        
+//        cout << i << ": " << points[i] << endl;
         
 //        cout << "===== delTri ====" << endl;
 //        for (auto tri : delTris) {
@@ -184,13 +225,16 @@ void Delaunay::delaunayTriangulation() {
         }
     }
     
-//    cout << "delTris" << endl;
-//    for (auto tri : delTris) {
-//        for (auto p : tri.points) {
-//            cout << p << " ";
-//        }
-//        cout << endl;
-//    }
+    Mat image(2000, 2000, CV_8UC1, Scalar::all(0));
+    for (auto tri : delTris) {
+        line(image, tri.points[0], tri.points[1], Scalar(255, 255, 255));
+        line(image, tri.points[1], tri.points[2], Scalar(255, 255, 255));
+        line(image, tri.points[0], tri.points[2], Scalar(255, 255, 255));
+    }
+    for (int i = 0; i < points.size(); i++) {
+        circle(image, points[i], 10, Scalar(255, 255, 255));
+    }
+    imwrite("final.jpg", image);
     
 }
 

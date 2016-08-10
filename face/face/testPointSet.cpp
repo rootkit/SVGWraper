@@ -39,7 +39,7 @@ int main() {
     
     
     set<Edge> edges;
-    Edge e1(Point(0,0), Point(1,1), 0, 1),
+    Edge e1(Point(1,1), Point(1,1), 0, 1),
     e2(Point(1,1), Point(2,2), 1, 2),
     e3(Point(3,3), Point(2,2), 3, 2),
     e4(Point(3,3), Point(2,2), 3, 2);

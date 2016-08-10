@@ -23,11 +23,25 @@ public:
     int startIndex, endIndex;
 public:
     Edge(Point s, Point e, int startIndex, int endIndex) {
-        if (s.x <= e.x) {
+        if (s.x < e.x) {
             this->start = s;
             this->end = e;
             this->startIndex = startIndex;
             this->endIndex = endIndex;
+        } else if (s.x == e.x) {
+            if (s.y < e.y) {
+                this->start = s;
+                this->end = e;
+                this->startIndex = startIndex;
+                this->endIndex = endIndex;
+            } else if (s.y == e.y) {
+                assert(false && "the start point and end point shoule not be same");
+            } else {
+                this->start = e;
+                this->end = s;
+                this->startIndex = endIndex;
+                this->endIndex = startIndex;
+            }
         } else {
             this->start = e;
             this->end = s;

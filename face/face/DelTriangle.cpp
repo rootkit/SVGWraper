@@ -17,6 +17,10 @@ DelTriangle::DelTriangle(vector<Point> &points, vector<int> &indexs) {
     
     assert(!DelTriangle::isThreePointsOnOneLine(points[0], points[1], points[2]));
     calTriangleCenter();
+    
+    if (radius == NAN) {
+        assert(false && "radius too large");
+    }
 }
 
 DelTriangle::DelTriangle(const DelTriangle& other) {
@@ -56,16 +60,11 @@ void DelTriangle::calTriangleCenter() {
     double y = (t3*x2+t2*x1+t1*x3-t1*x2-t2*x3-t3*x1) / temp / 2;
     this->center.x = x;
     this->center.y = y;
-    
 }
 
 bool DelTriangle::isThreePointsOnOneLine(const Point& p1,const Point& p2,const Point& p3) {
     if (p2.x == p1.x) {
         if (p2.x == p3.x) {
-            cout << "isThreePointsOnOneLine" << endl;
-            cout << "p1: " << p1 << endl;
-            cout << "p2: " << p2 << endl;
-            cout << "p3: " << p3 << endl;
             return true;
         }
         return false;

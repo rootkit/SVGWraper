@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		703A9B6F1D59D77F00CC5A3E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B09261D466D0D00133573 /* main.cpp */; };
+		703A9B711D5A41FC00CC5A3E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B09261D466D0D00133573 /* main.cpp */; };
 		704A1FE01D4AE07000E954FB /* MySpline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 704A1FDE1D4AE07000E954FB /* MySpline.cpp */; };
 		704A1FE21D4AEFF000E954FB /* spline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 704A1FE11D4AEFF000E954FB /* spline.cpp */; };
 		707B0AA91D466DAD00133573 /* AffineTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 707B092D1D466DAC00133573 /* AffineTransform.cpp */; };
@@ -1144,7 +1144,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				703A9B6F1D59D77F00CC5A3E /* main.cpp in Sources */,
+				703A9B711D5A41FC00CC5A3E /* main.cpp in Sources */,
 				70AF1E991D4F71C000AF6057 /* Morphing.cpp in Sources */,
 				704A1FE01D4AE07000E954FB /* MySpline.cpp in Sources */,
 				704A1FE21D4AEFF000E954FB /* spline.cpp in Sources */,

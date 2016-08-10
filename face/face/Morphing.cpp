@@ -10,15 +10,15 @@
 #include "DrawUtil.h"
 #include "Delaunay.h"
 
-const int Morphing::POINT_NUM = 82;
-const int Morphing::CONTROL_POINT_NUM = 22;
+const int Morphing::POINT_NUM = 86;
+const int Morphing::CONTROL_POINT_NUM = 27;
 
 //int Morphing::POINT_INDEX[CONTROL_POINT_NUM] = {
 //    0,1,2,3,4,5,6,7,8,9,10,11,12,38,39,52,78,79,80,81
 //};
 
 int Morphing::POINT_INDEX[CONTROL_POINT_NUM] = {
-    0,1,2,3,4,5,6,7,8,9,10,11,12,38,39,52,54,58, 78,79,80,81
+    0,1,2,3,4,5,6,7,8,9,10,11,12,38,39,52,54,58, 77, 78,79,80,81,82,83,84,85
 };
 
 
