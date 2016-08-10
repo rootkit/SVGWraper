@@ -12,7 +12,7 @@ const Scalar MouseCapture::SELECTED_COLOR = Scalar(0, 255, 255);
 const Scalar MouseCapture::UNSELECTED_COLOR = Scalar(0, 0, 255);
 
 MouseCapture::MouseCapture(Mat &img, vector<Point> points): winName("MouseControl"),
-marked(-1), img(img), points(POINT_NUMS), colors(POINT_NUMS, UNSELECTED_COLOR) {
+marked(-1), img(img), points(POINT_NUMS), colors(POINT_NUMS, UNSELECTED_COLOR), splineError(false) {
     
     for (int i = 0; i < 16; i++) {
         this->points[i] = points[i];
@@ -27,7 +27,7 @@ marked(-1), img(img), points(POINT_NUMS), colors(POINT_NUMS, UNSELECTED_COLOR) {
 }
 
 MouseCapture::MouseCapture(string file, vector<Point> points): winName("MouseControl"),
-marked(-1), points(POINT_NUMS), colors(POINT_NUMS, UNSELECTED_COLOR) {
+marked(-1), points(POINT_NUMS), colors(POINT_NUMS, UNSELECTED_COLOR), splineError(false) {
     this->img = imread(file);
     
     for (int i = 0; i < 16; i++) {
@@ -71,7 +71,9 @@ void MouseCapture::refreshPoints(int t) {
     for (int i = 0; i < colors.size(); i++) {
         colors[i] = UNSELECTED_COLOR;
     }
-    colors[t] = SELECTED_COLOR;
+    if (0 <= t && t < colors.size()) {
+        colors[t] = SELECTED_COLOR;
+    }
 }
 
 
@@ -84,11 +86,18 @@ void MouseCapture::onMouse(int event, int x, int y, int flag, void *param) {
     switch (event) {
         case EVENT_LBUTTONDOWN:
             if (mc->marked != -1) {
-                mc->points[mc->marked].x = x;
-                mc->points[mc->marked].y = y;
-                mc->faceSpline->adjustPoint(mc->marked, x, y);
+                if (mc->faceSpline->checkPointInRange(mc->marked, x, y)) {
+                    mc->splineError = false;
+                    mc->points[mc->marked].x = x;
+                    mc->points[mc->marked].y = y;
+                    mc->faceSpline->adjustPoint(mc->marked, x, y);
+                } else {
+                    mc->refreshPoints(-1);
+                    mc->splineError = true;
+                }
                 mc->marked = -1;
             } else {
+                mc->splineError = false;
                 mc->checkInRange(x, y);
             }
             break;
@@ -108,14 +117,26 @@ void MouseCapture::refreshImage(Mat &tempImg) {
             circle(tempImg, Point(faceSpline->splinePoints[i][j], faceSpline->splinePoints[i][j+1]), 1, Scalar::all(255));
         }
     }
-    string str;
-    stringstream strStream;
-    if (marked != -1) {
-        strStream << "Point" << marked << "(" << points[marked].x << ":" <<
-        points[marked].y << ")";
+    if (!splineError) {
+//        for (int i = 0; i < points.size(); i++) {
+//            circle(tempImg, points[i], 3, colors[i]);
+//        }
+//        for (int i = 0; i < faceSpline->SPLINE_SECTIONS; i++) {
+//            for (int j = 0; j < faceSpline->splinePoints[i].size(); j+=2) {
+//                circle(tempImg, Point(faceSpline->splinePoints[i][j], faceSpline->splinePoints[i][j+1]), 1, Scalar::all(255));
+//            }
+//        }
+        string str;
+        stringstream strStream;
+        if (marked != -1) {
+            strStream << "Point" << marked << "(" << points[marked].x << "," <<
+            points[marked].y << ")";
+        }
+        str = strStream.str();
+        putText(tempImg, str, Point(10,40), CV_FONT_HERSHEY_COMPLEX, .8,Scalar(0,255,0),2);
+    } else {
+        putText(tempImg, "spline point out of range", Point(10,40), CV_FONT_HERSHEY_COMPLEX, .8,Scalar(0,255,0),2);
     }
-    str = strStream.str();
-    putText(tempImg, str, Point(10,40), CV_FONT_HERSHEY_COMPLEX, .8,Scalar(0,255,0),2);
 }
 
 

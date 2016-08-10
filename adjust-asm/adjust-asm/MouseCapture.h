@@ -42,6 +42,7 @@ private:
     vector<Point> points;
     vector<Scalar> colors;
     int marked;
+    bool splineError;
     
     const static int POINT_NUMS = 16;
     const static Scalar SELECTED_COLOR;

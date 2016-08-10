@@ -34,6 +34,7 @@ public:
     //int** getSplinePoints();
     vector<vector<int>> getSplinePoints();
     vector<int> findSection(int pointIndex);
+    bool checkPointInRange(int pointIndex, int x, int y);
     //static int* getSplinePoints(double *x, double *y, bool basedOnX, int size);
     static vector<int> getSplinePoints(double *x, double *y, bool basedOnX, int size);
     

@@ -103,6 +103,82 @@ vector<int> FaceSpline::findSection(int pointIndex) {
 }
 
 
+bool FaceSpline::checkPointInRange(int pointIndex, int x, int y) {
+    int lastIndex = (pointIndex-1+FACE_POINTS) % FACE_POINTS;
+    int nextIndex = (pointIndex+1+FACE_POINTS) % FACE_POINTS;
+    
+    // 边界点
+    if (pointIndex == POINT_INDEX[0]) {    // 0
+        if (facePoints[lastIndex*2] <= x || facePoints[nextIndex*2+1] <= y) {
+            return false;
+        } else {
+            return true;
+        }
+    } else if (pointIndex == POINT_INDEX[1]) {   // 3
+        if (facePoints[lastIndex*2+1] >= y || facePoints[nextIndex*2] <= x) {
+            return false;
+        } else {
+            return true;
+        }
+    } else if (pointIndex == POINT_INDEX[2]) {   // 6
+        if (facePoints[lastIndex*2] >= x || facePoints[nextIndex*2] <= x) {
+            return false;
+        } else {
+            return true;
+        }
+    } else if (pointIndex == POINT_INDEX[3]) {   // 9
+        if (facePoints[lastIndex*2] <= x || facePoints[nextIndex*2+1] >= y) {
+            return false;
+        } else {
+            return true;
+        }
+    } else if (pointIndex == POINT_INDEX[4]) {   // 12
+        if (facePoints[lastIndex*2+1] <= y || facePoints[nextIndex*2] >= x) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    vector<int> indexes = findSection(pointIndex);
+    assert(indexes.size() == 1);
+
+    switch (indexes[0]) {
+        case 0:
+            if (facePoints[lastIndex*2+1] >= y || facePoints[nextIndex*2+1] <= y) {
+                return false;
+            }
+            break;
+        case 1:
+            if (facePoints[lastIndex*2] >= x || facePoints[nextIndex*2] <= x) {
+                return false;
+            }
+            break;
+        case 2:
+            if (facePoints[lastIndex*2] >= x || facePoints[nextIndex*2] <= x) {
+                return false;
+            }
+            break;
+        case 3:
+            if (facePoints[lastIndex*2+1] <= y || facePoints[nextIndex*2+1] >= y) {
+                return false;
+            }
+            break;
+        case 4:
+            if (facePoints[lastIndex*2] <= x || facePoints[nextIndex*2] >= x) {
+                return false;
+            }
+            break;
+            
+        default:
+            assert(false);
+            break;
+    }
+    return true;
+    
+}
+
+
 void FaceSpline::adjustPoint(int pointIndex, int x, int y) {
     facePoints[pointIndex*2] = x;
     facePoints[pointIndex*2+1] = y;
