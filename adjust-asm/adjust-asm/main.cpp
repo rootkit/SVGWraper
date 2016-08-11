@@ -26,7 +26,7 @@ int main(int argc, const char * argv[]) {
     vector<vector<Point>> dataFaces = FileUtil::read_all_asm_points("dataBase.txt");
     vector<vector<Point>> svgs = FileUtil::read_svg_points("allFaceSvgPoint.txt");
     
-    for (int i = 1; i < 2; i++) {
+    for (int i = 3; i < 4; i++) {
         if (i == 29) {
             continue;
         }
@@ -46,8 +46,25 @@ int main(int argc, const char * argv[]) {
         DrawUtil::draw_points(image, face, 6);
         //imwrite(("asm" + to_string(i) + ".jpg").c_str(), image);
         
+        vector<Point> newFace;
+        for (int i = 0; i < 13; i++) {
+            newFace.push_back(face[i]);
+        }
+        translate = face[77] - face[14];
+        face[13] += translate;
+        face[14] += translate;
+        face[15] += translate;
+        newFace.push_back(2.0 / 3 * face[12] + 1.0 / 3 * face[13]);
+        newFace.push_back(1.0 / 3 * face[12] + 2.0 / 3 * face[13]);
+        newFace.push_back(face[13]);
+        newFace.push_back(face[14]);
+        newFace.push_back(face[15]);
+        newFace.push_back(1.0/3*face[0]+2.0/3*face[15]);
+        newFace.push_back(2.0/3*face[0]+1.0/3*face[15]);
+        
+        
         // 调整asm点
-        MouseCapture mc(image, face);
+        MouseCapture mc(image, newFace, 20);
         mc.adjustPoints();
         
         face = mc.getAdjustedPoints();

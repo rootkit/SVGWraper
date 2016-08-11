@@ -13,8 +13,8 @@
 		701B66B31D55F0F80052CA1C /* DrawUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 701B66B01D55F0F80052CA1C /* DrawUtil.cpp */; };
 		701B66B61D55F1FE0052CA1C /* MouseCapture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 701B66B41D55F1FE0052CA1C /* MouseCapture.cpp */; };
 		70B8FB011D5AD16400E7AE0B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 701B66961D55D3300052CA1C /* main.cpp */; };
-		70B8FB091D5B5C7300E7AE0B /* FaceSpline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70B8FB071D5B5C7300E7AE0B /* FaceSpline.cpp */; };
 		70B8FB0C1D5B5F1600E7AE0B /* spline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70B8FB0A1D5B5F1600E7AE0B /* spline.cpp */; };
+		70BF76941D5C2B1000CB3B19 /* FaceSplineNew.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BF76921D5C2B1000CB3B19 /* FaceSplineNew.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,6 +49,10 @@
 		70B8FB081D5B5C7300E7AE0B /* FaceSpline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceSpline.h; sourceTree = "<group>"; };
 		70B8FB0A1D5B5F1600E7AE0B /* spline.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spline.cpp; sourceTree = "<group>"; };
 		70B8FB0B1D5B5F1600E7AE0B /* spline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spline.h; sourceTree = "<group>"; };
+		70BF768F1D5C148900CB3B19 /* FaceSplineForAnd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FaceSplineForAnd.cpp; sourceTree = "<group>"; };
+		70BF76901D5C148900CB3B19 /* FaceSplineForAnd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceSplineForAnd.h; sourceTree = "<group>"; };
+		70BF76921D5C2B1000CB3B19 /* FaceSplineNew.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FaceSplineNew.cpp; sourceTree = "<group>"; };
+		70BF76931D5C2B1000CB3B19 /* FaceSplineNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceSplineNew.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,10 @@
 				701B66B81D5640C20052CA1C /* test.cpp */,
 				70B8FB071D5B5C7300E7AE0B /* FaceSpline.cpp */,
 				70B8FB081D5B5C7300E7AE0B /* FaceSpline.h */,
+				70BF768F1D5C148900CB3B19 /* FaceSplineForAnd.cpp */,
+				70BF76901D5C148900CB3B19 /* FaceSplineForAnd.h */,
+				70BF76921D5C2B1000CB3B19 /* FaceSplineNew.cpp */,
+				70BF76931D5C2B1000CB3B19 /* FaceSplineNew.h */,
 			);
 			path = "adjust-asm";
 			sourceTree = "<group>";
@@ -162,8 +170,8 @@
 				70B8FB011D5AD16400E7AE0B /* main.cpp in Sources */,
 				701B66B31D55F0F80052CA1C /* DrawUtil.cpp in Sources */,
 				701B66A71D55D9FC0052CA1C /* FiltUtil.cpp in Sources */,
-				70B8FB091D5B5C7300E7AE0B /* FaceSpline.cpp in Sources */,
 				701B66B21D55F0F80052CA1C /* BezierUtil.cpp in Sources */,
+				70BF76941D5C2B1000CB3B19 /* FaceSplineNew.cpp in Sources */,
 				701B66B61D55F1FE0052CA1C /* MouseCapture.cpp in Sources */,
 				70B8FB0C1D5B5F1600E7AE0B /* spline.cpp in Sources */,
 				701B66A51D55D9FC0052CA1C /* DataProc.cpp in Sources */,

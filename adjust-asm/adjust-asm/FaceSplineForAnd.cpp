@@ -1,16 +1,17 @@
 //
-//  FaceSpline.cpp
+//  FaceSplineForAnd.cpp
 //  adjust-asm
 //
-//  Created by xyz on 16/8/10.
+//  Created by xyz on 16/8/11.
 //  Copyright (c) 2016年 xyz. All rights reserved.
 //
+
+#include "FaceSplineForAnd.h"
+
 
 #include <vector>
 #include <iostream>
 using namespace std;
-
-#include "FaceSpline.h"
 
 #include "spline.h"
 using namespace tk;
@@ -19,14 +20,8 @@ const int FaceSpline::POINT_INDEX[6] = {0, 3, 6, 9, 12, 15};
 const bool FaceSpline::BASED_ON_X[5] = {false, true, true, false, true};
 
 
-FaceSpline::FaceSpline(int facePoints[], int size):
-splinePoints(SPLINE_SECTIONS) {
-    this->facePoints = new int[size];
-    for (int i = 0; i < size; i++) {
-        this->facePoints[i] = facePoints[i];
-    }
-    //this->splinePoints = new int*[SPLINE_SECTIONS];
-    initSpline();
+FaceSpline::FaceSpline(int facePoints[], int size) {
+    init(facePoints, size);
 }
 
 FaceSpline::~FaceSpline() {
@@ -34,34 +29,64 @@ FaceSpline::~FaceSpline() {
     for (int i = 0; i < SPLINE_SECTIONS; i++) {
         delete [] pointX[i];
         delete [] pointY[i];
-        //delete [] splinePoints[i];
+        delete [] splinePoints[i];
         pointX[i] = NULL;
         pointY[i] = NULL;
+        splinePoints[i] = NULL;
     }
     facePoints = NULL;
     
 }
 
-//void FaceSpline::init(int facePoints[], int size) {
-//    splinePoints.clear();
-//    if (facePoints != NULL) {
-//        delete [] facePoints;
-//    }
-//    for (int i = 0; i < SPLINE_SECTIONS; i++) {
-//        if (pointX[i] != NULL) {
-//            delete [] pointX[i];
-//        }
-//        if (pointY[i] != NULL) {
-//            delete [] pointY[i];
-//        }
-//    }
-//    
-//    splinePoints = vector<vector<int>>(SPLINE_SECTIONS);
-//    for (int i = 0; i < SPLINE_SECTIONS; i++) {
-//        
-//    }
-//    
-//}
+void FaceSpline::init(int face[], int size) {
+    assert(size == 77*2);
+    
+    if (facePoints != NULL) {
+        delete [] facePoints;
+    }
+    for (int i = 0; i < SPLINE_SECTIONS; i++) {
+        if (pointX[i] != NULL) {
+            delete [] pointX[i];
+        }
+        if (pointY[i] != NULL) {
+            delete [] pointY[i];
+        }
+        if (splinePoints[i] != NULL) {
+            delete [] splinePoints[i];
+        }
+    }
+
+    this->facePoints = new int[16*2+ADDED_SPLINE_POINTS*2];
+    for (int i = 0; i < 13; i++) {
+        this->facePoints[i*2] = face[i*2];
+        this->facePoints[i*2+1] = face[i*2+1];
+    }
+    initHeadPoint(face);
+    
+    this->splinePoints = new int*[SPLINE_SECTIONS];
+    initSpline();
+
+}
+
+
+void FaceSpline::initHeadPoint(int face[]) {
+    this->facePoints[15*2] = face[13*2];
+    this->facePoints[15*2+1] = face[13*2+1];
+    this->facePoints[16*2] = face[14*2];
+    this->facePoints[16*2+1] = face[14*2+1];
+    this->facePoints[17*2] = face[15*2];
+    this->facePoints[17*2+1] = face[15*2+1];
+    // 右边太阳穴
+    this->facePoints[13*2] = face[13*2] + (double)(face[12*2]-face[13*2]) / 3;
+    this->facePoints[13*2+1] = face[13*2+1] + (double)(face[12*2+1]-face[13*2+1]) / 3;
+    this->facePoints[14*2] = face[13*2] + (double)(face[12*2]-face[13*2]) * 2 / 3;
+    this->facePoints[14*2+1] = face[13*2+1] + (double)(face[12*2+1]-face[13*2+1]) * 2 / 3;
+    // 左边太阳穴
+    this->facePoints[18*2] = face[0*2] + (double)(face[15*2] - face[0*2]) * 2 / 3;
+    this->facePoints[18*2+1] = face[15*2+1] + (double)(face[0*2+1] - face[15*2+1]) * 1 / 3;
+    this->facePoints[19*2] = face[0*2] + (double)(face[15*2] - face[0*2]) * 1 / 3;
+    this->facePoints[19*2+1] = face[15*2+1] + (double)(face[0*2+1] - face[15*2+1]) * 2 / 3;
+}
 
 
 void FaceSpline::initSpline() {
@@ -132,7 +157,7 @@ bool FaceSpline::checkPointInRange(int pointIndex, int x, int y) {
     int lastIndex = (pointIndex-1+FACE_POINTS) % FACE_POINTS;
     int nextIndex = (pointIndex+1+FACE_POINTS) % FACE_POINTS;
     
-    cout << "FaceSpline checkPoint: " << pointIndex << endl;
+    //cout << "FaceSpline checkPoint: " << pointIndex << endl;
     
     // 边界点
     if (pointIndex == POINT_INDEX[0]) {    // 0
@@ -169,7 +194,7 @@ bool FaceSpline::checkPointInRange(int pointIndex, int x, int y) {
     
     vector<int> indexes = findSection(pointIndex);
     assert(indexes.size() == 1);
-
+    
     switch (indexes[0]) {
         case 0:
             if (facePoints[lastIndex*2+1] >= y || facePoints[nextIndex*2+1] <= y) {
@@ -240,14 +265,14 @@ void FaceSpline::adjustPoint(int pointIndex, int x, int y) {
 }
 
 
-//int** FaceSpline::getSplinePoints() {
-//    return this->splinePoints;
-//}
-
-
-vector<vector<int>> FaceSpline::getSplinePoints() {
+int** FaceSpline::getSplinePoints() {
     return this->splinePoints;
 }
+
+
+//vector<vector<int>> FaceSpline::getSplinePoints() {
+//    return this->splinePoints;
+//}
 
 
 /**
@@ -255,49 +280,8 @@ vector<vector<int>> FaceSpline::getSplinePoints() {
  * basedOnX: 表示是要按照x轴方向插值，还是按照y轴方向
  * size: x,y数组的长度
  */
-//int* FaceSpline::getSplinePoints(double *x, double *y, bool basedOnX, int size) {
-//    int *points;
-//    vector<int> tempPoints;
-//    if (basedOnX) {
-//        vector<double> X, Y;
-//        for (int i = 0; i < size; i++) {
-//            X.push_back(x[i]);
-//            Y.push_back(y[i]);
-//        }
-//        spline s;
-//        s.set_points(X, Y);
-//        for (int col = x[0]; col < x[size-1]; col += 10) {
-//            tempPoints.push_back(col);
-//            tempPoints.push_back(s(col));
-//        }
-//        points = new int[tempPoints.size()];
-//        for (int i = 0; i < tempPoints.size(); i++) {
-//            points[i] = tempPoints[i];
-//        }
-//    } else {
-//        vector<double> X, Y;
-//        for (int i = 0; i < size; i++) {
-//            X.push_back(y[i]);
-//            Y.push_back(x[i]);
-//        }
-//        spline s;
-//        s.set_points(X, Y);
-//        
-//        for (int row = y[0]; row < y[size-1]; row++) {
-//            tempPoints.push_back(s(row));
-//            tempPoints.push_back(row);
-//        }
-//        points = new int[tempPoints.size()];
-//        for (int i = 0; i < tempPoints.size(); i++) {
-//            points[i] = tempPoints[i];
-//        }
-//    }
-//    return points;
-//}
-
-
-vector<int> FaceSpline::getSplinePoints(double *x, double *y, bool basedOnX, int size) {
-    
+int* FaceSpline::getSplinePoints(double *x, double *y, bool basedOnX, int size) {
+    int *points;
     vector<int> tempPoints;
     if (basedOnX) {
         vector<double> X, Y;
@@ -307,9 +291,13 @@ vector<int> FaceSpline::getSplinePoints(double *x, double *y, bool basedOnX, int
         }
         spline s;
         s.set_points(X, Y);
-        for (int col = x[0]; col <= x[size-1]; col += 1) {
+        for (int col = x[0]; col < x[size-1]; col += 10) {
             tempPoints.push_back(col);
             tempPoints.push_back(s(col));
+        }
+        points = new int[tempPoints.size()];
+        for (int i = 0; i < tempPoints.size(); i++) {
+            points[i] = tempPoints[i];
         }
     } else {
         vector<double> X, Y;
@@ -320,10 +308,47 @@ vector<int> FaceSpline::getSplinePoints(double *x, double *y, bool basedOnX, int
         spline s;
         s.set_points(X, Y);
 
-        for (int row = y[0]; row < y[size-1]; row+=1) {
+        for (int row = y[0]; row < y[size-1]; row++) {
             tempPoints.push_back(s(row));
             tempPoints.push_back(row);
         }
+        points = new int[tempPoints.size()];
+        for (int i = 0; i < tempPoints.size(); i++) {
+            points[i] = tempPoints[i];
+        }
     }
-    return tempPoints;
+    return points;
 }
+
+
+//vector<int> FaceSpline::getSplinePoints(double *x, double *y, bool basedOnX, int size) {
+//    
+//    vector<int> tempPoints;
+//    if (basedOnX) {
+//        vector<double> X, Y;
+//        for (int i = 0; i < size; i++) {
+//            X.push_back(x[i]);
+//            Y.push_back(y[i]);
+//        }
+//        spline s;
+//        s.set_points(X, Y);
+//        for (int col = x[0]; col <= x[size-1]; col += 1) {
+//            tempPoints.push_back(col);
+//            tempPoints.push_back(s(col));
+//        }
+//    } else {
+//        vector<double> X, Y;
+//        for (int i = 0; i < size; i++) {
+//            X.push_back(y[i]);
+//            Y.push_back(x[i]);
+//        }
+//        spline s;
+//        s.set_points(X, Y);
+//        
+//        for (int row = y[0]; row < y[size-1]; row+=1) {
+//            tempPoints.push_back(s(row));
+//            tempPoints.push_back(row);
+//        }
+//    }
+//    return tempPoints;
+//}

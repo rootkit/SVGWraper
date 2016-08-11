@@ -11,35 +11,35 @@
 const Scalar MouseCapture::SELECTED_COLOR = Scalar(0, 255, 255);
 const Scalar MouseCapture::UNSELECTED_COLOR = Scalar(0, 0, 255);
 
-MouseCapture::MouseCapture(Mat &img, vector<Point> points): winName("MouseControl"),
-marked(-1), img(img), points(POINT_NUMS), colors(POINT_NUMS, UNSELECTED_COLOR), splineError(false) {
+MouseCapture::MouseCapture(Mat &img, vector<Point> points, int facePointNum): winName("MouseControl"),
+marked(-1), img(img), colors(facePointNum, UNSELECTED_COLOR), splineError(false) {
     
-    for (int i = 0; i < 16; i++) {
-        this->points[i] = points[i];
+    for (int i = 0; i < facePointNum; i++) {
+        this->points.push_back(points[i]);
     }
     
-    int facePoints[32];
-    for (int i = 0; i < 16; i++) {
+    int facePoints[facePointNum*2];
+    for (int i = 0; i < facePointNum; i++) {
         facePoints[i*2] = points[i].x;
         facePoints[i*2+1] = points[i].y;
     }
-    this->faceSpline = new FaceSpline(facePoints, 32);
+    this->faceSpline = new FaceSpline(facePoints, facePointNum*2);
 }
 
-MouseCapture::MouseCapture(string file, vector<Point> points): winName("MouseControl"),
-marked(-1), points(POINT_NUMS), colors(POINT_NUMS, UNSELECTED_COLOR), splineError(false) {
+MouseCapture::MouseCapture(string file, vector<Point> points, int facePointNum): winName("MouseControl"),
+marked(-1), colors(facePointNum, UNSELECTED_COLOR), splineError(false) {
     this->img = imread(file);
     
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < facePointNum; i++) {
         this->points[i] = points[i];
     }
     
-    int facePoints[32];
-    for (int i = 0; i < 16; i++) {
+    int facePoints[facePointNum*2];
+    for (int i = 0; i < facePointNum; i++) {
         facePoints[i*2] = points[i].x;
         facePoints[i*2+1] = points[i].y;
     }
-    this->faceSpline = new FaceSpline(facePoints, 32);
+    this->faceSpline = new FaceSpline(facePoints, facePointNum*2);
 }
 
 MouseCapture::~MouseCapture() {
@@ -58,7 +58,7 @@ void MouseCapture::loadImg(string file) {
 void MouseCapture::checkInRange(int x, int y) {
     for (int i = 0; i < points.size(); i++) {
         if (x >= 0 && x < img.cols && y >= 0 && y < img.rows &&
-            abs(x-points[i].x) <= 5 && abs(y-points[i].y) <= 5) {
+            abs(x-points[i].x) <= 10 && abs(y-points[i].y) <= 10) {
             marked = i;
             refreshPoints(i);
             
@@ -110,7 +110,7 @@ void MouseCapture::onMouse(int event, int x, int y, int flag, void *param) {
 
 void MouseCapture::refreshImage(Mat &tempImg) {
     for (int i = 0; i < points.size(); i++) {
-        circle(tempImg, points[i], 3, colors[i]);
+        circle(tempImg, points[i], 5, colors[i]);
     }
     for (int i = 0; i < faceSpline->SPLINE_SECTIONS; i++) {
         for (int j = 0; j < faceSpline->splinePoints[i].size(); j+=2) {
@@ -118,14 +118,6 @@ void MouseCapture::refreshImage(Mat &tempImg) {
         }
     }
     if (!splineError) {
-//        for (int i = 0; i < points.size(); i++) {
-//            circle(tempImg, points[i], 3, colors[i]);
-//        }
-//        for (int i = 0; i < faceSpline->SPLINE_SECTIONS; i++) {
-//            for (int j = 0; j < faceSpline->splinePoints[i].size(); j+=2) {
-//                circle(tempImg, Point(faceSpline->splinePoints[i][j], faceSpline->splinePoints[i][j+1]), 1, Scalar::all(255));
-//            }
-//        }
         string str;
         stringstream strStream;
         if (marked != -1) {

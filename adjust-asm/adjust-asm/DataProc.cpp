@@ -152,6 +152,26 @@ void DataProc::alignSvgToAsm(vector<Point> &face, vector<Point> &bezier,
         DataProc::alignPoints(face, translate);
     }
     
+    // 脸部太小，则缩放脸部
+    if (faceWidth < 100 || faceHeight < 100) {
+        double scale = 400.0 / fmin(faceHeight, faceWidth);
+        for (int i = 0; i < face.size(); i++) {
+            face[i].x *= scale;
+            face[i].y *= scale;
+        }
+        minX *= scale;
+        maxX *= scale;
+        minY *= scale;
+        maxY *= scale;
+    }
+    
+//    if (minY < 0 || minX < 0) {
+//        Point translate;
+//        translate.x = minY < minX ? abs(minY) : abs(minX);
+//        translate.y = translate.x;
+//        DataProc::alignPoints(face, translate);
+//    }
+    
     minX = 10000, minY = 10000, maxX = -10000, maxY = -10000;
     // 贝塞尔曲线最低点，对齐用
     int bottom = 0;
