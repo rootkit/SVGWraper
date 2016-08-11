@@ -21,6 +21,7 @@ const int FaceSpline::SECTION_POINT_NUM[SPLINE_SECTIONS] = {4, 4, 4, 4, 4, 3, 4}
 
 
 FaceSpline::FaceSpline(int facePoints[], int size) {
+    assert(size == FACE_POINTS*2);
     this->facePoints = NULL;
     for (int i = 0; i < SPLINE_SECTIONS; i++) {
         pointX[i] = NULL;
@@ -68,27 +69,6 @@ void FaceSpline::init(int face[], int size) {
     initSpline();
 }
 
-
-//void FaceSpline::initHeadPoint(int face[]) {
-//    this->facePoints[15*2] = face[13*2];
-//    this->facePoints[15*2+1] = face[13*2+1];
-//    this->facePoints[16*2] = face[14*2];
-//    this->facePoints[16*2+1] = face[14*2+1];
-//    this->facePoints[17*2] = face[15*2];
-//    this->facePoints[17*2+1] = face[15*2+1];
-//    // 右边太阳穴
-//    this->facePoints[13*2] = face[13*2] + (double)(face[12*2]-face[13*2]) / 3;
-//    this->facePoints[13*2+1] = face[13*2+1] + (double)(face[12*2+1]-face[13*2+1]) / 3;
-//    this->facePoints[14*2] = face[13*2] + (double)(face[12*2]-face[13*2]) * 2 / 3;
-//    this->facePoints[14*2+1] = face[13*2+1] + (double)(face[12*2+1]-face[13*2+1]) * 2 / 3;
-//    // 左边太阳穴
-//    this->facePoints[18*2] = face[0*2] + (double)(face[15*2] - face[0*2]) * 2 / 3;
-//    this->facePoints[18*2+1] = face[15*2+1] + (double)(face[0*2+1] - face[15*2+1]) * 1 / 3;
-//    this->facePoints[19*2] = face[0*2] + (double)(face[15*2] - face[0*2]) * 1 / 3;
-//    this->facePoints[19*2+1] = face[15*2+1] + (double)(face[0*2+1] - face[15*2+1]) * 2 / 3;
-//}
-
-
 void FaceSpline::initSpline() {
     for (int index = 0; index < SPLINE_SECTIONS-1; index++) {
         pointX[index] = new double[SECTION_POINT_NUM[index]];
@@ -124,26 +104,8 @@ void FaceSpline::initSpline() {
 
 vector<int> FaceSpline::findSection(int pointIndex) {
     vector<int> indexes;
-//    if (pointIndex == POINT_INDEX[0]) {
-//        indexes.push_back(0);
-//        indexes.push_back(SPLINE_SECTIONS-1);
-//    } else if (pointIndex == POINT_INDEX[1]) {
-//        indexes.push_back(0);
-//        indexes.push_back(1);
-//    } else if (pointIndex == POINT_INDEX[2]) {
-//        indexes.push_back(1);
-//        indexes.push_back(2);
-//    } else if (pointIndex == POINT_INDEX[3]) {
-//        indexes.push_back(2);
-//        indexes.push_back(3);
-//    } else if (pointIndex == POINT_INDEX[4]) {
-//        indexes.push_back(3);
-//        indexes.push_back(4);
-//    } else if (pointIndex == POINT_INDEX[5]) {
-//        
-//    }
     
-    
+    // 边界点
     for (int i = 0; i < SPLINE_SECTIONS; i++) {
         if (pointIndex == POINT_INDEX[i]) {
             indexes.push_back((i-1+SPLINE_SECTIONS)%SPLINE_SECTIONS);
@@ -152,21 +114,7 @@ vector<int> FaceSpline::findSection(int pointIndex) {
         }
     }
     
-    
-//    if (pointIndex > 0 && pointIndex < 3) {
-//        indexes.push_back(0);
-//    } else if (pointIndex > 3 && pointIndex < 6) {
-//        indexes.push_back(1);
-//    } else if (pointIndex > 6 && pointIndex < 9) {
-//        indexes.push_back(2);
-//    } else if (pointIndex > 9 && pointIndex < 12) {
-//        indexes.push_back(3);
-//    } else if (pointIndex > 12 && pointIndex <= FACE_POINTS) {
-//        indexes.push_back(4);
-//    } else if (pointIndex > FACE_POINTS) {
-//        assert(false && "pointIndex out of range");
-//    }
-    
+    // 样条函数中间点
     for (int i = 0; i < SPLINE_SECTIONS-1; i++) {
         if (pointIndex > POINT_INDEX[i] && pointIndex < POINT_INDEX[i+1]) {
             indexes.push_back(i);

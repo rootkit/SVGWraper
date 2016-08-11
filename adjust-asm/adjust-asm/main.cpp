@@ -64,7 +64,8 @@ int main(int argc, const char * argv[]) {
         
         
         // 调整asm点
-        MouseCapture mc(image, newFace, 20);
+        int pointNum = 20;
+        MouseCapture mc(image, newFace, pointNum);
         mc.adjustPoints();
         
         face = mc.getAdjustedPoints();
@@ -74,12 +75,12 @@ int main(int argc, const char * argv[]) {
         }
         fout.close();
         
-//        image.release();
-//        image.create(bezier[bottom].y+500, bezier[right].x+500, CV_8UC3);
-//        image = Scalar::all(0);
-//        BezierUtil::draw_bezier(image, bezier);
-//        DrawUtil::draw_points(image, face, 6);
-//        imwrite("adjust-asm.jpg", image);
+        image.release();
+        image.create(bezier[bottom].y+500, bezier[right].x+500, CV_8UC3);
+        image = Scalar::all(0);
+        BezierUtil::draw_bezier(image, bezier);
+        DrawUtil::draw_points(image, face, 6);
+        imwrite("adjust-asm.jpg", image);
     }
     
     

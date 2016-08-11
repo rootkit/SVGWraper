@@ -19,7 +19,7 @@ using namespace std;
 #include <opencv2/opencv.hpp>
 using namespace cv;
 
-#include "FaceSplineNew.h"
+#include "FaceSplineForAnd.h"
 
 class MouseCapture {
 public:
@@ -43,8 +43,7 @@ private:
     vector<Scalar> colors;
     int marked;
     bool splineError;
-    
-//    const static int POINT_NUMS = 16;
+    int pointNum;
     const static Scalar SELECTED_COLOR;
     const static Scalar UNSELECTED_COLOR;
     

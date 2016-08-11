@@ -14,7 +14,7 @@
 		701B66B61D55F1FE0052CA1C /* MouseCapture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 701B66B41D55F1FE0052CA1C /* MouseCapture.cpp */; };
 		70B8FB011D5AD16400E7AE0B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 701B66961D55D3300052CA1C /* main.cpp */; };
 		70B8FB0C1D5B5F1600E7AE0B /* spline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70B8FB0A1D5B5F1600E7AE0B /* spline.cpp */; };
-		70BF76941D5C2B1000CB3B19 /* FaceSplineNew.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BF76921D5C2B1000CB3B19 /* FaceSplineNew.cpp */; };
+		70BF76951D5C722A00CB3B19 /* FaceSplineForAnd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70BF768F1D5C148900CB3B19 /* FaceSplineForAnd.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -167,11 +167,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70BF76951D5C722A00CB3B19 /* FaceSplineForAnd.cpp in Sources */,
 				70B8FB011D5AD16400E7AE0B /* main.cpp in Sources */,
 				701B66B31D55F0F80052CA1C /* DrawUtil.cpp in Sources */,
 				701B66A71D55D9FC0052CA1C /* FiltUtil.cpp in Sources */,
 				701B66B21D55F0F80052CA1C /* BezierUtil.cpp in Sources */,
-				70BF76941D5C2B1000CB3B19 /* FaceSplineNew.cpp in Sources */,
 				701B66B61D55F1FE0052CA1C /* MouseCapture.cpp in Sources */,
 				70B8FB0C1D5B5F1600E7AE0B /* spline.cpp in Sources */,
 				701B66A51D55D9FC0052CA1C /* DataProc.cpp in Sources */,
