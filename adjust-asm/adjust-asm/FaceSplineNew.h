@@ -15,9 +15,7 @@ using namespace std;
 
 class FaceSpline {
 public:
-    //static const int ADDED_SPLINE_POINTS = 4;
     static const int SPLINE_SECTIONS = 7;
-    //int **splinePoints;
     vector<vector<int>> splinePoints;
     int *facePoints;
 private:
@@ -25,22 +23,21 @@ private:
     static const int POINT_INDEX[SPLINE_SECTIONS];
     static const bool BASED_ON_X[SPLINE_SECTIONS];
     static const int SECTION_POINT_NUM[SPLINE_SECTIONS];
-    //int *facePoints;
     double *pointX[SPLINE_SECTIONS];
     double *pointY[SPLINE_SECTIONS];
 private:
     void initSpline();
     vector<int> findSection(int pointIndex);
-    //static int* getSplinePoints(double *x, double *y, bool basedOnX, int size);
-    static vector<int> getSplinePoints(double *x, double *y, bool basedOnX, int size);
+    vector<int> getSplinePoints(double *x, double *y, bool basedOnX, int size);
 public:
     FaceSpline(int facePoints[], int size);
     ~FaceSpline();
     void init(int face[], int size);
     void adjustPoint(int pointIndex, int x, int y);
-    //int** getSplinePoints();
     vector<vector<int>> getSplinePoints();
     bool checkPointInRange(int pointIndex, int x, int y);
+    
+    
     
 };
 

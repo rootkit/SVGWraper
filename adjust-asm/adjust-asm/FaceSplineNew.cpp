@@ -31,15 +31,14 @@ FaceSpline::FaceSpline(int facePoints[], int size) {
 }
 
 FaceSpline::~FaceSpline() {
+    splinePoints.clear();
     delete [] facePoints;
     for (int i = 0; i < SPLINE_SECTIONS; i++) {
         delete [] pointX[i];
         delete [] pointY[i];
-        //delete [] splinePoints[i];
         pointX[i] = NULL;
         pointY[i] = NULL;
     }
-    
     
     facePoints = NULL;
     
@@ -274,11 +273,6 @@ void FaceSpline::adjustPoint(int pointIndex, int x, int y) {
 }
 
 
-//int** FaceSpline::getSplinePoints() {
-//    return this->splinePoints;
-//}
-
-
 vector<vector<int>> FaceSpline::getSplinePoints() {
     return this->splinePoints;
 }
@@ -289,47 +283,6 @@ vector<vector<int>> FaceSpline::getSplinePoints() {
  * basedOnX: 表示是要按照x轴方向插值，还是按照y轴方向
  * size: x,y数组的长度
  */
-//int* FaceSpline::getSplinePoints(double *x, double *y, bool basedOnX, int size) {
-//    int *points;
-//    vector<int> tempPoints;
-//    if (basedOnX) {
-//        vector<double> X, Y;
-//        for (int i = 0; i < size; i++) {
-//            X.push_back(x[i]);
-//            Y.push_back(y[i]);
-//        }
-//        spline s;
-//        s.set_points(X, Y);
-//        for (int col = x[0]; col < x[size-1]; col += 10) {
-//            tempPoints.push_back(col);
-//            tempPoints.push_back(s(col));
-//        }
-//        points = new int[tempPoints.size()];
-//        for (int i = 0; i < tempPoints.size(); i++) {
-//            points[i] = tempPoints[i];
-//        }
-//    } else {
-//        vector<double> X, Y;
-//        for (int i = 0; i < size; i++) {
-//            X.push_back(y[i]);
-//            Y.push_back(x[i]);
-//        }
-//        spline s;
-//        s.set_points(X, Y);
-//
-//        for (int row = y[0]; row < y[size-1]; row++) {
-//            tempPoints.push_back(s(row));
-//            tempPoints.push_back(row);
-//        }
-//        points = new int[tempPoints.size()];
-//        for (int i = 0; i < tempPoints.size(); i++) {
-//            points[i] = tempPoints[i];
-//        }
-//    }
-//    return points;
-//}
-
-
 vector<int> FaceSpline::getSplinePoints(double *x, double *y, bool basedOnX, int size) {
     
     vector<int> tempPoints;

@@ -25,7 +25,7 @@ marked(-1), img(img), colors(facePointNum, UNSELECTED_COLOR), splineError(false)
         facePoints[i*2] = points[i].x;
         facePoints[i*2+1] = points[i].y;
     }
-    this->faceSpline = new FaceSpline(facePoints, facePointNum*2);
+    this->faceSpline = new FaceSpline(facePoints, facePointNum*2, -1);
 }
 
 MouseCapture::MouseCapture(string file, vector<Point> points, int facePointNum): winName("MouseControl"),
@@ -44,7 +44,7 @@ marked(-1), colors(facePointNum, UNSELECTED_COLOR), splineError(false) {
         facePoints[i*2] = points[i].x;
         facePoints[i*2+1] = points[i].y;
     }
-    this->faceSpline = new FaceSpline(facePoints, facePointNum*2);
+    this->faceSpline = new FaceSpline(facePoints, facePointNum*2, -1);
 }
 
 MouseCapture::~MouseCapture() {

@@ -22,14 +22,6 @@ const bool FaceSpline::BASED_ON_X[SPLINE_SECTIONS] = {false, true, true, false, 
 const int FaceSpline::SECTION_POINT_NUM[SPLINE_SECTIONS] = {4, 4, 4, 4, 4, 3, 4};
 
 
-//FaceSpline::FaceSpline() {
-//    this->facePoints = NULL;
-//    this->splinePoints = NULL;
-//    for (int i = 0; i < SPLINE_SECTIONS; i++) {
-//        pointX[i] = NULL;
-//        pointY[i] = NULL;
-//    }
-//}
 
 FaceSpline::FaceSpline() {
     this->facePoints = NULL;
@@ -38,15 +30,6 @@ FaceSpline::FaceSpline() {
         pointY[i] = NULL;
     }
 }
-
-//FaceSpline::FaceSpline(int facePoints[], int size) {
-//    this->facePoints = NULL;
-//    for (int i = 0; i < SPLINE_SECTIONS; i++) {
-//        pointX[i] = NULL;
-//        pointY[i] = NULL;
-//    }
-//    init(facePoints, size);
-//}
 
 FaceSpline::~FaceSpline() {
     delete [] facePoints;
@@ -60,30 +43,17 @@ FaceSpline::~FaceSpline() {
     
 }
 
-FaceSpline::FaceSpline(int facePoints[], int size) {
+FaceSpline::FaceSpline(int facePoints[], int size, int interpolateNum) {
     this->facePoints = NULL;
     for (int i = 0; i < SPLINE_SECTIONS; i++) {
         pointX[i] = NULL;
         pointY[i] = NULL;
     }
-    init(facePoints, size);
+    init(facePoints, size, interpolateNum);
 }
 
-//FaceSpline::~FaceSpline() {
-//    delete [] facePoints;
-//    for (int i = 0; i < SPLINE_SECTIONS; i++) {
-//        delete [] pointX[i];
-//        delete [] pointY[i];
-//        delete [] splinePoints[i];
-//        pointX[i] = NULL;
-//        pointY[i] = NULL;
-//        splinePoints[i] = NULL;
-//    }
-//    facePoints = NULL;
-//    splinePoints = NULL;
-//}
-
-void FaceSpline::init(int face[], int size) {
+void FaceSpline::init(int face[], int size, int interpolateNum) {
+    assert(size == FACE_POINTS*2);
     
     splinePoints.clear();
     if (facePoints != NULL) {
@@ -103,39 +73,12 @@ void FaceSpline::init(int face[], int size) {
         this->facePoints[i] = face[i];
     }
     
-    splinePoints = vector<vector<int>>(SPLINE_SECTIONS);
-    initSpline();
+    splinePoints = vector<vector<double>>(SPLINE_SECTIONS);
+    initSpline(interpolateNum);
 }
 
-//void FaceSpline::init(int face[], int size) {
-//    assert(size == FACE_POINTS*2);
-//
-//    if (facePoints != NULL) {
-//        delete [] facePoints;
-//    }
-//    for (int i = 0; i < SPLINE_SECTIONS; i++) {
-//        if (pointX[i] != NULL) {
-//            delete [] pointX[i];
-//        }
-//        if (pointY[i] != NULL) {
-//            delete [] pointY[i];
-//        }
-//        if (splinePoints != NULL && splinePoints[i] != NULL) {
-//            delete [] splinePoints[i];
-//        }
-//    }
-//    
-//    this->splinePoints = new int*[SPLINE_SECTIONS];
-//
-//    this->facePoints = new int[size];
-//    for (int i = 0; i < size; i++) {
-//        this->facePoints[i] = face[i];
-//    }
-//    initSpline();
-//}
 
-
-void FaceSpline::initSpline() {
+void FaceSpline::initSpline(int interpolateNum) {
     for (int index = 0; index < SPLINE_SECTIONS-1; index++) {
         pointX[index] = new double[SECTION_POINT_NUM[index]];
         pointY[index] = new double[SECTION_POINT_NUM[index]];
@@ -150,8 +93,7 @@ void FaceSpline::initSpline() {
                 pointY[index][j] = facePoints[i*2+1];
             }
         }
-        splinePoints[index] = FaceSpline::getSplinePoints(pointX[index], pointY[index],
-                                                          BASED_ON_X[index], SECTION_POINT_NUM[index]);
+        splinePoints[index] = getSplinePoints(pointX[index], pointY[index], BASED_ON_X[index], SECTION_POINT_NUM[index], interpolateNum);
     }
     int index = SPLINE_SECTIONS-1;
     pointX[index] = new double[SECTION_POINT_NUM[index]];
@@ -164,7 +106,8 @@ void FaceSpline::initSpline() {
     pointX[index][j] = facePoints[0];
     pointY[index][j] = facePoints[1];
     
-    splinePoints[index] = FaceSpline::getSplinePoints(pointX[index], pointY[index], BASED_ON_X[index], SECTION_POINT_NUM[index]);
+    splinePoints[index] = getSplinePoints(pointX[index], pointY[index], BASED_ON_X[index],
+                                          SECTION_POINT_NUM[index], interpolateNum);
 }
 
 
@@ -313,14 +256,14 @@ void FaceSpline::adjustPoint(int pointIndex, int x, int y) {
                     pointY[index][j] = facePoints[ii*2+1];
                 }
                 splinePoints[index] = getSplinePoints(pointX[index], pointY[index],
-                                                      BASED_ON_X[index], SECTION_POINT_NUM[index]);
+                                                      BASED_ON_X[index], SECTION_POINT_NUM[index], -1);
             } else {
                 for (int ii = POINT_INDEX[index], j = 0; ii <= POINT_INDEX[index + 1]; ii++, j++) {
                     pointX[index][j] = facePoints[ii * 2];
                     pointY[index][j] = facePoints[ii * 2 + 1];
                 }
                 splinePoints[index] = getSplinePoints(pointX[index], pointY[index],
-                                                      BASED_ON_X[index], SECTION_POINT_NUM[index]);
+                                                      BASED_ON_X[index], SECTION_POINT_NUM[index], -1);
             }
         } else if (index == SPLINE_SECTIONS-1) {
             int j = 0;
@@ -332,7 +275,7 @@ void FaceSpline::adjustPoint(int pointIndex, int x, int y) {
             pointX[index][j] = facePoints[0];
             pointY[index][j] = facePoints[1];
             splinePoints[index] = getSplinePoints(pointX[index], pointY[index],
-                                                  BASED_ON_X[index], SECTION_POINT_NUM[index]);
+                                                  BASED_ON_X[index], SECTION_POINT_NUM[index], -1);
         } else {
             assert(false && "this should not happen");
         }
@@ -340,12 +283,7 @@ void FaceSpline::adjustPoint(int pointIndex, int x, int y) {
 }
 
 
-//int** FaceSpline::getSplinePoints() {
-//    return this->splinePoints;
-//}
-
-
-vector<vector<int>> FaceSpline::getSplinePoints() {
+vector<vector<double>> FaceSpline::getSplinePoints() {
     return this->splinePoints;
 }
 
@@ -355,50 +293,8 @@ vector<vector<int>> FaceSpline::getSplinePoints() {
  * basedOnX: 表示是要按照x轴方向插值，还是按照y轴方向
  * size: x,y数组的长度
  */
-//int* FaceSpline::getSplinePoints(double *x, double *y, bool basedOnX, int size) {
-//    int *points;
-//    vector<int> tempPoints;
-//    if (basedOnX) {
-//        vector<double> X, Y;
-//        for (int i = 0; i < size; i++) {
-//            X.push_back(x[i]);
-//            Y.push_back(y[i]);
-//        }
-//        spline s;
-//        s.set_points(X, Y);
-//        for (int col = x[0]; col < x[size-1]; col++) {
-//            tempPoints.push_back(col);
-//            tempPoints.push_back(s(col));
-//        }
-//        points = new int[tempPoints.size()];
-//        for (int i = 0; i < tempPoints.size(); i++) {
-//            points[i] = tempPoints[i];
-//        }
-//    } else {
-//        vector<double> X, Y;
-//        for (int i = 0; i < size; i++) {
-//            X.push_back(y[i]);
-//            Y.push_back(x[i]);
-//        }
-//        spline s;
-//        s.set_points(X, Y);
-//
-//        for (int row = y[0]; row < y[size-1]; row++) {
-//            tempPoints.push_back(s(row));
-//            tempPoints.push_back(row);
-//        }
-//        points = new int[tempPoints.size()];
-//        for (int i = 0; i < tempPoints.size(); i++) {
-//            points[i] = tempPoints[i];
-//        }
-//    }
-//    return points;
-//}
-
-
-vector<int> FaceSpline::getSplinePoints(double *x, double *y, bool basedOnX, int size) {
+vector<double> FaceSpline::getSplinePoints(double *x, double *y, bool basedOnX, int size, int interpolateNum) {
     
-    vector<int> tempPoints;
     if (basedOnX) {
         vector<double> X, Y;
         for (int i = 0; i < size; i++) {
@@ -408,9 +304,22 @@ vector<int> FaceSpline::getSplinePoints(double *x, double *y, bool basedOnX, int
         
         spline s;
         s.set_points(X, Y);
-        for (int col = x[0]; col <= x[size-1]; col += 1) {
-            tempPoints.push_back(col);
-            tempPoints.push_back(s(col));
+        if (interpolateNum == -1) {
+            vector<double> tempPoints;
+            for (double col = x[0]; col < x[size-1]; col += 1) {
+                tempPoints.push_back(col);
+                tempPoints.push_back(s(col));
+            }
+            return tempPoints;
+        } else {
+            // 增长的步长
+            vector<double> tempPoints;
+            double step = (x[size-1] - x[0]) / (double)((size-1)*(interpolateNum-1));
+            for (double col = x[0]; col < x[size-1]; col += step) {
+                tempPoints.push_back(col);
+                tempPoints.push_back(s(col));
+            }
+            return tempPoints;
         }
     } else {
         vector<double> X, Y;
@@ -421,10 +330,54 @@ vector<int> FaceSpline::getSplinePoints(double *x, double *y, bool basedOnX, int
         spline s;
         s.set_points(X, Y);
         
-        for (int row = y[0]; row < y[size-1]; row+=1) {
-            tempPoints.push_back(s(row));
-            tempPoints.push_back(row);
+        if (interpolateNum == -1) {
+            vector<double> tempPoints;
+            for (double row = y[0]; row < y[size-1]; row+=1) {
+                tempPoints.push_back(s(row));
+                tempPoints.push_back(row);
+            }
+            return tempPoints;
+        } else {
+            vector<double> tempPoints;
+            double step = (y[size-1] - y[0]) / (double)((size-1)*(interpolateNum-1));
+            for (double row = y[0]; row < y[size-1]; row += step) {
+                tempPoints.push_back(s(row));
+                tempPoints.push_back(row);
+            }
+            return tempPoints;
         }
     }
-    return tempPoints;
+}
+
+
+
+Mat FaceSpline::getSplinePoints(Mat &asmPoints, int interpolationNum) {
+    assert(asmPoints.cols == FACE_POINTS && asmPoints.rows == 2 && asmPoints.type() == CV_32F);
+    
+    int face[FACE_POINTS*2];
+    for (int col = 0; col < asmPoints.cols; col++) {
+        face[col*2] = asmPoints.at<float>(0, col);
+        face[col*2+1] = asmPoints.at<float>(1, col);
+    }
+    
+    FaceSpline faceSpline;
+    faceSpline.init(face, FACE_POINTS*2, interpolationNum);
+    vector<vector<double> > splinePoints = faceSpline.getSplinePoints();
+    
+    // 总共插值了几个点
+    int interpolationSum = 0;
+    for (int i = 0; i < splinePoints.size(); i++) {
+        interpolationSum += splinePoints[i].size() / 2;
+    }
+    Mat ret(2, interpolationSum, CV_32F, Scalar::all(0));
+    int c = 0;
+    for (int i = 0; i < splinePoints.size(); i++) {
+        for (int j = 0; j < splinePoints[i].size(); j+=2) {
+            ret.at<float>(0, c) = splinePoints[i][j];
+            ret.at<float>(1, c) = splinePoints[i][j+1];
+            c++;
+        }
+    }
+    return ret;
+    
 }

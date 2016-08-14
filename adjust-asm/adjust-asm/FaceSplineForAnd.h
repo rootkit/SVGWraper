@@ -13,11 +13,13 @@
 #include <vector>
 using namespace std;
 
+#include <opencv2/opencv.hpp>
+using namespace cv;
+
 class FaceSpline {
 public:
     static const int SPLINE_SECTIONS = 7;
-    //int **splinePoints;
-    vector<vector<int>> splinePoints;
+    vector<vector<double>> splinePoints;
     int *facePoints;
 private:
     static const int FACE_POINTS = 20;
@@ -27,19 +29,20 @@ private:
     double *pointX[SPLINE_SECTIONS];
     double *pointY[SPLINE_SECTIONS];
 private:
-    void initSpline();
+    void initSpline(int interpolateNum);
     vector<int> findSection(int pointIndex);
-    //int* getSplinePoints(double *x, double *y, bool basedOnX, int size);
-    vector<int> getSplinePoints(double *x, double *y, bool basedOnX, int size);
+    vector<double> getSplinePoints(double *x, double *y, bool basedOnX, int size, int interpolateNum);
+    
 public:
-    void init(int face[], int size);
+    // interpolateNum表示没两个asm点之间插值点的个数，包括端点。若为－1则使用默认值
+    void init(int face[], int size, int interpolateNum);
     FaceSpline();
-    FaceSpline(int facePoints[], int size);
+    FaceSpline(int facePoints[], int size, int interpolateNum);
     ~FaceSpline();
     void adjustPoint(int pointIndex, int x, int y);
-    //int** getSplinePoints();
-    vector<vector<int>> getSplinePoints();
+    vector<vector<double>> getSplinePoints();
     bool checkPointInRange(int pointIndex, int x, int y);
+    static Mat getSplinePoints(Mat &asmPoints, int interpolationNum);
     
 };
 
