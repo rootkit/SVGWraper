@@ -32,9 +32,6 @@ public:
     void operator=(const Triangular& tri);
     void set_dest_points(const vector<Point> &destTris);
     bool is_in_triangular(Point p);
-    
-    
-    
 };
 
 #endif /* defined(__face1__Triangular__) */

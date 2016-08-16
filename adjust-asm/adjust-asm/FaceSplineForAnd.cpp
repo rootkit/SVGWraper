@@ -306,7 +306,7 @@ vector<double> FaceSpline::getSplinePoints(double *x, double *y, bool basedOnX, 
         s.set_points(X, Y);
         if (interpolateNum == -1) {
             vector<double> tempPoints;
-            for (double col = x[0]; col < x[size-1]; col += 1) {
+            for (double col = x[0]; col < x[size-1]; col += 0.1) {
                 tempPoints.push_back(col);
                 tempPoints.push_back(s(col));
             }
@@ -332,7 +332,7 @@ vector<double> FaceSpline::getSplinePoints(double *x, double *y, bool basedOnX, 
         
         if (interpolateNum == -1) {
             vector<double> tempPoints;
-            for (double row = y[0]; row < y[size-1]; row+=1) {
+            for (double row = y[0]; row < y[size-1]; row+= 0.1) {
                 tempPoints.push_back(s(row));
                 tempPoints.push_back(row);
             }

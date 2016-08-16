@@ -35,7 +35,7 @@ public:
                 this->startIndex = startIndex;
                 this->endIndex = endIndex;
             } else if (s.y == e.y) {
-                assert(false && "the start point and end point shoule not be same");
+                assert(false && "the start point and end point shoule not be the same");
             } else {
                 this->start = e;
                 this->end = s;

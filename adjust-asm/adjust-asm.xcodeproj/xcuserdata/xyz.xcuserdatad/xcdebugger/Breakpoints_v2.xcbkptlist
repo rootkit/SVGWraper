@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "adjust-asm/MouseCapture.cpp"
-            timestampString = "492595862.640885"
+            timestampString = "492963394.806425"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
             landmarkName = "MouseCapture::checkInRange(int x, int y)"
             landmarkType = "5">
          </BreakpointContent>

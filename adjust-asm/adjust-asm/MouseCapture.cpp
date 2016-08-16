@@ -67,7 +67,6 @@ void MouseCapture::checkInRange(int x, int y) {
             marked = i;
             refreshPoints(i);
             
-            //this->faceSpline->adjustPoint(marked, x, y);
         }
     }
 }
@@ -125,9 +124,6 @@ void MouseCapture::refreshImage(Mat &tempImg) {
         for (int j = 0; j < faceSpline->splinePoints[i].size(); j+=2) {
             circle(tempImg, Point(faceSpline->splinePoints[i][j], faceSpline->splinePoints[i][j+1]), 1, Scalar::all(255));
         }
-//        for (int j = 0; j < 100; j+=2) {
-//            circle(tempImg, Point(faceSpline->splinePoints[i][j], faceSpline->splinePoints[i][j+1]), 1, Scalar::all(255));
-//        }
     }
     if (!splineError) {
         string str;
