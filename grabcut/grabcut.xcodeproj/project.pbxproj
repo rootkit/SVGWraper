@@ -1,0 +1,274 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		70973AEE1D640C3D00FD17B9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70973AED1D640C3D00FD17B9 /* main.cpp */; };
+		70973AF61D640EB400FD17B9 /* MouseCapture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70973AF41D640EB400FD17B9 /* MouseCapture.cpp */; };
+		70CD3C7B1D65962E001C3296 /* HairDetection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70CD3C791D65962E001C3296 /* HairDetection.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		70973AE81D640C3D00FD17B9 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		70973AEA1D640C3D00FD17B9 /* grabcut */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = grabcut; sourceTree = BUILT_PRODUCTS_DIR; };
+		70973AED1D640C3D00FD17B9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		70973AF41D640EB400FD17B9 /* MouseCapture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MouseCapture.cpp; sourceTree = "<group>"; };
+		70973AF51D640EB400FD17B9 /* MouseCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MouseCapture.h; sourceTree = "<group>"; };
+		70CD3C791D65962E001C3296 /* HairDetection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HairDetection.cpp; sourceTree = "<group>"; };
+		70CD3C7A1D65962E001C3296 /* HairDetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HairDetection.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		70973AE71D640C3D00FD17B9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		70973AE11D640C3C00FD17B9 = {
+			isa = PBXGroup;
+			children = (
+				70973AEC1D640C3D00FD17B9 /* grabcut */,
+				70973AEB1D640C3D00FD17B9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		70973AEB1D640C3D00FD17B9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				70973AEA1D640C3D00FD17B9 /* grabcut */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		70973AEC1D640C3D00FD17B9 /* grabcut */ = {
+			isa = PBXGroup;
+			children = (
+				70973AED1D640C3D00FD17B9 /* main.cpp */,
+				70973AF41D640EB400FD17B9 /* MouseCapture.cpp */,
+				70973AF51D640EB400FD17B9 /* MouseCapture.h */,
+				70CD3C791D65962E001C3296 /* HairDetection.cpp */,
+				70CD3C7A1D65962E001C3296 /* HairDetection.h */,
+			);
+			path = grabcut;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		70973AE91D640C3D00FD17B9 /* grabcut */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70973AF11D640C3D00FD17B9 /* Build configuration list for PBXNativeTarget "grabcut" */;
+			buildPhases = (
+				70973AE61D640C3D00FD17B9 /* Sources */,
+				70973AE71D640C3D00FD17B9 /* Frameworks */,
+				70973AE81D640C3D00FD17B9 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = grabcut;
+			productName = grabcut;
+			productReference = 70973AEA1D640C3D00FD17B9 /* grabcut */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		70973AE21D640C3C00FD17B9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = xyz;
+				TargetAttributes = {
+					70973AE91D640C3D00FD17B9 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 70973AE51D640C3C00FD17B9 /* Build configuration list for PBXProject "grabcut" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 70973AE11D640C3C00FD17B9;
+			productRefGroup = 70973AEB1D640C3D00FD17B9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				70973AE91D640C3D00FD17B9 /* grabcut */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		70973AE61D640C3D00FD17B9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70973AF61D640EB400FD17B9 /* MouseCapture.cpp in Sources */,
+				70973AEE1D640C3D00FD17B9 /* main.cpp in Sources */,
+				70CD3C7B1D65962E001C3296 /* HairDetection.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		70973AEF1D640C3D00FD17B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		70973AF01D640C3D00FD17B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		70973AF21D640C3D00FD17B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_LDFLAGS = (
+					"-lopencv_imgproc",
+					"-lopencv_highgui",
+					"-lopencv_core",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		70973AF31D640C3D00FD17B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_LDFLAGS = (
+					"-lopencv_imgproc",
+					"-lopencv_highgui",
+					"-lopencv_core",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		70973AE51D640C3C00FD17B9 /* Build configuration list for PBXProject "grabcut" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70973AEF1D640C3D00FD17B9 /* Debug */,
+				70973AF01D640C3D00FD17B9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		70973AF11D640C3D00FD17B9 /* Build configuration list for PBXNativeTarget "grabcut" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70973AF21D640C3D00FD17B9 /* Debug */,
+				70973AF31D640C3D00FD17B9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 70973AE21D640C3C00FD17B9 /* Project object */;
+}
