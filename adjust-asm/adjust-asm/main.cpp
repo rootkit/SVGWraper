@@ -26,7 +26,7 @@ int main(int argc, const char * argv[]) {
     vector<vector<Point>> dataFaces = FileUtil::read_all_asm_points("dataBase.txt");
     vector<vector<Point>> svgs = FileUtil::read_svg_points("allFaceSvgPoint.txt");
     
-    for (int i = 0; i < 1; i++) {
+    for (int i = 1; i < 46; i++) {
         if (i == 29) {
             continue;
         }
