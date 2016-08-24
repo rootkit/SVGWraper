@@ -8,7 +8,7 @@
 
 #include "MouseCapture.h"
 #include "FileUtil.h"
-#include "HairDetection.h"
+#include "HairDetection1.h"
 #include "DrawUtl.h"
 
 #include <string>
@@ -44,13 +44,13 @@ int main(int argc, const char * argv[]) {
 //    imwrite("result.png", temp);
     
     
-    int testNum = 0;
+    int testNum = 61;
     vector<vector<Point> > facePoints = FileUtil::read_all_asm_points("all-asmpoints.txt");
     
     Mat image = imread((to_string(testNum) + ".png").c_str());
     
     vector<Point> facePoint = facePoints[testNum];
-    Rect faceRect(facePoint[0].x, facePoint[14].y, facePoint[12].x-facePoint[0].x, facePoint[6].y-facePoint[14].y);
+    Rect faceRect(facePoint[0].x, max(facePoint[14].y, 0), facePoint[12].x-facePoint[0].x, facePoint[6].y-facePoint[14].y);
     
     double STANDARD_LENGTH = 400.0;
     // 缩放图像
@@ -69,7 +69,7 @@ int main(int argc, const char * argv[]) {
         faceRect.height *= scale;
     }
     
-    HairDetection h(image, faceRect);
+    HairDetection h(image, faceRect, "hair"+to_string(testNum), testNum);
     //imwrite("hair.png", h.hairImg);
     
     return 0;

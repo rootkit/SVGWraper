@@ -14,7 +14,7 @@ vector<vector<Point> > FileUtil::read_all_asm_points(string file) {
     vector<Point> points;
     double x, y;
     string temp;
-    for (int i = 0; i < 46; i++) {
+    for (int i = 0; i < 62; i++) {
         //getline(fin, temp);
         for (int j = 0; j < 77; j++) {
             fin >> x >> y;

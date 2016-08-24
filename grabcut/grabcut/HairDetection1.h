@@ -1,13 +1,13 @@
 //
-//  HairDetection.h
+//  HairDetection1.h
 //  grabcut
 //
-//  Created by xyz on 16/8/18.
+//  Created by xyz on 16/8/24.
 //  Copyright (c) 2016年 xyz. All rights reserved.
 //
 
-#ifndef __grabcut__HairDetection__
-#define __grabcut__HairDetection__
+#ifndef __grabcut__HairDetection1__
+#define __grabcut__HairDetection1__
 
 #include <opencv2/opencv.hpp>
 using namespace cv;
@@ -26,8 +26,11 @@ public:
     Mat firstMask;
     int width;
     int height;
-    float gaussianMean;
-    float gaussianStandardDeviation;
+    // 头发滤波平均值和标准差，取代之前的高斯模糊
+    float hairGrayMean;
+    float hairGrayStandardDeviation;
+    //    float gaussianMean;
+    //    float gaussianStandardDeviation;
     float hairColorYMean;
     float hairColorYStandardDeviation;
     float hairColorBMean;
@@ -47,6 +50,7 @@ private:
     bool isInColorMask(int index);
     void calFrequentialMask();
     Mat gaussianBlurFor(Mat &img);
+    void getGrayImg(Mat &img);
     void calGaussianMeanAndStandardDeviation(Mat &gaussianImg);
     float getStandardDeviation(float* array, float mean, int size);
     void calHairColorMeanAndStandardDeviation();
@@ -57,7 +61,7 @@ public:
     HairDetection(Mat &inputImg, Rect &faceRect, string dir, int testNum);
     ~HairDetection();
     
-// for test
+    // for test
 public:
     string dir;
     int testNum;
@@ -65,5 +69,4 @@ public:
     
     
 };
-
-#endif /* defined(__grabcut__HairDetection__) */
+#endif /* defined(__grabcut__HairDetection1__) */

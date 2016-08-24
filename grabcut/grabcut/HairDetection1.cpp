@@ -1,12 +1,12 @@
 //
-//  HairDetection.cpp
+//  HairDetection1.cpp
 //  grabcut
 //
-//  Created by xyz on 16/8/18.
+//  Created by xyz on 16/8/24.
 //  Copyright (c) 2016年 xyz. All rights reserved.
 //
 
-#include "HairDetection.h"
+#include "HairDetection1.h"
 
 
 HairDetection::HairDetection(Mat &inputImg, Rect &faceRect, string dir, int testNum):
@@ -47,7 +47,7 @@ faceRect(faceRect), inputImg(inputImg), dir(dir), testNum(testNum) {
     waitKey();
     grabCut(inputImg, firstMask, headRect, bgModel, fgModel, 1, GC_INIT_WITH_RECT);
     compare(firstMask, GC_PR_FGD, firstMask, CMP_EQ);
-
+    
     inputImg.copyTo(srcImg, firstMask);
     imshow("test", srcImg);
     waitKey();
@@ -59,7 +59,7 @@ faceRect(faceRect), inputImg(inputImg), dir(dir), testNum(testNum) {
     fusionMask = new unsigned char[width*height];
     frequentialMask = new unsigned char[width*height];
     
-    //getGrayImg(inputImg);
+    getGrayImg(inputImg);
     calFrequentialMask();
     calColorMask();
     calFusionMask();
@@ -103,44 +103,75 @@ Mat HairDetection::gaussianBlurFor(Mat &img) {
 }
 
 
-void HairDetection::calGaussianMeanAndStandardDeviation(Mat &gaussianImg) {
-    float sum = 0.0;
+void HairDetection::getGrayImg(Mat &img) {
+    assert(img.type() == CV_8UC3);
+    
     int num = 0;
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
-            grayImg[num] = 0.299*gaussianImg.at<Vec3b>(i, j)[0]+
-            0.587*gaussianImg.at<Vec3b>(i, j)[1]+0.114*gaussianImg.at<Vec3b>(i, j)[2];
-            sum += grayImg[num];
+            grayImg[num] = 0.299*img.at<Vec3b>(i, j)[0]+
+            0.587*img.at<Vec3b>(i, j)[1]+0.114*img.at<Vec3b>(i, j)[2];
             num++;
         }
     }
-    gaussianMean = sum / (width*height);
-    for (int i = 0; i < num; i++) {
-        gaussianStandardDeviation += (grayImg[i]-gaussianMean)*(grayImg[i]-gaussianMean);
-    }
-    gaussianStandardDeviation /= num;
-    gaussianStandardDeviation = sqrt(gaussianStandardDeviation);
+}
+
+
+void HairDetection::calGaussianMeanAndStandardDeviation(Mat &gaussianImg) {
+    //    float sum = 0.0;
+    //    int num = 0;
+    //    for (int i = 0; i < height; i++) {
+    //        for (int j = 0; j < width; j++) {
+    //            grayImg[num] = 0.299*gaussianImg.at<Vec3b>(i, j)[0]+
+    //            0.587*gaussianImg.at<Vec3b>(i, j)[1]+0.114*gaussianImg.at<Vec3b>(i, j)[2];
+    //            sum += grayImg[num];
+    //            num++;
+    //        }
+    //    }
+    //    gaussianMean = sum / (width*height);
+    //    for (int i = 0; i < num; i++) {
+    //        gaussianStandardDeviation += (grayImg[i]-gaussianMean)*(grayImg[i]-gaussianMean);
+    //    }
+    //    gaussianStandardDeviation /= num;
+    //    gaussianStandardDeviation = sqrt(gaussianStandardDeviation);
 }
 
 
 void HairDetection::calFrequentialMask() {
-    Mat frequentialMap = gaussianBlurFor(inputImg);
-    calGaussianMeanAndStandardDeviation(frequentialMap);
+    
+    float sum = 0;
+    int num = 0;
+    float *hairPart = new float[topRect.width*topRect.height];
+    for (int i = topRect.y; i < topRect.y+topRect.height; i++) {
+        for (int j = topRect.x; j < topRect.x+topRect.width; j++) {
+            int index = i*width+j;
+            if (firstMask.at<uchar>(i, j) == GC_BGD) {
+                hairPart[index] = 0;
+                continue;
+            }
+            hairPart[num] = grayImg[index];
+            sum += hairPart[num];
+            ++num;
+        }
+    }
+    hairGrayMean = sum / num;
+    hairGrayStandardDeviation = getStandardDeviation(hairPart, hairGrayMean, num);
+    
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             int index = i*width+j;
-            if (firstMask.at<uchar>(i, j) == 0x00) {
+            if (firstMask.at<uchar>(i, j) == GC_BGD) {
                 frequentialMask[index] = 0x00;
                 continue;
             }
-
-            if (grayImg[i*width+j] <= gaussianMean - gaussianStandardDeviation) {
+            if (grayImg[index] >= hairGrayMean-hairGrayStandardDeviation && grayImg[index] <= hairGrayMean+hairGrayStandardDeviation) {
                 frequentialMask[index] = 0xff;
             } else {
                 frequentialMask[index] = 0x00;
             }
         }
     }
+    
     
     Mat frequential(height, width, CV_8UC1);
     for (int i = 0; i < height; i++) {
@@ -151,8 +182,10 @@ void HairDetection::calFrequentialMask() {
     }
     //imwrite("frequential.jpg", frequential);
     saveMat(frequential, "frequential.png");
+    
+    delete [] hairPart;
+    hairPart = NULL;
 }
-
 
 
 float HairDetection::getStandardDeviation(float* array, float mean, int size) {
@@ -280,11 +313,11 @@ void HairDetection::mattingProcess() {
             if (fusionMask[index] == 0xff) {
                 mask.at<uchar>(i, j) = 0xff;
             }
-//            else if (!isInFrequentialMask(index) || (isInFrequentialMask(index) && !isInRect(headRect, j, i))) {
-//                mask.at<uchar>(i, j) = 0x66;
-//            }
+            //            else if (!isInFrequentialMask(index) || (isInFrequentialMask(index) && !isInRect(headRect, j, i))) {
+            //                mask.at<uchar>(i, j) = 0x66;
+            //            }
             else if (!isInFrequentialMask(index) && isInRect(headRect, j, i)) {
-                //mask.at<uchar>(i, j) = 0x66;
+                mask.at<uchar>(i, j) = 0x66;
             }
             
         }
@@ -301,13 +334,13 @@ void HairDetection::mattingProcess() {
             if (fusionMask[index] == 0xff) {
                 mask.at<uchar>(i, j) = GC_FGD;
             }
-//            else if (!isInFrequentialMask(index) || (isInFrequentialMask(index) && !isInRect(headRect, j, i))) {
-//                mask.at<uchar>(i, j) = GC_BGD;
-//            }
+            //            else if (!isInFrequentialMask(index) || (isInFrequentialMask(index) && !isInRect(headRect, j, i))) {
+            //                mask.at<uchar>(i, j) = GC_BGD;
+            //            }
             else if (!isInFrequentialMask(index) && isInRect(headRect, j, i)) {
-                //mask.at<uchar>(i, j) = GC_BGD;
+                mask.at<uchar>(i, j) = GC_BGD;
             }
-
+            
         }
     }
     
@@ -326,7 +359,7 @@ void HairDetection::mattingProcess() {
     
     //imwrite("mask2.png", mask);
     saveMat(mask, "mask2.png");
-
+    
     srcImg.copyTo(hairImg, mask);
     
     for (int i = 0; i < height; i++) {
@@ -344,14 +377,3 @@ void HairDetection::mattingProcess() {
 void HairDetection::saveMat(Mat &mat, string name) {
     imwrite((dir+"/" + name).c_str(), mat);
 }
-
-
-
-
-
-
-
-
-
-
-

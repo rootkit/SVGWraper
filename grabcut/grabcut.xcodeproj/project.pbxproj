@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		70973AF61D640EB400FD17B9 /* MouseCapture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70973AF41D640EB400FD17B9 /* MouseCapture.cpp */; };
-		70CD3C7C1D66B115001C3296 /* HairDetection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70CD3C791D65962E001C3296 /* HairDetection.cpp */; };
+		70B676111D6D8A6500B3BB53 /* HairDetection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70CD3C791D65962E001C3296 /* HairDetection.cpp */; };
+		70B676131D6DE83C00B3BB53 /* testMeanShift.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70B676121D6DE83C00B3BB53 /* testMeanShift.cpp */; };
 		70CD3C7F1D675E44001C3296 /* FileUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70CD3C7D1D675E44001C3296 /* FileUtil.cpp */; };
 		70CD3C821D675F15001C3296 /* DrawUtl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70CD3C801D675F15001C3296 /* DrawUtl.cpp */; };
 		70F8B28B1D6C99AB00D40B3B /* Marker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70F8B2891D6C99AB00D40B3B /* Marker.cpp */; };
-		70F8B28C1D6CAA5B00D40B3B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70973AED1D640C3D00FD17B9 /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,6 +32,9 @@
 		70973AED1D640C3D00FD17B9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		70973AF41D640EB400FD17B9 /* MouseCapture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MouseCapture.cpp; sourceTree = "<group>"; };
 		70973AF51D640EB400FD17B9 /* MouseCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MouseCapture.h; sourceTree = "<group>"; };
+		70B6760D1D6D860900B3BB53 /* HairDetection1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HairDetection1.cpp; sourceTree = "<group>"; };
+		70B6760E1D6D860900B3BB53 /* HairDetection1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HairDetection1.h; sourceTree = "<group>"; };
+		70B676121D6DE83C00B3BB53 /* testMeanShift.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = testMeanShift.cpp; sourceTree = "<group>"; };
 		70CD3C791D65962E001C3296 /* HairDetection.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HairDetection.cpp; sourceTree = "<group>"; };
 		70CD3C7A1D65962E001C3296 /* HairDetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HairDetection.h; sourceTree = "<group>"; };
 		70CD3C7D1D675E44001C3296 /* FileUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileUtil.cpp; sourceTree = "<group>"; };
@@ -43,6 +46,7 @@
 		70F8B2841D6C96CC00D40B3B /* testGrabcut.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = testGrabcut.cpp; sourceTree = "<group>"; };
 		70F8B2891D6C99AB00D40B3B /* Marker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Marker.cpp; sourceTree = "<group>"; };
 		70F8B28A1D6C99AB00D40B3B /* Marker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Marker.h; sourceTree = "<group>"; };
+		70F8B28D1D6CB01300D40B3B /* batchtest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = batchtest.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +93,10 @@
 				70F8B2841D6C96CC00D40B3B /* testGrabcut.cpp */,
 				70F8B2891D6C99AB00D40B3B /* Marker.cpp */,
 				70F8B28A1D6C99AB00D40B3B /* Marker.h */,
+				70F8B28D1D6CB01300D40B3B /* batchtest.cpp */,
+				70B6760D1D6D860900B3BB53 /* HairDetection1.cpp */,
+				70B6760E1D6D860900B3BB53 /* HairDetection1.h */,
+				70B676121D6DE83C00B3BB53 /* testMeanShift.cpp */,
 			);
 			path = grabcut;
 			sourceTree = "<group>";
@@ -149,10 +157,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70F8B28C1D6CAA5B00D40B3B /* main.cpp in Sources */,
-				70CD3C7C1D66B115001C3296 /* HairDetection.cpp in Sources */,
+				70B676111D6D8A6500B3BB53 /* HairDetection.cpp in Sources */,
 				70CD3C821D675F15001C3296 /* DrawUtl.cpp in Sources */,
 				70973AF61D640EB400FD17B9 /* MouseCapture.cpp in Sources */,
+				70B676131D6DE83C00B3BB53 /* testMeanShift.cpp in Sources */,
 				70CD3C7F1D675E44001C3296 /* FileUtil.cpp in Sources */,
 				70F8B28B1D6C99AB00D40B3B /* Marker.cpp in Sources */,
 			);
